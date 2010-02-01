@@ -1,0 +1,7 @@
+= dominion
+
+* http://github.com/jmckible/dominion
+
+== DESCRIPTION:
+
+As in the card game
