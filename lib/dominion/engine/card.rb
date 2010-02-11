@@ -5,5 +5,5 @@ module Dominion
   end
 end
 
-require 'dominion/engine/cards/treasure'
+require 'dominion/engine/treasure'
 
