@@ -1,9 +1,9 @@
 module Dominion
   module Engine
     class Player
-      attr_accessor :name
+      attr_accessor :seat, :name
     
-      def initialize(name='')
+      def initialize(name)
         self.name = name
       end
     end
