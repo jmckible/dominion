@@ -4,3 +4,6 @@ module Dominion
     end
   end
 end
+
+require 'dominion/engine/cards/treasure'
+
