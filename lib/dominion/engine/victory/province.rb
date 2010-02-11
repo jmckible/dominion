@@ -1,6 +1,6 @@
 module Dominion
   module Engine
-    class Duchy < Victory
+    class Province < Victory
       def points() 6 end
     end
   end
