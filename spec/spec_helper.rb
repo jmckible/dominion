@@ -1,0 +1,3 @@
+require 'dominion'
+include Dominion
+
