@@ -1,3 +1,2 @@
 require 'dominion'
-include Dominion
-
+include Dominion # Not sure why it's done this way

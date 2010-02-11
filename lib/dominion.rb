@@ -1,4 +1,5 @@
+require 'dominion/engine'
+
 module Dominion
-  autoload :Game, 'dominion/game'
-  autoload :Player, 'dominion/player'
+  include Dominion::Engine
 end
