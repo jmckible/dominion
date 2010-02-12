@@ -6,6 +6,7 @@ module Dominion
   end
 end
 
+require 'dominion/engine/kingdom/base/adventurer'
 require 'dominion/engine/kingdom/base/bureaucrat'
 require 'dominion/engine/kingdom/base/cellar'
 require 'dominion/engine/kingdom/base/chancellor'
