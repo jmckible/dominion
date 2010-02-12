@@ -25,6 +25,7 @@ module Dominion
       end
       
       def clean_up
+        player.draw_hand
       end
       
     end
