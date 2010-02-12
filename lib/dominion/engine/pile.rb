@@ -4,9 +4,8 @@ module Dominion
       
       def initialize(card_type=nil, number=nil)
         if card_type 
-          1.upto(number || card_type.starting_count){self << card_type.new } if card_type && number
+          1.upto(number || card_type.starting_count){self << card_type.new }
         end
-        
       end
       
       def discard(number)

@@ -56,7 +56,7 @@ module Dominion
       end
       
       def pick_kingdoms
-        Game.available_kingdoms.sort_by{rand}.first(10) do |kingdom|
+        Game.available_kingdoms.sort_by{rand}.first(10).each do |kingdom|
           self.kingdoms << Pile.new(kingdom)
         end
       end

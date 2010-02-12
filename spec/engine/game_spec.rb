@@ -26,7 +26,9 @@ describe Game, 'setup' do
   end
   
   it 'should have supply piles' do
-    Game.new.should have(15).supplies
+    game = Game.new
+    game.pick_kingdoms
+    game.should have(15).supplies
   end
   
   it 'should pick kingdoms' do
