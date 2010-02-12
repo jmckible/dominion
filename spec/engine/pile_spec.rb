@@ -5,8 +5,7 @@ describe Pile do
   it 'should fill with cards' do
     pile = Pile.new
     pile.fill Estate, 20
-    pile.card_type.should == Estate
-    pile.should have(20).cards
+    pile.size.should == 20
   end
   
 end
