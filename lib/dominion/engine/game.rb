@@ -73,6 +73,22 @@ module Dominion
       def supply_size
         players.size > 2 ? 12 : 8
       end
+      
+      def buyable(treasure)
+        cards = []
+        supplies.each do |pile|
+          unless pile.empty?
+            cards << pile.first if pile.first.cost <= treasure
+          end
+        end
+        cards
+      end
+      
+      def remove(card)
+        supplies.each do |pile|
+          pile.delete card
+        end
+      end
 
       #########################################################################
       #                                P L A Y                                #

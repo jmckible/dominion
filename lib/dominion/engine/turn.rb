@@ -51,6 +51,11 @@ module Dominion
       end
       alias :draw_cards :draw_card
       
+      def gain(card)
+        game.remove card
+        player.gain card
+      end
+      
       def spend_buys
       end
       

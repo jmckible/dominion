@@ -68,4 +68,17 @@ describe Game, 'gameplay' do
     game.next_player.should == game.players.first
   end
   
+  it 'should find buyable with budget' do
+    game = GameFactory.build
+    game.buyable(8).size.should == 15
+    game.buyable(0).size.should == 1
+  end
+  
+  it 'should remove a card' do
+    game = GameFactory.build
+    card = game.coppers.first
+    game.remove card
+    game.coppers.size.should == 31
+  end
+  
 end
