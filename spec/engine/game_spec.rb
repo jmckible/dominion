@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe Game, 'setup' do
   
+  it 'should have all kingdoms from all sets' do
+    Game.should have(25).available_kingdoms
+  end
+  
   it 'should seat the first player' do
     game = GameFactory.build 1
     game.should have(1).players

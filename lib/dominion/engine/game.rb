@@ -6,7 +6,7 @@ module Dominion
       end
       
       def self.available_kingdoms
-        Base.available_kingdoms
+        Dominion.available_sets.collect{|s| s.available_kingdoms}.flatten
       end
       
       #########################################################################

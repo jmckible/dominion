@@ -6,6 +6,10 @@ module Dominion
   class GameFull < Exception 
   end
   
+  def self.available_sets
+    [Base]
+  end
+  
 end
 
 include Dominion # is this right?
