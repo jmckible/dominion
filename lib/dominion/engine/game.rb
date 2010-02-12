@@ -67,9 +67,7 @@ module Dominion
       #########################################################################
       def play
         while(!over?)
-          turn = Turn.new next_player
-          turn.take
-          turns << turn
+          Turn.new(self, next_player).take
         end
         output_winner
       end

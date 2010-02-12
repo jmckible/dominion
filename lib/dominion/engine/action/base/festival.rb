@@ -4,8 +4,7 @@ module Dominion
       def cost() 5 end
         
       def play(turn)
-        turn.add_action
-        turn.add_action
+        turn.add_actions 2
         turn.add_buy
         turn.add_treasure 2
       end
