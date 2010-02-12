@@ -2,7 +2,7 @@ module Dominion
   module Engine
     class Turn
       
-      attr_accessor :player, :number_actions, :number_buys, :actions, :buys, :in_play
+      attr_accessor :player, :number_actions, :number_buys, :actions, :buys, :in_play, :treasure
       
       def initialize(player)
         @player         = player
@@ -10,6 +10,7 @@ module Dominion
         @number_buys    = 1
         @actions        = Pile.new
         @buys           = Pile.new
+        @treasure       = 0
       end
       
       def take
@@ -32,6 +33,14 @@ module Dominion
       
       def add_action
         @number_actions = number_actions + 1
+      end
+      
+      def add_buy
+        @number_buys = number_buys + 1
+      end
+      
+      def add_treasure(number)
+        @treasure = treasure + number
       end
       
       def draw_card
