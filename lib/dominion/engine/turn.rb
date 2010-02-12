@@ -12,6 +12,7 @@ module Dominion
         @actions        = Pile.new
         @buys           = Pile.new
         @treasure       = 0
+        @in_play        = []
       end
       
       def take
@@ -29,6 +30,7 @@ module Dominion
       end
       
       def execute(action)
+        @in_play << action
         action.play self
       end
       
@@ -54,6 +56,12 @@ module Dominion
       def gain(card)
         game.remove card
         player.gain card
+      end
+      
+      # Trash in play card (Feast)
+      def trash(card)
+        @in_play.delete card
+        game.trash.unshift card
       end
       
       def spend_buys

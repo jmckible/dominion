@@ -24,14 +24,14 @@ module Dominion
       #########################################################################
       #                                 S E T U P                             #
       #########################################################################
-      attr_accessor :kingdoms, :players, :turns, :current_turn
+      attr_accessor :kingdoms, :players, :current_turn, :trash
       attr_accessor :coppers, :silvers, :golds 
       attr_accessor :estates, :duchies, :provinces
     
       def initialize
         @players  = []
-        
         @kingdoms = []
+        @trash    = []
         
         @coppers = Pile.new Copper, 60
         @silvers = Pile.new Silver, 40
