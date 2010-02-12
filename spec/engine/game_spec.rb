@@ -12,8 +12,7 @@ describe Game, 'setup' do
     1.upto(4) do |i|
       game.seat Player.new(i)
     end
-    game.should be_full
-    running { game.seat Player.new('Fatty') }.should raise_error(Dominion::GameFull)
+    running { game.seat Player.new('Left out') }.should raise_error(Dominion::GameFull)
   end
   
   it 'should initialize starting cards' do
@@ -23,6 +22,7 @@ describe Game, 'setup' do
     game.should have(12).estates
     game.should have(12).duchies
     game.should have(12).provinces
+    game.players.each{|p| p.should have(10).discard }
   end
   
 end
