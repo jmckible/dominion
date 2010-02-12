@@ -1,20 +1,15 @@
 module Dominion
   module Engine
-    class Pile
-      attr_accessor :card_type, :cards
-      
-      def initialize
-        self.cards = []
-      end
+    class Pile < Array
+      attr_accessor :card_type
       
       def fill(card_type, count)
         self.card_type = card_type
-        1.upto(count){cards << card_type.new}
+        1.upto(count){self << card_type.new}
       end
       
-      def size() cards.size end
-      def empty?() cards.empty? end   
-        
+      def cards() self end
+
     end
   end
 end
