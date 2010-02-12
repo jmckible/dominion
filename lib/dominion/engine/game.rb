@@ -42,6 +42,7 @@ module Dominion
           self.duchies   << Duchy.new
           self.provinces << Province.new
         end
+        players.each{|p| p.deck.setup}
       end
       
     end
