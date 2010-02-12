@@ -1,9 +1,9 @@
 module Dominion
   module Engine
-    class Festival < Kingdom
+    class Moat < Action
       include Base
       
-      def cost() 5 end
+      def cost() 2 end
     end
   end
 end

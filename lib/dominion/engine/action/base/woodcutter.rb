@@ -1,9 +1,9 @@
 module Dominion
   module Engine
-    class Chapel < Kingdom
+    class Woodcutter < Action
       include Base
       
-      def cost() 2 end
+      def cost() 3 end
     end
   end
 end

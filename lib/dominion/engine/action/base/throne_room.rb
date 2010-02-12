@@ -1,9 +1,9 @@
 module Dominion
   module Engine
-    class Moat < Kingdom
+    class ThroneRoom < Action
       include Base
       
-      def cost() 2 end
+      def cost() 4 end
     end
   end
 end

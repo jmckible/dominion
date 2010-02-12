@@ -1,9 +1,9 @@
 module Dominion
   module Engine
-    class Laboratory < Kingdom
+    class Cellar < Action
       include Base
       
-      def cost() 5 end
+      def cost() 2 end
     end
   end
 end

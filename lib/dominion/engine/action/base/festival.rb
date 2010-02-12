@@ -1,9 +1,9 @@
 module Dominion
   module Engine
-    class Smithy < Kingdom
+    class Festival < Action
       include Base
       
-      def cost() 4 end
+      def cost() 5 end
     end
   end
 end

@@ -1,9 +1,9 @@
 module Dominion
   module Engine
-    class Market < Kingdom
+    class Feast < Action
       include Base
       
-      def cost() 5 end
+      def cost() 4 end
     end
   end
 end

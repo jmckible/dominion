@@ -1,9 +1,9 @@
 module Dominion
   module Engine
-    class Thief < Kingdom
+    class Adventurer < Action
       include Base
       
-      def cost() 4 end
+      def cost() 6 end
     end
   end
 end

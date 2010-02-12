@@ -1,6 +1,6 @@
 module Dominion
   module Engine
-    class Feast < Kingdom
+    class Remodel < Action
       include Base
       
       def cost() 4 end

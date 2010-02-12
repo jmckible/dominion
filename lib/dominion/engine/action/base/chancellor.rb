@@ -1,9 +1,9 @@
 module Dominion
   module Engine
-    class Library < Kingdom
+    class Chancellor < Action
       include Base
       
-      def cost() 5 end
+      def cost() 3 end
     end
   end
 end

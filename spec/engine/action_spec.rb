@@ -1,4 +1,4 @@
 require 'spec_helper'
 
-describe Kingdom do
+describe Action do
 end

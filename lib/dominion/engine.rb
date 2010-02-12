@@ -1,7 +1,7 @@
 require 'dominion/engine/card'
+require 'dominion/engine/action'
 require 'dominion/engine/deck'
 require 'dominion/engine/game'
-require 'dominion/engine/kingdom'
 require 'dominion/engine/player'
 require 'dominion/engine/pile'
 require 'dominion/engine/turn'

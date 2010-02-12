@@ -1,6 +1,6 @@
 module Dominion
   module Engine
-    class ThroneRoom < Kingdom
+    class Smithy < Action
       include Base
       
       def cost() 4 end
