@@ -7,8 +7,6 @@ module Dominion
           Mine, Moat, Moneylender, Remodel, Smithy, Spy, Thief, ThroneRoom,
           Village, Witch, Woodcutter, Workshop ]
       end
-      
-      def set_name() 'Base' end
     end
   end
 end

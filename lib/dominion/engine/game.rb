@@ -54,10 +54,14 @@ module Dominion
       
       def pick_kingdoms
         Game.available_kingdoms.sort_by{rand}.first(10).each do |kingdom|
-          kingdoms << Pile.new(kingdom)
+          kingdoms << Pile.new(kingdom, supply_size)
         end
       end
       
+      def supply_size
+        players.size > 2 ? 12 : 8
+      end
+
       #########################################################################
       #                                P L A Y                                #
       #########################################################################

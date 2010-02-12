@@ -31,7 +31,7 @@ describe Game, 'setup' do
     game.should have(30).golds
     game.should have(32).coppers
     game.kingdoms.size.should == 10
-    game.kingdoms.each{|k| k.size.should == k.first.class.starting_count}
+    game.kingdoms.each{|k| k.size.should == 12}
     game.players.each{|p| p.should have(5).hand }
   end
 

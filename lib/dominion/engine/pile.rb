@@ -3,9 +3,7 @@ module Dominion
     class Pile < Array
       
       def initialize(card_type=nil, number=nil)
-        if card_type 
-          1.upto(number || card_type.starting_count){self << card_type.new }
-        end
+        1.upto(number){self << card_type.new } if card_type && number
       end
       
       def discard(number)
