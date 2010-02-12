@@ -22,7 +22,7 @@ describe Game, 'setup' do
     game.should have(12).estates
     game.should have(12).duchies
     game.should have(12).provinces
-    game.players.each{|p| p.should have(10).discard }
+    game.players.each{|p| p.should have(5).hand }
   end
   
   it 'should have supply piles' do
@@ -44,6 +44,5 @@ describe Game, 'gameplay' do
     game.current_turn = Turn.new(game.players[3])
     game.next_player.should == game.players.first
   end
-  
   
 end

@@ -42,8 +42,9 @@ module Dominion
           provinces.discard 4
         end
         players.each do |player|
-          1.upto(7){player.gain coppers.pop}
-          1.upto(3){player.gain estates.pop}
+          1.upto(7){player.gain coppers.shift}
+          1.upto(3){player.gain estates.shift}
+          player.draw_hand
         end
       end
       

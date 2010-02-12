@@ -12,6 +12,21 @@ module Dominion
         self.buys           = Pile.new
       end
       
+      def take
+        spend_actions
+        spend_buys
+        clean_up
+      end
+      
+      def spend_actions
+      end
+      
+      def spend_buys
+      end
+      
+      def clean_up
+      end
+      
     end
   end
 end

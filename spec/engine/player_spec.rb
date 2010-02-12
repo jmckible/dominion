@@ -15,4 +15,9 @@ describe Player do
     player.discard.should == [copper]
   end
   
+  it 'should draw an opening hand' do
+    game = GameFactory.build
+    game.players.first.hand.size.should == 5
+  end
+  
 end
