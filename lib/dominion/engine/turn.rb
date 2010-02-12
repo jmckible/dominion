@@ -2,7 +2,7 @@ module Dominion
   module Engine
     class Turn
       
-      attr_accessor :player, :number_actions, :number_buys, :actions, :buys
+      attr_accessor :player, :number_actions, :number_buys, :actions, :buys, :in_play
       
       def initialize(player)
         @player         = player
@@ -19,7 +19,8 @@ module Dominion
       end
       
       def spend_actions
-        while(player.choose_action)
+        action = player.choose_action
+        while(action)
           action.play
         end
       end

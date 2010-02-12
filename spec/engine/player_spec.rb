@@ -22,6 +22,7 @@ describe Player do
   
   it 'should determine available actions' do
     player = Player.new 'John'
+    player.should have(0).available_actions
     player.hand << Village.new
     player.hand << Smithy.new
     player.hand << Copper.new

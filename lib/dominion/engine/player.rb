@@ -32,6 +32,14 @@ module Dominion
       
       def choose_action
         return false if available_actions.empty?
+        puts '0. Done'
+        available_actions.each_with_index do |card, i|
+          puts "#{i+1}. #{card}\n"
+        end
+        puts 'Choose an action:'
+        choice = gets.chomp.to_i
+        return false if choice == 0
+        available_actions[choice - 1]
       end
       
       def available_actions
