@@ -11,6 +11,10 @@ module Dominion
         self.card_type = card_type
         1.upto(count){cards << card_type.new}
       end
+      
+      def size() cards.size end
+      def empty?() cards.empty? end   
+        
     end
   end
 end

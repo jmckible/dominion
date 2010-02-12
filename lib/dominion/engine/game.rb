@@ -11,16 +11,16 @@ module Dominion
     
       def initialize
         kingdoms = []
-        1.upto(10){kingdoms << Array.new}
+        1.upto(10){kingdoms << Pile.new}
         self.players  = []
         
-        self.coppers = []
-        self.silvers = []
-        self.golds   = []
+        self.coppers = Pile.new
+        self.silvers = Pile.new
+        self.golds   = Pile.new
         
-        self.estates   = []
-        self.duchies   = []
-        self.provinces = []
+        self.estates   = Pile.new
+        self.duchies   = Pile.new
+        self.provinces = Pile.new
       end
   
       def seat(player)
@@ -37,11 +37,9 @@ module Dominion
       end
       
       def deal
-        1.upto(total_victory_cards) do
-          self.estates   << Estate.new
-          self.duchies   << Duchy.new
-          self.provinces << Province.new
-        end
+        self.estates.fill Estate, total_victory_cards
+        self.duchies.fill Duchy, total_victory_cards
+        self.provinces.fill Province, total_victory_cards
         players.each{|p| p.deck.setup}
       end
       
