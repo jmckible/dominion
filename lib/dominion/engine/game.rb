@@ -9,6 +9,18 @@ module Dominion
         Dominion.available_sets.collect{|s| s.available_kingdoms}.flatten
       end
       
+      # Couldn't figure out how to spec this
+      def self.get_boolean(prompt)
+        puts "#{prompt} (Y/n)"
+        answer = gets.chomp
+        while !['y', 'n', ''].include?(answer.downcase)
+          puts "Didn't get that. Please enter 'Y' or 'N'"
+          puts "#{prompt} (Y/n)"
+          answer = gets.chomp.downcase
+        end
+        answer == 'y' || answer == ''
+      end
+      
       #########################################################################
       #                                 S E T U P                             #
       #########################################################################

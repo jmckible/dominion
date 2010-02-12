@@ -31,4 +31,14 @@ describe Player do
     player.should have(2).available_actions
   end
   
+  it 'should discard deck' do
+    game = GameFactory.build
+    player = game.players.first
+    player.deck.size.should == 5
+    player.discard.size.should == 0
+    player.discard_deck
+    player.deck.size.should == 0
+    player.discard.size.should == 5
+  end
+  
 end

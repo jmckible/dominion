@@ -51,6 +51,12 @@ module Dominion
         hand.select{|card|card.is_a?(Action) }
       end
       
+      def discard_deck
+        while(!deck.empty?)
+          @discard.unshift deck.shift
+        end
+      end
+      
     end
   end
 end
