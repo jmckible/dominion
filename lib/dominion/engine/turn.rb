@@ -43,9 +43,10 @@ module Dominion
         @treasure = treasure + number
       end
       
-      def draw_card
-        player.draw_card
+      def draw_card(number=1)
+        player.draw_card number
       end
+      alias :draw_cards :draw_card
       
       def spend_buys
       end
