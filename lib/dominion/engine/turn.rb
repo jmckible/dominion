@@ -21,8 +21,8 @@ module Dominion
       def spend_actions
         action = player.choose_action
         while(action)
-          execute action
           @number_actions = number_actions - 1
+          execute action
         end
       end
       
