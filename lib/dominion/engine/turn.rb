@@ -22,6 +22,7 @@ module Dominion
         action = player.choose_action
         while(action)
           execute action
+          @number_actions = number_actions - 1
         end
       end
       
