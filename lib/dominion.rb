@@ -7,3 +7,5 @@ module Dominion
   end
   
 end
+
+include Dominion # is this right?

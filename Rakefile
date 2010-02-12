@@ -8,3 +8,7 @@ Spec::Rake::SpecTask.new('spec:engine') do |t|
   t.spec_opts = ['--color']
 end
 
+task :console do
+  sh "irb -Ilib -rdominion"
+end
+
