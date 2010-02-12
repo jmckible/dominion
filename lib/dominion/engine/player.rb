@@ -4,10 +4,10 @@ module Dominion
       attr_accessor :name, :deck, :discard, :hand
     
       def initialize(name)
-        self.deck    = Deck.new
-        self.discard = Pile.new
-        self.name    = name
-        self.hand    = Pile.new
+        @deck    = Deck.new
+        @discard = Pile.new
+        @name    = name
+        @hand    = Pile.new
       end
       
       def gain(card)
@@ -18,7 +18,7 @@ module Dominion
         1.upto(size) do
           unless deck.empty? && discard.empty?
             reshuffle if deck.empty?
-            self.hand << deck.shift
+            hand << deck.shift
           end
         end
       end

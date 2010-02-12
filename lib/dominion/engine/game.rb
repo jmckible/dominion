@@ -20,17 +20,17 @@ module Dominion
       attr_accessor :estates, :duchies, :provinces
     
       def initialize
-        self.players  = []
+        @players  = []
         
-        self.kingdoms = []
+        @kingdoms = []
         
-        self.coppers = Pile.new Copper, 60
-        self.silvers = Pile.new Silver, 40
-        self.golds   = Pile.new Gold,   30
+        @coppers = Pile.new Copper, 60
+        @silvers = Pile.new Silver, 40
+        @golds   = Pile.new Gold,   30
         
-        self.estates   = Pile.new Estate,   24
-        self.duchies   = Pile.new Duchy,    12
-        self.provinces = Pile.new Province, 12
+        @estates   = Pile.new Estate,   24
+        @duchies   = Pile.new Duchy,    12
+        @provinces = Pile.new Province, 12
       end
       
       def supplies
@@ -39,7 +39,7 @@ module Dominion
 
       def seat(player)
         raise GameFull if players.size >= Game.max_players
-        self.players << player
+        players << player
       end
       
       def deal
@@ -57,7 +57,7 @@ module Dominion
       
       def pick_kingdoms
         Game.available_kingdoms.sort_by{rand}.first(10).each do |kingdom|
-          self.kingdoms << Pile.new(kingdom)
+          kingdoms << Pile.new(kingdom)
         end
       end
       
@@ -68,7 +68,7 @@ module Dominion
         while(!over?)
           turn = Turn.new next_player
           turn.take
-          self.turns << turn
+          turns << turn
         end
         output_winner
       end
