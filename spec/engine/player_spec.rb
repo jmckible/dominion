@@ -20,4 +20,14 @@ describe Player do
     game.players.first.hand.size.should == 5
   end
   
+  it 'should determine available actions' do
+    player = Player.new 'John'
+    player.hand << Village.new
+    player.hand << Smithy.new
+    player.hand << Copper.new
+    player.hand << Gardens.new
+    player.hand << Estate.new
+    player.should have(2).available_actions
+  end
+  
 end

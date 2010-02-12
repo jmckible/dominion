@@ -19,6 +19,9 @@ module Dominion
       end
       
       def spend_actions
+        while(player.choose_action)
+          action.play
+        end
       end
       
       def spend_buys

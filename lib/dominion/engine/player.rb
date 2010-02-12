@@ -30,6 +30,14 @@ module Dominion
         deck.shuffle
       end
       
+      def choose_action
+        return false if available_actions.empty?
+      end
+      
+      def available_actions
+        hand.select{|card|card.is_a?(Action) }
+      end
+      
     end
   end
 end
