@@ -39,7 +39,7 @@ module Dominion
         players << player
       end
       
-      def deal
+      def setup
         pick_kingdoms
         if players.size == 2
           duchies.discard 4

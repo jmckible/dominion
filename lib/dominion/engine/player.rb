@@ -25,9 +25,9 @@ module Dominion
       
       def reshuffle
         while(!discard.empty?)
-          deck << discard.shift
+          @deck << discard.shift
         end
-        deck.shuffle
+        @deck = deck.shuffle
       end
       
       def choose_action
