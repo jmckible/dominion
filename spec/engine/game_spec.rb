@@ -26,8 +26,7 @@ describe Game, 'setup' do
   end
   
   it 'should have supply piles' do
-    game = Game.new
-    game.pick_kingdoms
+    game = GameFactory.build
     game.should have(15).supplies
   end
   
