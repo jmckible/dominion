@@ -6,4 +6,5 @@ module Dominion
   end
 end
 
+require 'dominion/engine/kingdom/base/bureaucrat'
 require 'dominion/engine/kingdom/base/village'
