@@ -7,4 +7,5 @@ end
 
 require 'dominion/engine/victory/duchy'
 require 'dominion/engine/victory/estate'
+require 'dominion/engine/victory/gardens'
 require 'dominion/engine/victory/province'

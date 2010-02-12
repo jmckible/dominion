@@ -1,6 +1,6 @@
 module Dominion
   module Engine
-    class Gardens < Action
+    class Gardens < Victory
       include Base
       
       def self.starting_count() 12 end
