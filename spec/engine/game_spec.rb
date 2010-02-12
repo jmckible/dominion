@@ -13,20 +13,8 @@ describe Game, 'setup' do
   
   it 'should not seat too many players' do
     game = Game.new
-    1.upto(4) do |i|
-      game.seat Player.new(i)
-    end
+    1.upto(4){|i| game.seat Player.new("Player #{i}") }
     running { game.seat Player.new('Left out') }.should raise_error(Dominion::GameFull)
-  end
-  
-  it 'should initialize starting cards' do
-    game = Game.new
-    1.upto(4){|i| game.seat Player.new(i) }
-    game.deal
-    game.should have(12).estates
-    game.should have(12).duchies
-    game.should have(12).provinces
-    game.players.each{|p| p.should have(5).hand }
   end
   
   it 'should have supply piles' do
@@ -34,18 +22,41 @@ describe Game, 'setup' do
     game.should have(15).supplies
   end
   
-  it 'should pick kingdoms' do
-    game = Game.new
-    game.pick_kingdoms
+  it 'should initialize starting cards' do
+    game = GameFactory.build
+    game.should have(12).estates
+    game.should have(12).duchies
+    game.should have(12).provinces
+    game.should have(40).silvers
+    game.should have(30).golds
+    game.should have(32).coppers
     game.kingdoms.size.should == 10
-    game.kingdoms.first.size.should == game.kingdoms.first.first.class.starting_count
+    game.kingdoms.each{|k| k.size.should == k.first.class.starting_count}
+    game.players.each{|p| p.should have(5).hand }
   end
-  
+
 end
 
 describe Game, 'gameplay' do
-  it 'should know when its over' do
-    GameFactory.build.should_not be_over
+  it 'it should start playable' do
+    game = GameFactory.build
+    game.should_not be_over
+  end
+  
+  it 'should be over by way of provinces' do
+    game = GameFactory.build
+    game.provinces = []
+    game.should be_over
+  end
+  
+  it 'should be with three empty supplies' do
+    game = GameFactory.build
+    game.kingdoms[0] = []
+    game.should_not be_over
+    game.duchies = []
+    game.should_not be_over
+    game.silvers = []
+    game.should be_over
   end
   
   it 'should find the next player' do
