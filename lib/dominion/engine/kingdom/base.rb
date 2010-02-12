@@ -8,4 +8,5 @@ end
 
 require 'dominion/engine/kingdom/base/bureaucrat'
 require 'dominion/engine/kingdom/base/cellar'
+require 'dominion/engine/kingdom/base/chancellor'
 require 'dominion/engine/kingdom/base/village'
