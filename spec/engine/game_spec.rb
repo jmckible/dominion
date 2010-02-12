@@ -3,11 +3,8 @@ require 'spec_helper'
 describe Game, 'setup' do
   
   it 'should seat the first player' do
-    game = Game.new
-    player = Player.new 'Dave'
-    game.seat player
+    game = GameFactory.build 1
     game.should have(1).players
-    player.seat.should == 1
   end
   
   it 'should not seat too many players' do
@@ -28,5 +25,10 @@ describe Game, 'setup' do
     game.should have(12).provinces
   end
   
-  
+end
+
+describe Game, 'gameplay' do
+  it 'should know when its over' do
+    GameFactory.build.should_not be_over
+  end
 end

@@ -10,7 +10,8 @@ module Dominion
       attr_accessor :estates, :duchies, :provinces
     
       def initialize
-        self.kingdoms = []
+        kingdoms = []
+        1.upto(10){kingdoms << Array.new}
         self.players  = []
         
         self.coppers = []
@@ -25,7 +26,6 @@ module Dominion
       def seat(player)
         raise GameFull if full?
         self.players << player
-        player.seat = players.size
       end
       
       def full?
@@ -43,6 +43,20 @@ module Dominion
           self.provinces << Province.new
         end
         players.each{|p| p.deck.setup}
+      end
+      
+      def play
+        while(!over?)
+          
+        end
+      end
+      
+      def empty_piles
+        []
+      end
+      
+      def over?
+        provinces.empty? || empty_piles.size >= 3
       end
       
     end
