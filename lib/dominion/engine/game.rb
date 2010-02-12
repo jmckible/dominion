@@ -8,15 +8,15 @@ module Dominion
       #########################################################################
       #                                 S E T U P                             #
       #########################################################################
-      attr_accessor :kingdoms, :players
+      attr_accessor :kingdoms, :players, :turns, :current_turn
       attr_accessor :coppers, :silvers, :golds 
       attr_accessor :estates, :duchies, :provinces
     
       def initialize
         self.players  = []
         
-        kingdoms = []
-        1.upto(10){kingdoms << Pile.new}
+        self.kingdoms = []
+        1.upto(10){self.kingdoms << Pile.new}
         
         self.coppers = Pile.new Copper, 60
         self.silvers = Pile.new Silver, 40
@@ -25,6 +25,10 @@ module Dominion
         self.estates   = Pile.new Estate,   24
         self.duchies   = Pile.new Duchy,    12
         self.provinces = Pile.new Province, 12
+      end
+      
+      def supplies
+        kingdoms + [coppers, silvers, estates, duchies, provinces]
       end
 
       def seat(player)
@@ -48,16 +52,26 @@ module Dominion
       #########################################################################
       def play
         while(!over?)
-          
+          turn = Turn.new next_player
+          turn.take
+          self.turns << turn
+        end
+        output_winner
+      end
+      
+      def next_player
+        return players.first if current_turn.nil? || current_turn.player == players.last
+        players.each_with_index do |player, i|
+          return players[i + 1] if player == current_turn.player
         end
       end
       
-      def empty_piles
-        
+      def over?
+        provinces.empty? || supplies.select{|s|s.empty?}.size >= 3
       end
       
-      def over?
-        provinces.empty? || empty_piles.size >= 3
+      def output_winner
+        
       end
       
     end

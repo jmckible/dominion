@@ -25,10 +25,25 @@ describe Game, 'setup' do
     game.players.each{|p| p.should have(10).discard }
   end
   
+  it 'should have supply piles' do
+    Game.new.should have(15).supplies
+  end
+  
 end
 
 describe Game, 'gameplay' do
   it 'should know when its over' do
     GameFactory.build.should_not be_over
   end
+  
+  it 'should find the next player' do
+    game = GameFactory.build
+    game.next_player.should == game.players.first
+    game.current_turn = Turn.new(game.players[1])
+    game.next_player.should == game.players[2]
+    game.current_turn = Turn.new(game.players[3])
+    game.next_player.should == game.players.first
+  end
+  
+  
 end

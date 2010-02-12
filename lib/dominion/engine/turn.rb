@@ -2,12 +2,14 @@ module Dominion
   module Engine
     class Turn
       
-      attr_accessor :player, :actions, :buys, :cards
+      attr_accessor :player, :number_actions, :number_buys, :actions, :buys
       
-      def initialize
-        self.actions = 1
-        self.buys    = 1
-        self.cards   = []
+      def initialize(player)
+        self.player         = player
+        self.number_actions = 1
+        self.number_buys    = 1
+        self.actions        = Pile.new
+        self.buys           = Pile.new
       end
       
     end
