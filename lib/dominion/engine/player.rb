@@ -14,14 +14,19 @@ module Dominion
         discard.unshift card
       end
       
-      def draw_hand(size=5)
-        1.upto(size) do
+      def draw_hand
+        draw_cards 5
+      end
+      
+      def draw_card(number=1)
+        1.upto(number) do
           unless deck.empty? && discard.empty?
             reshuffle if deck.empty?
             hand << deck.shift
           end
         end
       end
+      alias :draw_cards :draw_card
       
       def reshuffle
         while(!discard.empty?)
