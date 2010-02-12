@@ -5,6 +5,13 @@ module Dominion
         4 # For base set
       end
       
+      def self.available_kingdoms
+        [ Adventurer, Bureaucrat, Cellar, Chancellor, Chapel, CouncilRoom,
+          Feast, Festival, Gardens, Laboratory, Library, Market, Militia,
+          Mine, Moat, Moneylender, Remodel, Smithy, Spy, Thief, ThroneRoom,
+          Village, Witch, Woodcutter, Workshop ]
+      end
+      
       #########################################################################
       #                                 S E T U P                             #
       #########################################################################
@@ -16,7 +23,6 @@ module Dominion
         self.players  = []
         
         self.kingdoms = []
-        1.upto(10){self.kingdoms << Pile.new}
         
         self.coppers = Pile.new Copper, 60
         self.silvers = Pile.new Silver, 40
@@ -37,6 +43,7 @@ module Dominion
       end
       
       def deal
+        pick_kingdoms
         if players.size == 2
           duchies.discard 4
           provinces.discard 4
@@ -45,6 +52,12 @@ module Dominion
           1.upto(7){player.gain coppers.shift}
           1.upto(3){player.gain estates.shift}
           player.draw_hand
+        end
+      end
+      
+      def pick_kingdoms
+        Game.available_kingdoms.sort_by{rand}.first(10) do |kingdom|
+          self.kingdoms << Pile.new(kingdom)
         end
       end
       

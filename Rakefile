@@ -6,6 +6,8 @@ task :spec=>['spec:engine']
 Spec::Rake::SpecTask.new('spec:engine') do |t|
   t.pattern   = 'spec/engine/*_spec.rb'
   t.spec_opts = ['--color']
+  t.warning   = true
+  t.verbose   = true
 end
 
 task :console do

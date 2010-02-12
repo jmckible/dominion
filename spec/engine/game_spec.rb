@@ -29,6 +29,13 @@ describe Game, 'setup' do
     Game.new.should have(15).supplies
   end
   
+  it 'should pick kingdoms' do
+    game = Game.new
+    game.pick_kingdoms
+    game.kingdoms.size.should == 10
+    game.kingdoms.first.size.should == game.kingdoms.first.first.class.starting_count
+  end
+  
 end
 
 describe Game, 'gameplay' do

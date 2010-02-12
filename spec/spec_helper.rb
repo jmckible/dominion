@@ -2,7 +2,7 @@ require 'dominion'
 
 Spec::Runner.configure do |config|  
   def running(&block)
-    lambda &block
+    lambda(&block)
   end
 end
 
