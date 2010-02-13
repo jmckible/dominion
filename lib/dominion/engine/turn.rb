@@ -74,17 +74,34 @@ module Dominion
       def play_treasure
         player.hand.each do |card|
           if card.is_a? Treasure
+            @treasure = treasure + card.value
             @in_play << card
             player.hand.delete card
-            @treasure = treasure + card.value
           end
         end
       end
       
       def spend_buys
         puts "You #{treasure} treasure and #{number_buys} buy"
-        puts "You buy a Province"
-        gain game.provinces.first
+        while number_buys > 0
+          available_cards = game.buyable treasure
+          puts 'Choose a card to buy'
+          puts '0. Done'
+          available_cards.each_with_index do |card, i|
+            puts "#{i+1}. #{card}"
+          end
+          choice = gets.chomp.to_i
+          while choice < 0 || choice > available_cards.size
+            puts 'Choose a valid card'
+            show_card_list
+            choice = gets.chomp.to_i
+          end
+          return if choice == 0
+          card = available_cards[choice - 1]
+          gain(card) if card
+          @number_buys = number_buys - 1
+          @tresaure = treasure - card.cost
+        end
       end
       
       def clean_up

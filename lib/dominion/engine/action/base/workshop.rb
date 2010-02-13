@@ -21,6 +21,7 @@ module Dominion
           show_card_list
           choice = gets.chomp.to_i
         end
+        return nil if choice == 0
         available_cards[choice - 1]
       end
       
