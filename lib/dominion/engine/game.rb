@@ -9,6 +9,9 @@ module Dominion
         Dominion.available_sets.collect{|s| s.available_kingdoms}.flatten
       end
       
+      #########################################################################
+      #                                   G E T S                             #
+      #########################################################################
       # Couldn't figure out how to spec this
       def self.get_boolean(prompt)
         puts "#{prompt} (Y/n)"
@@ -61,15 +64,6 @@ module Dominion
         end
       end
       
-      def supplies
-        kingdoms + [coppers, silvers, estates, duchies, provinces]
-      end
-
-      def seat(player)
-        raise GameFull if players.size >= Game.max_players
-        players << player
-      end
-      
       def deal
         pick_kingdoms
         if players.size == 2
@@ -90,13 +84,20 @@ module Dominion
         end
       end
       
-      def say_kingdoms
-        puts "Available Kingdoms:"
-        names = []
-        kingdoms.each do |pile|
-          names << pile.first.name if pile.first
-        end
-        puts names.sort
+      #########################################################################
+      #                              S U P P L I E S                          #
+      #########################################################################
+      def supplies
+        kingdoms + [coppers, silvers, estates, duchies, provinces]
+      end
+      
+      def number_available(card_type)
+        supplies.flatten.count{|card| card.is_a? card_type}
+      end
+
+      def seat(player)
+        raise GameFull if players.size >= Game.max_players
+        players << player
       end
       
       def supply_size
@@ -110,7 +111,7 @@ module Dominion
             cards << pile.first if pile.first.cost <= treasure
           end
         end
-        cards
+        cards.sort_by{|c| c.cost}
       end
       
       def remove(card)
@@ -144,6 +145,18 @@ module Dominion
       
       def over?
         provinces.empty? || supplies.select{|s|s.empty?}.size >= 3
+      end
+      
+      #########################################################################
+      #                               O U T P U T                             #
+      #########################################################################
+      def say_kingdoms
+        puts "Available Kingdoms:"
+        names = []
+        kingdoms.each do |pile|
+          names << pile.first.name if pile.first
+        end
+        puts names.sort
       end
       
     end

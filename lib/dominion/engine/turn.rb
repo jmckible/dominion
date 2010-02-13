@@ -94,13 +94,13 @@ module Dominion
       #                                  B U Y                                #
       #########################################################################
       def spend_buys
-        puts "You #{treasure} treasure and #{number_buys} buy"
+        puts "$#{treasure} and #{number_buys} buy"
         while number_buys > 0
           available_cards = game.buyable treasure
           puts 'Choose a card to buy'
           puts '0. Done'
           available_cards.each_with_index do |card, i|
-            puts "#{i+1}. #{card}"
+            puts "#{i+1}. #{card} ($#{card.cost}) - #{game.number_available card.class} left"
           end
           choice = gets.chomp.to_i
           while choice < 0 || choice > available_cards.size
@@ -120,7 +120,7 @@ module Dominion
       #                                O U T P U T                            #
       #########################################################################
       def say_hand
-        puts "Your hand: #{player.hand.sort}"
+        puts "Hand: #{player.hand.sort}"
       end
       
     end

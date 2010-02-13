@@ -72,4 +72,9 @@ describe Game, 'gameplay' do
     game.coppers.size.should == 31
   end
   
+  it 'should count the number of available' do
+    game = GameFactory.build
+    game.number_available(Copper).should == 32
+  end
+  
 end
