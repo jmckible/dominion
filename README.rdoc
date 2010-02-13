@@ -1,7 +1,23 @@
 = dominion
 
-* http://github.com/jmckible/dominion
+== What is this?
 
-== DESCRIPTION:
+Dominion is a card game published by Rio Grande Games. It is really awesome. I want to play it online.
 
-As in the card game
+This is a new project so it's very much a work on progress.  Right now you can play on the console with a subset of the cards from the Base set.
+
+Want to play? Install ruby and rake, clone the repo and let it rip:
+
+  rake play
+  
+== Help
+
+I'm chugging through the Base set Kingdom cards now. Once that's in place, I want to create a client/server architecture to play over the network. Assuming that gets done, it's time for a UI.
+
+I'm developing this in Ruby using rspec. Ruby is awesome, but if you want to use another language, once a client/server protocol is in place, you can go hog wild.
+
+Fork away!
+
+== Author
+
+Jordan McKible http://jordan.mckible.com
