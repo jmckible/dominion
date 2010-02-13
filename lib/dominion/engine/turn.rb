@@ -33,6 +33,9 @@ module Dominion
         play_treasure
         spend_buys
         player.discard_hand
+        while(!in_play.empty?)
+          player.discard << in_play.shift 
+        end
         player.draw_hand
       end
 
@@ -61,7 +64,7 @@ module Dominion
       def add_buy(number=1)
         @number_buys = number_buys + number
       end
-      alias :add_buys :add_action
+      alias :add_buys :add_buy
       
       def spend_buy
         @number_buys = number_buys - 1
@@ -77,7 +80,8 @@ module Dominion
       
       def draw(number=1)
         drawn = player.draw number
-        puts "Drew: #{drawn}" unless game.silent
+        puts "Drawing #{number}: #{drawn}" unless game.silent
+        return drawn
       end
       
       def gain(card)
@@ -112,7 +116,7 @@ module Dominion
             puts "$#{treasure} and #{number_buys} buy"
             puts '0. Done'
             available_cards.each_with_index do |card, i|
-              puts "#{i+1}. #{card} ($#{card.cost}) - #{game.number_available card.class} left"
+              puts "#{i+1}. #{card.name} ($#{card.cost}) - #{game.number_available card.class} left"
             end
           end
           choice = Game.get_integer 'Choose a card to buy', 0, available_cards.size

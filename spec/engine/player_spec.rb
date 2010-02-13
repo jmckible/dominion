@@ -50,6 +50,18 @@ describe Player do
     player.deck.should be_empty
   end
   
+  it 'should draw a card with one in the deck and one discard' do
+    player = Player.new 'Draw'
+    copper = Copper.new
+    silver = Silver.new
+    player.deck << copper
+    player.discard << silver
+    player.draw(2).should == [copper, silver]
+    player.hand.should == [copper, silver]
+    player.deck.should be_empty
+    player.discard.should be_empty
+  end
+  
   it 'should not draw if none available' do
     player = Player.new 'Draw'
     player.draw.should == []
@@ -57,13 +69,15 @@ describe Player do
     player.deck.should be_empty
   end
   
-  it 'should reshuffle if needed on draw' do
-    player = Player.new 'Draw'
+  it 'should discard hand' do
+    player = Player.new 'Discard'
     copper = Copper.new
-    player.discard << copper
-    player.draw.should == [copper]
-    player.hand.should == [copper]
-    player.deck.should be_empty
-    player.discard.should be_empty
+    silver = Silver.new
+    player.hand << copper
+    player.hand << silver
+    player.discard_hand
+    player.hand.should be_empty
+    player.discard.should == [silver, copper]
   end
+
 end

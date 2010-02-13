@@ -24,9 +24,9 @@ module Dominion
       #                                  D R A W                              #
       #########################################################################
       def draw(number=1)
-        drawn = []
-        1.upto(number) do
-          unless deck.empty? && discard.empty?
+        drawn = Pile.new
+        1.upto(number) do |i|
+          if can_draw?
             reshuffle if deck.empty?
             card = deck.shift
             @hand << card
@@ -36,6 +36,7 @@ module Dominion
         drawn
       end
       def draw_hand() draw 5 end
+      def can_draw?() deck.size + discard.size > 0 end
       
       #########################################################################
       #                                S H U F F L E                          #
