@@ -12,6 +12,7 @@ class GameFactory
     game = Game.new
     1.upto(players){|i|game.seat Player.new("Player #{i}")}
     game.deal
+    game.silent = true
     game
   end
 end

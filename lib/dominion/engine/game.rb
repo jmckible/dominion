@@ -40,6 +40,7 @@ module Dominion
       attr_accessor :kingdoms, :players, :trash
       attr_accessor :coppers, :silvers, :golds 
       attr_accessor :estates, :duchies, :provinces
+      attr_accessor :silent
     
       def initialize
         @players  = Wheel.new
@@ -53,6 +54,8 @@ module Dominion
         @estates   = Pile.new Estate,   24
         @duchies   = Pile.new Duchy,    12
         @provinces = Pile.new Province, 12
+        
+        @silent = false
       end
       
       def setup
@@ -151,7 +154,8 @@ module Dominion
       #                               O U T P U T                             #
       #########################################################################
       def say_kingdoms
-        puts "Available Kingdoms:"
+        return if silent
+        puts "\nAvailable Kingdoms this game:"
         names = []
         kingdoms.each do |pile|
           names << pile.first.name if pile.first

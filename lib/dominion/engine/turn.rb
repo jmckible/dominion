@@ -47,6 +47,7 @@ module Dominion
         player.hand.delete action
         @in_play << action
         action.play self
+        say_hand
       end
       
       def add_action(number=1)
@@ -94,8 +95,8 @@ module Dominion
       #                                  B U Y                                #
       #########################################################################
       def spend_buys
-        puts "$#{treasure} and #{number_buys} buy"
         while number_buys > 0
+          puts "$#{treasure} and #{number_buys} buy"
           available_cards = game.buyable treasure
           puts 'Choose a card to buy'
           puts '0. Done'
@@ -120,7 +121,7 @@ module Dominion
       #                                O U T P U T                            #
       #########################################################################
       def say_hand
-        puts "Hand: #{player.hand.sort}"
+        puts "Hand: #{player.hand.sort}" unless game.silent
       end
       
     end
