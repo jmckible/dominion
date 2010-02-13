@@ -20,4 +20,14 @@ describe Turn do
     player.hand.should be_empty
   end
   
+  it 'should discard' do
+    game = GameFactory.build
+    player = game.players.next
+    turn = Turn.new game, player
+    card = player.hand.first
+    turn.discard card
+    player.discard.should == [card]
+    player.hand.size.should == 4
+  end
+  
 end

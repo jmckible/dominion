@@ -97,6 +97,12 @@ module Dominion
         game.trash.unshift card
       end
       
+      # Cellar
+      def discard(card)
+        player.hand.delete card
+        player.discard.unshift card
+      end
+      
       #########################################################################
       #                             T R E A S U R E                           #
       #########################################################################
