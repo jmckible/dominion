@@ -12,11 +12,15 @@ task :console do
   sh "irb -Ilib -rdominion"
 end
 
-task :play do
-  sh "ruby -Ilib -rdominion -e 'Game.new.play'"
-end
-
 task :server do
   sh "ruby -Ilib -rdominion -e 'Server.new.setup.run'"
+end
+
+task :play do
+  puts "Server Address:"
+  ip = STDIN.gets.chomp
+  puts "Server Port:"
+  port = STDIN.gets.chomp
+  sh "telnet #{ip} #{port}"
 end
 
