@@ -2,8 +2,16 @@ module Dominion
   module Engine
     class Turn
       
-      attr_accessor :game, :player, :number_actions, :number_buys, :actions, :in_play, :treasure
+      attr_accessor :actions, :game, :in_play, :player
+      attr_accessor :number_actions, :number_buys, :treasure
       
+      def other_players
+        game.players.reject{|p| p == player}
+      end
+      
+      #########################################################################
+      #                           I N I T I A L I Z E                         #
+      #########################################################################
       def initialize(game, player)
         @game           = game
         @player         = player
@@ -14,19 +22,19 @@ module Dominion
         @in_play        = []
       end
       
+      #########################################################################
+      #                                  T A K E                              #
+      #########################################################################
       def take
         puts "\n#{player.name}'s turn:"
         say_hand
         spend_actions
         play_treasure
         spend_buys
-        clean_up
+        player.discard_hand
+        player.draw_hand
       end
-      
-      def say_hand
-        puts "Your hand: #{player.hand}"
-      end
-      
+
       def spend_actions
         action = player.choose_action
         while(action)
@@ -71,16 +79,20 @@ module Dominion
         game.trash.unshift card
       end
       
+      #########################################################################
+      #                             T R E A S U R E                           #
+      #########################################################################
       def play_treasure
-        player.hand.each do |card|
-          if card.is_a? Treasure
-            @treasure = treasure + card.value
-            @in_play << card
-            player.hand.delete card
-          end
+        player.hand.select{|card| card.is_a?(Treasure)}.each do |card|
+          @treasure = treasure + card.value
+          @in_play << card
+          player.hand.delete card
         end
       end
       
+      #########################################################################
+      #                                  B U Y                                #
+      #########################################################################
       def spend_buys
         puts "You #{treasure} treasure and #{number_buys} buy"
         while number_buys > 0
@@ -104,13 +116,11 @@ module Dominion
         end
       end
       
-      def clean_up
-        player.discard_hand
-        player.draw_hand
-      end
-      
-      def other_players
-        game.players.reject{|p| p == player}
+      #########################################################################
+      #                                O U T P U T                            #
+      #########################################################################
+      def say_hand
+        puts "Your hand: #{player.hand}"
       end
       
     end

@@ -8,4 +8,16 @@ describe Turn do
     turn.other_players.should == [game.players[1], game.players[2], game.players[3]]
   end
   
+  it 'should count treasure' do
+    game = Game.new
+    player = Player.new 'Player'
+    player.hand << Copper.new
+    player.hand << Copper.new
+    turn = Turn.new game, player
+    turn.play_treasure
+    turn.treasure.should == 2
+    turn.in_play.size.should == 2
+    player.hand.should be_empty
+  end
+  
 end
