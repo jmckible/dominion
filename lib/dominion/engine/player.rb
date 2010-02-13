@@ -6,7 +6,7 @@ module Dominion
       #########################################################################
       #                             I N I T I A L I Z E                       #
       #########################################################################
-      def initialize(name, socket)
+      def initialize(name, socket=nil)
         @deck    = Deck.new
         @discard = Pile.new
         @name    = name

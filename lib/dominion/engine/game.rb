@@ -18,7 +18,7 @@ module Dominion
       attr_accessor :estates, :duchies, :provinces
       attr_accessor :silent, :server
     
-      def initialize(server)
+      def initialize(server=nil)
         @players  = Wheel.new
         @kingdoms = []
         @trash    = []
