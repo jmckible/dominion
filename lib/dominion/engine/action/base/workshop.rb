@@ -5,6 +5,7 @@ module Dominion
       attr_accessor :available_cards
       
       def cost() 3 end
+      def name() 'Workshop' end
       
       def play(turn)
         @available_cards = turn.game.buyable 4

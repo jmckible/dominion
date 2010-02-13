@@ -21,6 +21,16 @@ module Dominion
         answer == 'y' || answer == ''
       end
       
+      def self.get_integer(prompt, lower, upper)
+        puts "#{prompt} (#{lower}-#{upper})"
+        integer = gets.chomp.to_i
+        while integer < lower || integer > upper
+          puts "Please enter a number between #{lower} and #{upper}"
+          integer = gets.chomp.to_i
+        end
+        integer
+      end
+      
       #########################################################################
       #                                 S E T U P                             #
       #########################################################################
@@ -42,6 +52,15 @@ module Dominion
         @provinces = Pile.new Province, 12
       end
       
+      def setup
+        1.upto(Game.get_integer("How many players", 2, 4)) do |i|
+          puts "Enter Player #{i}'s Name:"
+          name = gets.chomp
+          player = Player.new name
+          seat player
+        end
+      end
+      
       def supplies
         kingdoms + [coppers, silvers, estates, duchies, provinces]
       end
@@ -51,7 +70,7 @@ module Dominion
         players << player
       end
       
-      def setup
+      def deal
         pick_kingdoms
         if players.size == 2
           duchies.discard 4
@@ -68,6 +87,15 @@ module Dominion
         Game.available_kingdoms.sort_by{rand}.first(10).each do |kingdom|
           kingdoms << Pile.new(kingdom, supply_size)
         end
+      end
+      
+      def say_kingdoms
+        puts "Available Kingdoms:"
+        names = []
+        kingdoms.each do |pile|
+          names << pile.first.name if pile.first
+        end
+        puts names.sort
       end
       
       def supply_size
@@ -94,6 +122,9 @@ module Dominion
       #                                P L A Y                                #
       #########################################################################
       def play
+        setup
+        deal
+        say_kingdoms
         while(!over?)
           Turn.new(self, next_player).take
         end

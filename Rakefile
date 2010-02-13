@@ -12,3 +12,7 @@ task :console do
   sh "irb -Ilib -rdominion"
 end
 
+task :play do
+  sh "ruby -Ilib -rdominion -e 'Game.new.play'"
+end
+

@@ -11,7 +11,7 @@ class GameFactory
   def self.build(players=4)
     game = Game.new
     1.upto(players){|i|game.seat Player.new("Player #{i}")}
-    game.setup
+    game.deal
     game
   end
 end

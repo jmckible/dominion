@@ -2,6 +2,7 @@ module Dominion
   module Engine
     class Chancellor < Action
       def cost() 3 end
+      def name() 'Chancellor' end
         
       def play(turn)
         turn.add_treasure 2
