@@ -91,7 +91,7 @@ module Dominion
       #                              S U P P L I E S                          #
       #########################################################################
       def supplies
-        kingdoms + [coppers, silvers, estates, duchies, provinces]
+        kingdoms + [coppers, silvers, golds, estates, duchies, provinces]
       end
       
       def number_available(card_type)

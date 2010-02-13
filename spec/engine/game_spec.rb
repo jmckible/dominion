@@ -19,7 +19,7 @@ describe Game, 'setup' do
   
   it 'should have supply piles' do
     game = GameFactory.build
-    game.should have(15).supplies
+    game.should have(16).supplies
   end
   
   it 'should initialize starting cards' do
@@ -61,7 +61,7 @@ describe Game, 'gameplay' do
   
   it 'should find buyable with budget' do
     game = GameFactory.build
-    game.buyable(8).size.should == 15
+    game.buyable(8).size.should == 16
     game.buyable(0).size.should == 1
   end
   
