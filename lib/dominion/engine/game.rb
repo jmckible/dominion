@@ -130,8 +130,11 @@ module Dominion
         setup
         deal
         say_kingdoms
+        players.round = 0
         while(!over?)
-          Turn.new(self, players.next).take
+          player = players.next
+          players.round = players.round + 1 if players.first == player 
+          Turn.new(self, player).take
         end
         players.each do |player|
           player.combine_cards
