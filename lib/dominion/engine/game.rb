@@ -143,6 +143,10 @@ module Dominion
         server.broadcast names.sort
       end
       
+      def broadcast(message)
+        server.broadcast message
+      end
+      
     end
   end
 end

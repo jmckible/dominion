@@ -23,7 +23,7 @@ module Dominion
       end
       
       def broadcast(message)
-        game.server.broadcast message
+        game.broadcast message
       end
       
       #########################################################################
