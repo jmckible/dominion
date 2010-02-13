@@ -120,7 +120,7 @@ module Dominion
       #                                O U T P U T                            #
       #########################################################################
       def say_hand
-        puts "Your hand: #{player.hand}"
+        puts "Your hand: #{player.hand.sort}"
       end
       
     end
