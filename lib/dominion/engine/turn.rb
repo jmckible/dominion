@@ -90,9 +90,10 @@ module Dominion
         player.gain card
       end
       
-      # Trash in play card (Feast)
+      # Trash in play from Feast or from hand for Chapel
       def trash(card)
         @in_play.delete card
+        player.hand.delete card
         game.trash.unshift card
       end
       
@@ -138,6 +139,14 @@ module Dominion
       #########################################################################
       def say_hand
         puts "Hand: #{player.hand.sort}" unless game.silent
+      end
+      
+      def list_hand
+        unless game.silent
+          player.hand.sort.each_with_index do |card, i|
+            puts "#{i+1}. #{card.name}"
+          end
+        end
       end
       
       def say_actions

@@ -6,7 +6,7 @@ module Dominion
         #  Feast, Festival, Gardens, Laboratory, Library, Market, Militia,
         #  Mine, Moat, Moneylender, Remodel, Smithy, Spy, Thief, ThroneRoom,
         #  Village, Witch, Woodcutter, Workshop ]
-        [ Chancellor, CouncilRoom, Feast, Festival, Laboratory, Market,
+        [ Chancellor, Chapel, CouncilRoom, Feast, Festival, Laboratory, Market,
           Smithy, Village, Woodcutter, Workshop ]
       end
     end
