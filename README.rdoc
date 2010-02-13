@@ -6,15 +6,26 @@ Dominion is a card game published by Rio Grande Games. It is really awesome. I w
 
 This is a new project so it's very much a work on progress.  Right now you can play on the console with a subset of the cards from the Base set.
 
-Want to play? Install ruby and rake, clone the repo and let it rip:
+Want to play? Install ruby, rspec, rake and clone the repo. 
 
-  rake play
+  ~ $ git clone git://github.com/jmckible/dominion.git
+  ~ $ cd dominion
+  
+Now start a server
+
+  ~ $ rake server
+  
+You'll be prompted for a welcome message to players and how many players for the game
+
+Over in another console (or across the internet)
+
+  ~ $ rake play
+  
+Type in the server info (perhaps 'localhost' if you're playing locally and port 8000 is the default) and you're off to the races
   
 == Help
 
-I'm chugging through the Base set Kingdom cards now. Once that's in place, I want to create a client/server architecture to play over the network. Assuming that gets done, it's time for a UI.
-
-I'm developing this in Ruby using rspec. Ruby is awesome, but if you want to use another language, once a client/server protocol is in place, you can go hog wild.
+I'm chugging through the Base set Kingdom cards now. Once the game engine is complete, the sky is really the limit. UI? AI? Central server?
 
 Fork away!
 
