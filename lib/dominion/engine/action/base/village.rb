@@ -6,7 +6,7 @@ module Dominion
         
       def play(turn)
         turn.add_actions 2
-        turn.draw_card
+        turn.draw
       end
     end
   end

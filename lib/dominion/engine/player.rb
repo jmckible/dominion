@@ -3,6 +3,9 @@ module Dominion
     class Player
       attr_accessor :name, :deck, :discard, :hand
     
+      #########################################################################
+      #                             I N I T I A L I Z E                       #
+      #########################################################################
       def initialize(name)
         @deck    = Deck.new
         @discard = Pile.new
@@ -10,24 +13,33 @@ module Dominion
         @hand    = Pile.new
       end
       
+      #########################################################################
+      #                                  G A I N                              #
+      #########################################################################
       def gain(card)
         discard.unshift card
       end
       
-      def draw_hand
-        draw_cards 5
-      end
-      
-      def draw_card(number=1)
+      #########################################################################
+      #                                  D R A W                              #
+      #########################################################################
+      def draw(number=1)
+        drawn = []
         1.upto(number) do
           unless deck.empty? && discard.empty?
             reshuffle if deck.empty?
-            hand << deck.shift
+            card = deck.shift
+            @hand << card
+            drawn << card
           end
         end
+        drawn
       end
-      alias :draw_cards :draw_card
+      def draw_hand() draw 5 end
       
+      #########################################################################
+      #                                S H U F F L E                          #
+      #########################################################################
       def reshuffle
         while(!discard.empty?)
           @deck << discard.shift
@@ -35,30 +47,15 @@ module Dominion
         @deck = deck.shuffle
       end
       
-      def choose_action
-        return false if available_actions.empty?
-        list_available_actions
-        choice = gets.chomp.to_i
-        unless choice >= 0 && choice < available_actions.count
-          puts 'Please choose a valid action'
-          list_available_actions
-        end
-        return false if choice == 0
-        available_actions[choice - 1]
+      # Prepare deck to count points
+      def combine_cards
+        discard_hand
+        reshuffle
       end
       
-      def available_actions
-        hand.select{|card|card.is_a?(Action) }
-      end
-      
-      def list_available_actions
-        puts '0. Done'
-        available_actions.each_with_index do |card, i|
-          puts "#{i+1}. #{card}\n"
-        end
-        puts 'Choose an action:'
-      end
-      
+      #########################################################################
+      #                               D I S C A R D                           #
+      #########################################################################
       def discard_deck
         while(!deck.empty?)
           @discard.unshift deck.shift
@@ -71,11 +68,24 @@ module Dominion
         end
       end
       
-      def combine_cards
-        discard_hand
-        reshuffle
+      #########################################################################
+      #                               A C T I O N S                           #
+      #########################################################################
+      def choose_action
+        return false if available_actions.empty?
+        say_available_actions
+        choice = Game.get_integer 'Choose an Action', 0, available_actions.size
+        return false if choice == 0
+        available_actions[choice - 1]
       end
       
+      def available_actions
+        hand.select{|card|card.is_a?(Action) }
+      end
+
+      #########################################################################
+      #                               O U T P U T                             #
+      #########################################################################
       def say_score
         score = 0
         deck.each do |card|
@@ -86,6 +96,13 @@ module Dominion
           end
         end
         puts "#{name}'s Final score: #{score}\n\n"
+      end
+      
+      def say_available_actions
+        puts '0. Done'
+        available_actions.each_with_index do |card, i|
+          puts "#{i+1}. #{card}\n"
+        end
       end
       
     end

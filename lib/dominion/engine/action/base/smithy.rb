@@ -5,7 +5,7 @@ module Dominion
       def name() 'Smithy' end
         
       def play(turn)
-        turn.draw_card 3
+        turn.draw 3
       end
     end
   end

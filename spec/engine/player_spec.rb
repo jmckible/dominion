@@ -41,4 +41,29 @@ describe Player do
     player.discard.size.should == 5
   end
   
+  it 'should draw a card with one in the deck' do
+    player = Player.new 'Draw'
+    copper = Copper.new
+    player.deck << copper
+    player.draw.should == [copper]
+    player.hand.should == [copper]
+    player.deck.should be_empty
+  end
+  
+  it 'should not draw if none available' do
+    player = Player.new 'Draw'
+    player.draw.should == []
+    player.hand.should be_empty
+    player.deck.should be_empty
+  end
+  
+  it 'should reshuffle if needed on draw' do
+    player = Player.new 'Draw'
+    copper = Copper.new
+    player.discard << copper
+    player.draw.should == [copper]
+    player.hand.should == [copper]
+    player.deck.should be_empty
+    player.discard.should be_empty
+  end
 end

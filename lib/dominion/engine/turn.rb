@@ -26,8 +26,9 @@ module Dominion
       #                                  T A K E                              #
       #########################################################################
       def take
-        puts "\n#{player.name}'s turn:"
+        puts "\n#{player.name}'s turn:" unless game.silent
         say_hand
+        say_actions
         spend_actions
         play_treasure
         spend_buys
@@ -40,6 +41,7 @@ module Dominion
         while(action)
           @number_actions = number_actions - 1
           execute action
+          action = player.choose_action
         end
       end
       
@@ -48,6 +50,7 @@ module Dominion
         @in_play << action
         action.play self
         say_hand
+        say_actions
       end
       
       def add_action(number=1)
@@ -60,14 +63,22 @@ module Dominion
       end
       alias :add_buys :add_action
       
+      def spend_buy
+        @number_buys = number_buys - 1
+      end
+      
       def add_treasure(number)
         @treasure = treasure + number
       end
       
-      def draw_card(number=1)
-        player.draw_card number
+      def spend_treasure(number)
+        @treasure = treasure - number
       end
-      alias :draw_cards :draw_card
+      
+      def draw(number=1)
+        drawn = player.draw number
+        puts "Drew: #{drawn}" unless game.silent
+      end
       
       def gain(card)
         game.remove card
@@ -96,25 +107,25 @@ module Dominion
       #########################################################################
       def spend_buys
         while number_buys > 0
-          puts "$#{treasure} and #{number_buys} buy"
-          available_cards = game.buyable treasure
-          puts 'Choose a card to buy'
-          puts '0. Done'
-          available_cards.each_with_index do |card, i|
-            puts "#{i+1}. #{card} ($#{card.cost}) - #{game.number_available card.class} left"
+          available_cards = game.buyable treasure          
+          unless game.silent
+            puts "$#{treasure} and #{number_buys} buy"
+            puts '0. Done'
+            available_cards.each_with_index do |card, i|
+              puts "#{i+1}. #{card} ($#{card.cost}) - #{game.number_available card.class} left"
+            end
           end
-          choice = gets.chomp.to_i
-          while choice < 0 || choice > available_cards.size
-            puts 'Choose a valid card'
-            show_card_list
-            choice = gets.chomp.to_i
-          end
+          choice = Game.get_integer 'Choose a card to buy', 0, available_cards.size
           return if choice == 0
-          card = available_cards[choice - 1]
-          gain(card) if card
-          @number_buys = number_buys - 1
-          @tresaure = treasure - card.cost
+          buy available_cards[choice - 1]
         end
+      end
+      
+      def buy(card)
+        spend_buy
+        spend_treasure card.cost
+        gain card
+        puts "Bought a #{card}" unless game.silent
       end
       
       #########################################################################
@@ -122,6 +133,10 @@ module Dominion
       #########################################################################
       def say_hand
         puts "Hand: #{player.hand.sort}" unless game.silent
+      end
+      
+      def say_actions
+        puts "#{number_actions} actions remaining" unless game.silent
       end
       
     end

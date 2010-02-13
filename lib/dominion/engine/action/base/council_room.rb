@@ -5,9 +5,9 @@ module Dominion
       def name() 'Council Room' end
         
       def play(turn)
-        turn.draw_cards 4
+        turn.draw 4
         turn.add_buy
-        turn.other_players.each{|p|p.draw_card}
+        turn.other_players.each{|p|p.draw}
       end
         
     end

@@ -5,7 +5,7 @@ module Dominion
       def name() 'Laboratory' end
         
       def play(turn)
-        turn.draw_cards 2
+        turn.draw 2
         turn.add_action
       end
     end
