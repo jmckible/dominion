@@ -16,3 +16,7 @@ task :play do
   sh "ruby -Ilib -rdominion -e 'Game.new.play'"
 end
 
+task :server do
+  sh "ruby -Ilib -rdominion -e 'Server.new.setup.run'"
+end
+

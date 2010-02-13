@@ -16,21 +16,21 @@ module Dominion
       
       def select_card
         show_card_list
-        choice = gets.chomp.to_i
+        choice = turn.player.gets.chomp.to_i
         while choice < 0 || choice > available_cards.size
-          puts 'Choose a valid card'
+          turn.player.puts 'Choose a valid card'
           show_card_list
-          choice = gets.chomp.to_i
+          choice = turn.player.gets.chomp.to_i
         end
         return nil if choice == 0
         available_cards[choice - 1]
       end
       
       def show_card_list
-        puts 'Choose a card'
-        puts '0. None'
+        turn.player.puts 'Choose a card'
+        turn.player.puts '0. None'
         available_cards.each_with_index do |card, i|
-          puts "#{i+1}. #{card}"
+          turn.player.puts "#{i+1}. #{card}"
         end
       end
       

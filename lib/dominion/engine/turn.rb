@@ -22,11 +22,15 @@ module Dominion
         @in_play        = []
       end
       
+      def broadcast(message)
+        game.server.broadcast message
+      end
+      
       #########################################################################
       #                                  T A K E                              #
       #########################################################################
       def take
-        puts "\n#{player}'s Round #{game.players.round} turn:" unless game.silent
+        broadcast "\n#{player}'s Round #{game.players.round} turn:" unless game.silent
         say_hand
         say_actions
         spend_actions
@@ -42,6 +46,7 @@ module Dominion
       def spend_actions
         action = player.choose_action
         while(action)
+          broadcast "#{player} played a #{action}"
           @number_actions = number_actions - 1
           execute action
           return if @number_actions < 1
@@ -81,7 +86,7 @@ module Dominion
       
       def draw(number=1)
         drawn = player.draw number
-        puts "Drawing #{number}: #{drawn}" unless game.silent
+        broadcast "Drawing #{number}: #{drawn}" unless game.silent
         return drawn
       end
       
@@ -121,13 +126,13 @@ module Dominion
         while number_buys > 0
           available_cards = game.buyable treasure          
           unless game.silent
-            puts "$#{treasure} and #{number_buys} buy"
-            puts '0. Done'
+            player.puts "$#{treasure} and #{number_buys} buy"
+            player.puts '0. Done'
             available_cards.each_with_index do |card, i|
-              puts "#{i+1}. #{card} ($#{card.cost}) - #{game.number_available card.class} left"
+              player.puts "#{i+1}. #{card} ($#{card.cost}) - #{game.number_available card.class} left"
             end
           end
-          choice = Game.get_integer 'Choose a card to buy', 0, available_cards.size
+          choice = player.get_integer 'Choose a card to buy', 0, available_cards.size
           return if choice == 0
           buy available_cards[choice - 1]
         end
@@ -137,26 +142,26 @@ module Dominion
         spend_buy
         spend_treasure card.cost
         gain card
-        puts "Bought a #{card}" unless game.silent
+        broadcast "Bought a #{card}" unless game.silent
       end
       
       #########################################################################
       #                                O U T P U T                            #
       #########################################################################
       def say_hand
-        puts "Hand: #{player.hand.sort}" unless game.silent
+        player.puts "Hand: #{player.hand.sort}" unless game.silent
       end
       
       def list_hand
         unless game.silent
           player.hand.sort.each_with_index do |card, i|
-            puts "#{i+1}. #{card}"
+            player.puts "#{i+1}. #{card}"
           end
         end
       end
       
       def say_actions
-        puts "#{number_actions} actions remaining" unless game.silent
+        broadcast "#{number_actions} actions remaining" unless game.silent
       end
       
     end

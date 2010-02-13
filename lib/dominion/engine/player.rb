@@ -1,16 +1,36 @@
 module Dominion
   module Engine
     class Player
-      attr_accessor :name, :deck, :discard, :hand
+      attr_accessor :name, :deck, :discard, :hand, :socket
     
       #########################################################################
       #                             I N I T I A L I Z E                       #
       #########################################################################
-      def initialize(name)
+      def initialize(name, socket)
         @deck    = Deck.new
         @discard = Pile.new
         @name    = name
         @hand    = Pile.new
+        @socket  = socket
+      end
+      
+      #########################################################################
+      #                                   I / O                               #
+      #########################################################################
+      def get_boolean(prompt)
+        Input.get_integer socket, prompt
+      end
+      
+      def get_integer(prompt, lower, upper)
+        Input.get_integer socket, prompt, lower, upper
+      end
+      
+      def puts(string)
+        socket.puts string
+      end
+      
+      def gets(string)
+        socket.gets string
       end
       
       #########################################################################
@@ -75,7 +95,7 @@ module Dominion
       def choose_action
         return false if available_actions.empty?
         say_available_actions
-        choice = Game.get_integer 'Choose an Action', 0, available_actions.size
+        choice = get_integer 'Choose an Action', 0, available_actions.size
         return false if choice == 0
         available_actions[choice - 1]
       end
@@ -92,17 +112,17 @@ module Dominion
         deck.each do |card|
           if card.is_a? Victory
             points = card.points self
-            puts "#{card} = #{points}"
+            socket.puts "#{card} = #{points}"
             score = score + points
           end
         end
-        puts "#{name}'s Final score: #{score}\n\n"
+        socket.puts "#{name}'s Final score: #{score}\n\n"
       end
       
       def say_available_actions
-        puts '0. Done'
+        socket.puts '0. Done'
         available_actions.each_with_index do |card, i|
-          puts "#{i+1}. #{card}\n"
+          socket.puts "#{i+1}. #{card}\n"
         end
       end
       
