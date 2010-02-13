@@ -44,6 +44,7 @@ module Dominion
         while(action)
           @number_actions = number_actions - 1
           execute action
+          return if @number_actions < 1
           action = player.choose_action
         end
       end
