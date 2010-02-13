@@ -2,10 +2,12 @@ module Dominion
   module Engine
     module Base
       def self.available_kingdoms
-        [ Adventurer, Bureaucrat, Cellar, Chancellor, Chapel, CouncilRoom,
-          Feast, Festival, Gardens, Laboratory, Library, Market, Militia,
-          Mine, Moat, Moneylender, Remodel, Smithy, Spy, Thief, ThroneRoom,
-          Village, Witch, Woodcutter, Workshop ]
+        #[ Adventurer, Bureaucrat, Cellar, Chancellor, Chapel, CouncilRoom,
+        #  Feast, Festival, Gardens, Laboratory, Library, Market, Militia,
+        #  Mine, Moat, Moneylender, Remodel, Smithy, Spy, Thief, ThroneRoom,
+        #  Village, Witch, Woodcutter, Workshop ]
+        [ Chancellor, CouncilRoom, Feast, Festival, Laboratory, Market,
+          Smithy, Village, Woodcutter, Workshop ]
       end
     end
   end
