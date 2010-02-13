@@ -3,7 +3,7 @@ module Dominion
     class Estate < Victory
       
       def cost()   2 end
-      def points() 1 end
+      def points(player) 1 end
       
     end
   end

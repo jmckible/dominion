@@ -59,15 +59,6 @@ describe Game, 'gameplay' do
     game.should be_over
   end
   
-  it 'should find the next player' do
-    game = GameFactory.build
-    game.next_player.should == game.players.first
-    game.current_turn = Turn.new(game, game.players[1])
-    game.next_player.should == game.players[2]
-    game.current_turn = Turn.new(game, game.players[3])
-    game.next_player.should == game.players.first
-  end
-  
   it 'should find buyable with budget' do
     game = GameFactory.build
     game.buyable(8).size.should == 15

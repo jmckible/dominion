@@ -2,7 +2,7 @@ module Dominion
   module Engine
     class Turn
       
-      attr_accessor :game, :player, :number_actions, :number_buys, :actions, :buys, :in_play, :treasure
+      attr_accessor :game, :player, :number_actions, :number_buys, :actions, :in_play, :treasure
       
       def initialize(game, player)
         @game           = game
@@ -10,15 +10,21 @@ module Dominion
         @number_actions = 1
         @number_buys    = 1
         @actions        = Pile.new
-        @buys           = Pile.new
         @treasure       = 0
         @in_play        = []
       end
       
       def take
+        puts "\n#{player.name}'s turn:"
+        say_hand
         spend_actions
+        play_treasure
         spend_buys
         clean_up
+      end
+      
+      def say_hand
+        puts "Your hand: #{player.hand}"
       end
       
       def spend_actions
@@ -30,6 +36,7 @@ module Dominion
       end
       
       def execute(action)
+        player.hand.delete action
         @in_play << action
         action.play self
       end
@@ -64,10 +71,24 @@ module Dominion
         game.trash.unshift card
       end
       
+      def play_treasure
+        player.hand.each do |card|
+          if card.is_a? Treasure
+            @in_play << card
+            player.hand.delete card
+            @treasure = treasure + card.value
+          end
+        end
+      end
+      
       def spend_buys
+        puts "You #{treasure} treasure and #{number_buys} buy"
+        puts "You buy a Province"
+        gain game.provinces.first
       end
       
       def clean_up
+        player.discard_hand
         player.draw_hand
       end
       

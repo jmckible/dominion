@@ -10,6 +10,10 @@ module Dominion
         1.upto(number){pop}
       end
       
+      def to_s
+        collect.join ', '
+      end
+      
     end
   end
 end

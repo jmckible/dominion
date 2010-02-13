@@ -4,7 +4,7 @@ describe Feast do
   
   it 'should execute' do
     game = GameFactory.build
-    player = game.next_player
+    player = game.players.next
     turn = Turn.new game, player
     duchy = game.duchies.first
     feast = Feast.new

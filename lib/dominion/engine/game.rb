@@ -34,12 +34,12 @@ module Dominion
       #########################################################################
       #                                 S E T U P                             #
       #########################################################################
-      attr_accessor :kingdoms, :players, :current_turn, :trash
+      attr_accessor :kingdoms, :players, :trash
       attr_accessor :coppers, :silvers, :golds 
       attr_accessor :estates, :duchies, :provinces
     
       def initialize
-        @players  = []
+        @players  = Wheel.new
         @kingdoms = []
         @trash    = []
         
@@ -81,6 +81,7 @@ module Dominion
           1.upto(3){player.gain estates.shift}
           player.draw_hand
         end
+        players.start
       end
       
       def pick_kingdoms
@@ -126,9 +127,12 @@ module Dominion
         deal
         say_kingdoms
         while(!over?)
-          Turn.new(self, next_player).take
+          Turn.new(self, players.next).take
         end
-        output_winner
+        players.each do |player|
+          player.combine_cards
+          player.say_score
+        end
       end
       
       def next_player
@@ -140,10 +144,6 @@ module Dominion
       
       def over?
         provinces.empty? || supplies.select{|s|s.empty?}.size >= 3
-      end
-      
-      def output_winner
-        
       end
       
     end

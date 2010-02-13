@@ -3,7 +3,7 @@ module Dominion
     class Province < Victory
       
       def cost()   8 end
-      def points() 6 end
+      def points(player) 6 end
         
     end
   end

@@ -65,6 +65,29 @@ module Dominion
         end
       end
       
+      def discard_hand
+        while(!hand.empty?)
+          @discard.unshift hand.shift
+        end
+      end
+      
+      def combine_cards
+        discard_hand
+        reshuffle
+      end
+      
+      def say_score
+        score = 0
+        deck.each do |card|
+          if card.is_a? Victory
+            points = card.points self
+            puts "#{card} = #{points}"
+            score = score + points
+          end
+        end
+        puts "#{name}'s Final score: #{score}\n\n"
+      end
+      
     end
   end
 end

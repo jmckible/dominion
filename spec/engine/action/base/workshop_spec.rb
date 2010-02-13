@@ -4,7 +4,7 @@ describe Workshop do
   
   it 'should execute' do
     game = GameFactory.build
-    player = game.next_player
+    player = game.players.first
     turn = Turn.new game, player
     workshop = Workshop.new
     copper = game.coppers.first
