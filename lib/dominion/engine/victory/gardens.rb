@@ -6,6 +6,7 @@ module Dominion
       def points(player=nil)
         player.nil? ? 0 : player.deck.size % 10
       end
+      def name() 'Gardens' end
         
     end
   end

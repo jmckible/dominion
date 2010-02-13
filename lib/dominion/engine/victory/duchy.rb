@@ -4,6 +4,7 @@ module Dominion
       
       def cost()             5 end
       def points(player=nil) 3 end
+      def name() 'Duchy'       end
         
     end
   end

@@ -26,7 +26,7 @@ module Dominion
       #                                  T A K E                              #
       #########################################################################
       def take
-        puts "\n#{player.name}'s turn:" unless game.silent
+        puts "\n#{player.name}'s Round #{game.players.round} turn:" unless game.silent
         say_hand
         say_actions
         spend_actions

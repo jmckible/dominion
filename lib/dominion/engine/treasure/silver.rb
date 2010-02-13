@@ -3,6 +3,7 @@ module Dominion
     class Silver < Treasure
       
       def cost()  3 end
+      def name() 'Silver' end
       def value() 2 end
       
     end
