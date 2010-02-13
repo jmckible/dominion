@@ -5,7 +5,7 @@ module Dominion
       attr_accessor :available_cards
       
       def cost() 4 end
-      def name() 'Feast' end
+      def to_s() 'Feast' end
       
       def play(turn)
         @available_cards = turn.game.buyable 5

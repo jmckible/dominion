@@ -4,7 +4,7 @@ module Dominion
       
       def cost()             2 end
       def points(player=nil) 1 end
-      def name() 'Estate'      end
+      def to_s() 'Estate'      end
       
     end
   end

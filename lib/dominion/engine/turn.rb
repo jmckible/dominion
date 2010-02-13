@@ -26,7 +26,7 @@ module Dominion
       #                                  T A K E                              #
       #########################################################################
       def take
-        puts "\n#{player.name}'s Round #{game.players.round} turn:" unless game.silent
+        puts "\n#{player}'s Round #{game.players.round} turn:" unless game.silent
         say_hand
         say_actions
         spend_actions
@@ -124,7 +124,7 @@ module Dominion
             puts "$#{treasure} and #{number_buys} buy"
             puts '0. Done'
             available_cards.each_with_index do |card, i|
-              puts "#{i+1}. #{card.name} ($#{card.cost}) - #{game.number_available card.class} left"
+              puts "#{i+1}. #{card} ($#{card.cost}) - #{game.number_available card.class} left"
             end
           end
           choice = Game.get_integer 'Choose a card to buy', 0, available_cards.size
@@ -150,7 +150,7 @@ module Dominion
       def list_hand
         unless game.silent
           player.hand.sort.each_with_index do |card, i|
-            puts "#{i+1}. #{card.name}"
+            puts "#{i+1}. #{card}"
           end
         end
       end

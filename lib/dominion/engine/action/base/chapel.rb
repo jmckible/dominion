@@ -2,7 +2,7 @@ module Dominion
   module Engine
     class Chapel < Action
       def cost() 2 end
-      def name() 'Chapel' end
+      def to_s() 'Chapel' end
         
       def play(turn)
         1.upto(4) do

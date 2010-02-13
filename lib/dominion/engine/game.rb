@@ -161,7 +161,7 @@ module Dominion
         puts "\nAvailable Kingdoms this game:"
         names = []
         kingdoms.each do |pile|
-          names << pile.first.name if pile.first
+          names << pile.first.to_s if pile.first
         end
         puts names.sort
       end

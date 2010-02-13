@@ -2,7 +2,7 @@ module Dominion
   module Engine
     class Laboratory < Action
       def cost() 5 end
-      def name() 'Laboratory' end
+      def to_s() 'Laboratory' end
         
       def play(turn)
         turn.draw 2

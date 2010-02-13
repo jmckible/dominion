@@ -2,7 +2,7 @@ module Dominion
   module Engine
     class Market < Action
       def cost() 5 end
-      def name() 'Market' end
+      def to_s() 'Market' end
         
       def play(turn)
         turn.draw
