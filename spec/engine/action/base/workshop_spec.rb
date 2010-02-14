@@ -3,9 +3,7 @@ require 'spec_helper'
 describe Workshop do
   
   it 'should execute' do
-    game = GameFactory.build
-    player = game.players.first
-    turn = Turn.new game, player
+    game, player, turn = GameFactory.build
     workshop = Workshop.new
     copper = game.coppers.first
     workshop.stub!(:select_card).and_return(copper)

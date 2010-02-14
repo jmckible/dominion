@@ -16,8 +16,8 @@ describe Player do
   end
   
   it 'should draw an opening hand' do
-    game = GameFactory.build
-    game.players.first.hand.size.should == 5
+    game, player, turn = GameFactory.build
+    player.hand.size.should == 5
   end
   
   it 'should determine available actions' do
@@ -32,8 +32,7 @@ describe Player do
   end
   
   it 'should discard deck' do
-    game = GameFactory.build
-    player = game.players.first
+    game, player, turn = GameFactory.build
     player.deck.size.should == 5
     player.discard.size.should == 0
     player.discard_deck

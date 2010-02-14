@@ -119,13 +119,6 @@ module Dominion
         end
       end
       
-      def next_player
-        return players.first if current_turn.nil? || current_turn.player == players.last
-        players.each_with_index do |player, i|
-          return players[i + 1] if player == current_turn.player
-        end
-      end
-      
       def over?
         provinces.empty? || supplies.select{|s|s.empty?}.size >= 3
       end

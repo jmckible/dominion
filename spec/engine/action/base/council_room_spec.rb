@@ -3,8 +3,7 @@ require 'spec_helper'
 describe CouncilRoom do
   
   it 'should execute' do
-    game = GameFactory.build
-    turn = Turn.new game, game.players.next
+    game, player, turn = GameFactory.build
     turn.execute CouncilRoom.new
     turn.player.hand.size.should == 9
     turn.number_buys.should == 2

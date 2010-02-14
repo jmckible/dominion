@@ -3,9 +3,7 @@ require 'spec_helper'
 describe Feast do
   
   it 'should execute' do
-    game = GameFactory.build
-    player = game.players.next
-    turn = Turn.new game, player
+    game, player, turn = GameFactory.build
     duchy = game.duchies.first
     feast = Feast.new
     feast.stub!(:select_card).and_return(duchy)
