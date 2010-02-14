@@ -7,7 +7,7 @@ module Dominion
     # Couldn't figure out how to spec this
     def self.get_boolean(socket, prompt)
       socket.puts "#{prompt} (Y/n)"
-      answer = gets.chomp
+      answer = socket.gets.chomp
       while !['y', 'n', ''].include?(answer.downcase)
         socket.puts "Didn't get that. Please enter 'Y' or 'N'"
         socket.puts "#{prompt} (Y/n)"
