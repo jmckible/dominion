@@ -168,9 +168,8 @@ module Dominion
         say_card_list cards
         choice = player.gets('Choose a card').chomp.to_i
         while choice < 0 || choice > cards.size
-          player.puts 'Choose a valid card'
           say_card_list cards
-          choice = player.gets.chomp.to_i
+          choice = player.gets('Choose a valid card').chomp.to_i
         end
         return nil if choice == 0
         from[choice - 1]
