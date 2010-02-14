@@ -7,7 +7,7 @@ module Dominion
         #  Mine, Moat, Moneylender, Remodel, Smithy, Spy, Thief, ThroneRoom,
         #  Village, Witch, Woodcutter, Workshop ]
         [ Cellar, Chancellor, Chapel, CouncilRoom, Feast, Festival, Laboratory, 
-          Market, Smithy, Village, Woodcutter, Workshop ]
+          Market, Smithy, ThroneRoom, Village, Woodcutter, Workshop ]
       end
     end
   end
