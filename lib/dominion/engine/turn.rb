@@ -22,10 +22,6 @@ module Dominion
         @in_play        = []
       end
       
-      def broadcast(message)
-        game.broadcast message
-      end
-      
       #########################################################################
       #                                  T A K E                              #
       #########################################################################
@@ -56,7 +52,7 @@ module Dominion
       
       def execute(action)
         player.hand.delete action
-        @in_play << action
+        @in_play << action unless @in_play.include?(action)
         action.play self
         say_hand
         say_actions
@@ -99,7 +95,7 @@ module Dominion
       def trash(card)
         @in_play.delete card
         player.hand.delete card
-        game.trash.unshift card
+        game.trash.unshift(card) unless game.trash.include?(card)
       end
       
       # Cellar
@@ -148,6 +144,10 @@ module Dominion
       #########################################################################
       #                                O U T P U T                            #
       #########################################################################
+      def broadcast(message)
+        game.broadcast message
+      end
+      
       def say_hand
         player.puts "Hand: #{player.hand.sort}" unless game.silent
       end
