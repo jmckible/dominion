@@ -172,12 +172,10 @@ module Dominion
       
       def select_card(cards)
         say_card_list cards
-        choice = player.get('Choose a card').chomp
-        choice = choice.to_i
+        choice = player.ask('Choose a card').chomp.to_i
         while choice < 0 || choice > cards.size
           say_card_list cards
-          choice = player.get('Choose a valid card').chomp
-          choice = choice.to_i
+          choice = player.ask('Choose a valid card').chomp.to_i
         end
         return nil if choice == 0
         cards[choice - 1]

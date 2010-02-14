@@ -101,8 +101,9 @@ module Dominion
         socket.puts string
       end
       
-      def get(string)
-        socket.gets string
+      def ask(string)
+        say string
+        socket.gets
       end
       
       def broadcast(string)
