@@ -138,7 +138,7 @@ module Dominion
         spend_buy
         spend_treasure card.cost
         gain card
-        broadcast "Bought a #{card}" unless game.silent
+        broadcast "#{player} bought a #{card}" unless game.silent
       end
       
       #########################################################################
