@@ -9,6 +9,7 @@ describe Game, 'setup' do
   it 'should seat the first player' do
     game = GameFactory.create 1
     game.should have(1).players
+    game.players.first.game.should == game
   end
   
   it 'should not seat too many players' do

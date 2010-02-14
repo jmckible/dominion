@@ -8,7 +8,6 @@ module Dominion
       def self.available_kingdoms
         Dominion.available_sets.collect{|s| s.available_kingdoms}.flatten
       end
-
       
       #########################################################################
       #                                 S E T U P                             #
@@ -39,8 +38,7 @@ module Dominion
         1.upto(Input.get_integer("How many players", 2, 4)) do |i|
           puts "Enter Player #{i}'s Name:"
           name = gets.chomp
-          player = Player.new name
-          seat player
+          seat Player.new(name)
         end
       end
       
@@ -78,6 +76,7 @@ module Dominion
       def seat(player)
         raise GameFull if players.size >= Game.max_players
         players << player
+        player.game = self
       end
       
       def supply_size

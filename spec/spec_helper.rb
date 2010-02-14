@@ -11,7 +11,7 @@ class GameFactory
   
   def self.create(players)
     game = Game.new
-    1.upto(players){|i|game.seat Player.new("Player #{i}")}
+    1.upto(players){|i|game.seat Player.new(game, "Player #{i}")}
     game.deal
     game.silent = true
     game

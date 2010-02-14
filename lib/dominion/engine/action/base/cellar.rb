@@ -12,7 +12,7 @@ module Dominion
           break if choice == 0
           card = turn.player.hand[choice - 1]
           turn.discard card
-          turn.broadcast "Discarded #{card}" unless turn.game.silent
+          turn.broadcast "Discarded #{card}"
           draws = draws + 1
         end
         turn.draw draws

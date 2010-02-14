@@ -1,7 +1,7 @@
 module Dominion
   module Engine
     class Player
-      attr_accessor :name, :deck, :discard, :hand, :socket
+      attr_accessor :name, :deck, :discard, :hand, :socket, :game
     
       #########################################################################
       #                             I N I T I A L I Z E                       #
@@ -12,25 +12,6 @@ module Dominion
         @name    = name
         @hand    = Pile.new
         @socket  = socket
-      end
-      
-      #########################################################################
-      #                                   I / O                               #
-      #########################################################################
-      def get_boolean(prompt)
-        Input.get_boolean socket, prompt
-      end
-      
-      def get_integer(prompt, lower, upper)
-        Input.get_integer socket, prompt, lower, upper
-      end
-      
-      def puts(string)
-        socket.puts string
-      end
-      
-      def gets(string)
-        socket.gets string
       end
       
       #########################################################################
@@ -103,10 +84,26 @@ module Dominion
       def available_actions
         hand.select{|card|card.is_a?(Action) }
       end
+      
+      #########################################################################
+      #                                   I / O                               #
+      #########################################################################
+      def get_boolean(prompt)
+        Input.get_boolean socket, prompt
+      end
+      
+      def get_integer(prompt, lower, upper)
+        Input.get_integer socket, prompt, lower, upper
+      end
+      
+      def puts(string)
+        socket.puts string
+      end
+      
+      def gets(string)
+        socket.gets string
+      end
 
-      #########################################################################
-      #                               O U T P U T                             #
-      #########################################################################
       def say_score
         score = 0
         deck.each do |card|
@@ -116,7 +113,7 @@ module Dominion
             score = score + points
           end
         end
-        socket.puts "#{name}'s Final score: #{score}\n\n"
+        socket.puts "Your Final score: #{score}\n\n"
       end
       
       def say_available_actions

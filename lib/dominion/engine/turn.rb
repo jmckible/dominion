@@ -138,7 +138,7 @@ module Dominion
         spend_buy
         spend_treasure card.cost
         gain card
-        broadcast "#{player} bought a #{card}" unless game.silent
+        broadcast "#{player} bought a #{card}"
       end
       
       #########################################################################
@@ -162,7 +162,7 @@ module Dominion
       end
       
       def say_actions
-        broadcast "#{number_actions} actions remaining" unless game.silent
+        broadcast "#{number_actions} actions remaining"
       end
       
       def select_card(cards)
