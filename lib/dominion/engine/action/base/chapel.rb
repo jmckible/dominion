@@ -7,7 +7,7 @@ module Dominion
       def play(turn)
         1.upto(4) do
           puts '0. Done' unless turn.game.silent
-          turn.say_hand
+          turn.say_card_list turn.player.hand
           choice = turn.player.get_integer 'Choose card to trash', 0, turn.player.hand.size
           return if choice == 0
           card = turn.player.hand[choice - 1]

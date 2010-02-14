@@ -18,7 +18,7 @@ module Dominion
       #                                   I / O                               #
       #########################################################################
       def get_boolean(prompt)
-        Input.get_integer socket, prompt
+        Input.get_boolean socket, prompt
       end
       
       def get_integer(prompt, lower, upper)
