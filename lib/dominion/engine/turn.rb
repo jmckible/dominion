@@ -160,7 +160,7 @@ module Dominion
       
       def say_card_list(list)
         return unless game.server
-        player.say '0. None'
+        player.say '0. Done'
         list.each_with_index do |card, i|
           player.say "#{i+1}. #{card}"
         end
