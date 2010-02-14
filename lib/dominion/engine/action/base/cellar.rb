@@ -7,8 +7,7 @@ module Dominion
       def play(turn)
         draws = 0
         while !turn.player.hand.empty?
-          turn.player.puts '0. Done' unless turn.game.silent
-          turn.say_hand
+          turn.say_card_list turn.player.hand
           choice = turn.player.get_integer 'Choose card to discard', 0, turn.player.hand.size
           break if choice == 0
           card = turn.player.hand[choice - 1]
