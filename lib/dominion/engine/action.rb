@@ -6,7 +6,7 @@ module Dominion
         
       def <=>(other)
         if other.is_a? Action
-          name.to_s <=> other.to_s
+          to_s <=> other.to_s
         else
           -1
         end
