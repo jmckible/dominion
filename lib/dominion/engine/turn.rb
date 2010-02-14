@@ -82,7 +82,7 @@ module Dominion
       
       def draw(number=1)
         drawn = player.draw number
-        broadcast "Drawing #{number}: #{drawn}" unless game.silent
+        player.puts "Drawing #{number}: #{drawn}" unless game.silent
         return drawn
       end
       
