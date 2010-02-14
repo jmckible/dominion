@@ -24,4 +24,21 @@ describe Turn do
     @player.hand.size.should == 4
   end
   
+  it 'should select a card' do
+    copper, silver, gold = Copper.new, Silver.new, Gold.new
+    cards = [copper, silver, gold]
+    
+    @player.stub!(:gets).and_return("1\n")
+    @turn.select_card(cards).should == copper
+    
+    @player.stub!(:gets).and_return("3\n")
+    @turn.select_card(cards).should == gold
+    
+    @player.stub!(:gets).and_return("0\n")
+    @turn.select_card(cards).should be_nil
+    
+    @player.stub!(:gets).and_return("4\n", "-1\n", "2\n")
+    @turn.select_card(cards).should == silver
+  end
+  
 end
