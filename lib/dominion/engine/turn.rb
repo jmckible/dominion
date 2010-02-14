@@ -142,7 +142,7 @@ module Dominion
       end
       
       #########################################################################
-      #                                O U T P U T                            #
+      #                                  I / O                                #
       #########################################################################
       def broadcast(message)
         game.broadcast message
@@ -152,16 +152,28 @@ module Dominion
         player.puts "Hand: #{player.hand.sort}" unless game.silent
       end
       
-      def list_hand
-        unless game.silent
-          player.hand.sort.each_with_index do |card, i|
-            player.puts "#{i+1}. #{card}"
-          end
+      def say_card_list(list)
+        return if game.silent
+        player.puts '0. None'
+        list.each_with_index do |card, i|
+          player.puts "#{i+1}. #{card}"
         end
       end
       
       def say_actions
         broadcast "#{number_actions} actions remaining" unless game.silent
+      end
+      
+      def select_card(cards)
+        say_card_list cards
+        choice = player.gets('Choose a card').chomp.to_i
+        while choice < 0 || choice > cards.size
+          player.puts 'Choose a valid card'
+          say_card_list cards
+          choice = player.gets.chomp.to_i
+        end
+        return nil if choice == 0
+        from[choice - 1]
       end
       
     end

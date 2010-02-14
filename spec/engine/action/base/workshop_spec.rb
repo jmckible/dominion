@@ -6,7 +6,7 @@ describe Workshop do
     game, player, turn = GameFactory.build
     workshop = Workshop.new
     copper = game.coppers.first
-    workshop.stub!(:select_card).and_return(copper)
+    turn.stub!(:select_card).and_return(copper)
     turn.execute workshop
     player.discard.first.should == copper
     game.coppers.size.should == 31

@@ -6,7 +6,7 @@ describe Feast do
     game, player, turn = GameFactory.build
     duchy = game.duchies.first
     feast = Feast.new
-    feast.stub!(:select_card).and_return(duchy)
+    turn.stub!(:select_card).and_return(duchy)
     
     turn.execute feast
     game.trash.should == [feast]

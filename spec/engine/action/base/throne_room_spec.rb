@@ -7,7 +7,7 @@ describe ThroneRoom do
     smithy = Smithy.new
     player.hand << smithy
     throne_room = ThroneRoom.new
-    throne_room.stub!(:select_card).and_return(smithy)
+    turn.stub!(:select_card).and_return(smithy)
     
     turn.execute throne_room
     
@@ -22,10 +22,9 @@ describe ThroneRoom do
     
     copper = game.coppers.first
     silver = game.silvers.first
-    feast.stub!(:select_card).and_return(copper, silver)
+    turn.stub!(:select_card).and_return(feast, copper, silver)
     
     throne_room = ThroneRoom.new
-    throne_room.stub!(:select_card).and_return(feast)
     
     turn.execute throne_room
     
