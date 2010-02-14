@@ -2,7 +2,7 @@ module Dominion
   module Engine
     class Workshop < Action
 
-      def cost() 3 end
+      def cost() 3          end
       def to_s() 'Workshop' end
       
       def play(turn)

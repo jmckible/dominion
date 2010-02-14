@@ -1,6 +1,8 @@
+
 module Dominion
   module Engine
     class Treasure < Card
+      
       def <=>(other)
         if other.is_a?(Action)
           1
@@ -10,6 +12,7 @@ module Dominion
           -1
         end
       end
+      
     end
   end
 end

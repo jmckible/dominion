@@ -12,12 +12,12 @@ module Dominion
       #########################################################################
       #                                 S E T U P                             #
       #########################################################################
-      attr_accessor :kingdoms, :players, :trash
+      attr_accessor :server, :kingdoms, :players, :trash
       attr_accessor :coppers, :silvers, :golds 
       attr_accessor :estates, :duchies, :provinces
-      attr_accessor :silent, :server
     
       def initialize(server=nil)
+        @server = server
         @players  = Wheel.new
         @kingdoms = []
         @trash    = []
@@ -29,17 +29,6 @@ module Dominion
         @estates   = Pile.new Estate,   24
         @duchies   = Pile.new Duchy,    12
         @provinces = Pile.new Province, 12
-        
-        @silent = false
-        @server = server
-      end
-      
-      def setup
-        1.upto(Input.get_integer("How many players", 2, 4)) do |i|
-          puts "Enter Player #{i}'s Name:"
-          name = gets.chomp
-          seat Player.new(name)
-        end
       end
       
       def deal
@@ -54,6 +43,12 @@ module Dominion
           player.draw_hand
         end
         players.start
+      end
+      
+      def seat(player)
+        raise GameFull if players.size >= Game.max_players
+        players << player
+        player.game = self
       end
       
       def pick_kingdoms
@@ -72,12 +67,6 @@ module Dominion
       def number_available(card_type)
         supplies.flatten.count{|card| card.is_a? card_type}
       end
-
-      def seat(player)
-        raise GameFull if players.size >= Game.max_players
-        players << player
-        player.game = self
-      end
       
       def supply_size
         players.size > 2 ? 12 : 8
@@ -86,24 +75,19 @@ module Dominion
       def buyable(treasure)
         cards = []
         supplies.each do |pile|
-          unless pile.empty?
-            cards << pile.first if pile.first.cost <= treasure
-          end
+          cards << pile.first if pile.first && pile.first.cost <= treasure
         end
-        cards.sort_by{|c| c.cost}
+        cards.sort
       end
       
       def remove(card)
-        supplies.each do |pile|
-          pile.delete card
-        end
+        supplies.each{ |pile| pile.delete card }
       end
 
       #########################################################################
       #                                P L A Y                                #
       #########################################################################
       def play
-        setup if players.empty?
         deal
         say_kingdoms
         players.round = 0
@@ -126,7 +110,7 @@ module Dominion
       #                               O U T P U T                             #
       #########################################################################
       def say_kingdoms
-        return if silent
+        return unless server
         server.broadcast "\nAvailable Kingdoms this game:"
         names = []
         kingdoms.each do |pile|
@@ -136,6 +120,7 @@ module Dominion
       end
       
       def broadcast(message)
+        return unless server
         server.broadcast message
       end
       

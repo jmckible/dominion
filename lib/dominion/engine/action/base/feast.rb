@@ -2,7 +2,7 @@ module Dominion
   module Engine
     class Feast < Action
       
-      def cost() 4 end
+      def cost() 4       end
       def to_s() 'Feast' end
       
       def play(turn)

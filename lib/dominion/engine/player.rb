@@ -96,30 +96,38 @@ module Dominion
         Input.get_integer socket, prompt, lower, upper
       end
       
-      def puts(string)
+      def say(string)
+        return unless game.server
         socket.puts string
       end
       
-      def gets(string)
+      def get(string)
         socket.gets string
+      end
+      
+      def broadcast(string)
+        game.broadcast string
       end
 
       def say_score
+        return unless game.server
+        broadcast "#{name}'s score:"
         score = 0
         deck.each do |card|
           if card.is_a? Victory
             points = card.points self
-            socket.puts "#{card} = #{points}"
+            broadcast "#{card} = #{points}"
             score = score + points
           end
         end
-        socket.puts "Your Final score: #{score}\n\n"
+        broadcast "#{name} Final score: #{score}\n\n"
       end
       
       def say_available_actions
-        socket.puts '0. Done'
+        return unless game.server
+        say '0. Done'
         available_actions.each_with_index do |card, i|
-          socket.puts "#{i+1}. #{card}\n"
+          say "#{i+1}. #{card}\n"
         end
       end
       

@@ -1,18 +1,3 @@
-module Dominion
-  module Engine
-    module Base
-      def self.available_kingdoms
-        #[ Adventurer, Bureaucrat, Cellar, Chancellor, Chapel, CouncilRoom,
-        #  Feast, Festival, Gardens, Laboratory, Library, Market, Militia,
-        #  Mine, Moat, Moneylender, Remodel, Smithy, Spy, Thief, ThroneRoom,
-        #  Village, Witch, Woodcutter, Workshop ]
-        [ Cellar, Chancellor, Chapel, CouncilRoom, Feast, Festival, Laboratory, 
-          Market, Smithy, ThroneRoom, Village, Woodcutter, Workshop ]
-      end
-    end
-  end
-end
-
 require 'dominion/engine/action/base/adventurer'
 require 'dominion/engine/action/base/bureaucrat'
 require 'dominion/engine/action/base/cellar'
@@ -37,3 +22,15 @@ require 'dominion/engine/action/base/village'
 require 'dominion/engine/action/base/witch'
 require 'dominion/engine/action/base/woodcutter'
 require 'dominion/engine/action/base/workshop'
+
+module Dominion
+  module Engine
+    module Base
+      def self.available_kingdoms
+        [ Cellar, Chancellor, Chapel, CouncilRoom, Feast, Festival, Laboratory, 
+          Market, Smithy, ThroneRoom, Village, Woodcutter, Workshop ]
+      end
+    end
+  end
+end
+

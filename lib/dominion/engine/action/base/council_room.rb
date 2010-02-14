@@ -1,7 +1,8 @@
 module Dominion
   module Engine
     class CouncilRoom < Action
-      def cost() 5 end
+      
+      def cost() 5              end
       def to_s() 'Council Room' end
         
       def play(turn)
