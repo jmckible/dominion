@@ -6,7 +6,7 @@ module Dominion
       def to_s() 'Feast' end
       
       def play(turn)
-        card = turn.select_card turn.game.buyable 5
+        card = turn.select_card turn.game.buyable(5)
         turn.gain(card) if card
         turn.trash self
       end
