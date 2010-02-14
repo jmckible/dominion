@@ -145,6 +145,7 @@ module Dominion
       #                                  I / O                                #
       #########################################################################
       def broadcast(message)
+        return if game.silent
         game.broadcast message
       end
       

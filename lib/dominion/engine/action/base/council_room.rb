@@ -7,7 +7,10 @@ module Dominion
       def play(turn)
         turn.draw 4
         turn.add_buy
-        turn.other_players.each{|p|p.draw}
+        turn.other_players.each do |player|
+          player.draw
+          turn.broadcast "#{player} drew a card"
+        end
       end
         
     end
