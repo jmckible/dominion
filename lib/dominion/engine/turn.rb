@@ -172,7 +172,7 @@ module Dominion
           choice = player.gets('Choose a valid card').chomp.to_i
         end
         return nil if choice == 0
-        from[choice - 1]
+        cards[choice - 1]
       end
       
     end
