@@ -26,7 +26,7 @@ module Dominion
       #                                  T A K E                              #
       #########################################################################
       def take
-        broadcast "\n#{player}'s Round #{game.players.round} turn:" if game.server
+        broadcast "\n#{player}'s Round #{game.players.round} turn:"
         say_hand
         say_actions
         spend_actions
@@ -124,17 +124,9 @@ module Dominion
       #########################################################################
       def spend_buys
         while number_buys > 0
-          available_cards = game.buyable treasure          
-          if game.server
-            player.say "$#{treasure} and #{number_buys} buy"
-            player.say '0. Done'
-            available_cards.each_with_index do |card, i|
-              player.say "#{i+1}. #{card} ($#{card.cost}) - #{game.number_available card.class} left"
-            end
-          end
-          choice = player.get_integer 'Choose a card to buy', 0, available_cards.size
-          return if choice == 0
-          buy available_cards[choice - 1]
+          player.say "$#{treasure} and #{number_buys} buy"
+          card = player.select_buy game.buyable(treasure)
+          buy card if card
         end
       end
       
