@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Game, 'setup' do
   
   it 'should have all kingdoms from all sets' do
-    Game.should have(16).available_kingdoms
+    Game.should have(17).available_kingdoms
   end
   
   it 'should seat the first player' do

@@ -112,11 +112,11 @@ module Dominion
       end
       
       def add_treasure(number)
-        @treasure = treasure + number
+        @treasure += number
       end
       
       def spend_treasure(number)
-        @treasure = treasure - number
+        @treasure -= number
       end
       
       #########################################################################
@@ -146,12 +146,12 @@ module Dominion
       end
       
       def add_buy(number=1)
-        @number_buys = number_buys + number
+        @number_buys += number
       end
       alias :add_buys :add_buy
       
       def spend_buy
-        @number_buys = number_buys - 1
+        @number_buys -= 1
       end
       
       #########################################################################
