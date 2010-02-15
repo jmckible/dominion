@@ -28,7 +28,7 @@ module Dominion
     module Base
       def self.available_kingdoms
         [ Cellar, Chancellor, Chapel, CouncilRoom, Feast, Festival, Laboratory, 
-          Market, Smithy, ThroneRoom, Village, Woodcutter, Workshop ]
+          Market, Mine, Remodel, Smithy, ThroneRoom, Village, Woodcutter, Workshop ]
       end
     end
   end
