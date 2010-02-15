@@ -31,7 +31,7 @@ module Dominion
       collect_players
       broadcast "Ready to play with #{game.players.join(', ')}"
       game.play
-      broadcast "Game Over, man. Game over"
+      broadcast "Game over"
     end
     
     def collect_players
