@@ -6,7 +6,7 @@ module Dominion
       def to_s() 'Throne Room' end
       
       def play(turn)
-        card = turn.select_card turn.player.hand.select{|c| c.is_a? Action}
+        card = turn.select_card turn.player.hand.actions
         if card
           turn.broadcast "#{turn.player} selected #{card} to Throne Room"
           turn.execute card

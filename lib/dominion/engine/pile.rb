@@ -10,6 +10,14 @@ module Dominion
         1.upto(number){pop}
       end
       
+      def actions
+        select{|card| card.is_a? Action}
+      end
+      
+      def treasures
+        select{|card| card.is_a? Treasure }
+      end
+      
       def to_s
         collect.join ', '
       end
