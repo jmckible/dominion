@@ -122,20 +122,6 @@ module Dominion
       def broadcast(string)
         game.broadcast string
       end
-
-      def say_score
-        return unless game.server
-        broadcast "#{name}'s score:"
-        score = 0
-        deck.each do |card|
-          if card.is_a? Victory
-            points = card.points self
-            broadcast "#{card} = #{points}"
-            score = score + points
-          end
-        end
-        broadcast "#{name} Final score: #{score}\n\n"
-      end
       
       def say_available_actions
         return unless game.server

@@ -12,7 +12,7 @@ module Dominion
       #########################################################################
       #                                 S E T U P                             #
       #########################################################################
-      attr_accessor :server, :kingdoms, :players, :trash
+      attr_accessor :server, :kingdoms, :players, :trash, :scoreboard
       attr_accessor :coppers, :silvers, :golds 
       attr_accessor :estates, :duchies, :provinces
     
@@ -96,10 +96,8 @@ module Dominion
           players.round = players.round + 1 if players.first == player 
           Turn.new(self, player).play
         end
-        players.each do |player|
-          player.combine_cards
-          player.say_score
-        end
+        @scoreboard = Scoreboard.calculate self
+        broadcast @scoreboard
       end
       
       def over?
