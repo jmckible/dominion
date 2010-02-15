@@ -6,11 +6,12 @@ describe Mine do
     game, player, turn = GameFactory.build
     copper = Copper.new
     player.hand << copper
-    silver = Silver.new
+    silver = game.silvers.first
     turn.stub!(:select_card).and_return(copper, silver)
     turn.execute Mine.new
     game.trash.should == [copper]
     player.hand.should be_include(silver)
+    game.silvers.should_not be_include(silver)
   end
   
 end
