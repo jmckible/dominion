@@ -13,11 +13,15 @@ module Dominion
     
     def setup
       @game = Game.new self
-      puts "Welcome message:"
-      @message = gets.chomp
       puts "How many players? (2-#{Game.max_players})"
       @number_players = gets.chomp.to_i
       puts "Ready to play a #{number_players} game."
+      self
+    end
+    
+    # Seat BigMoney at the table
+    def big_money
+      game.seat BigMoney.new('Big Money')
       self
     end
     
@@ -41,7 +45,7 @@ module Dominion
     def add_player
       socket = @server.accept
       @sockets << socket unless @sockets.include?(socket)
-      socket.puts message
+      socket.puts "#{game.players.join(', ')} are already seated in this #{number_players} player game"
       socket.puts "What's your name?"
       name = socket.gets.chomp
       player = Player.new name, socket

@@ -94,7 +94,7 @@ module Dominion
         while(!over?)
           player = players.next
           players.round = players.round + 1 if players.first == player 
-          Turn.new(self, player).take
+          Turn.new(self, player).play
         end
         players.each do |player|
           player.combine_cards

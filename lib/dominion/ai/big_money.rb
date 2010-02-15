@@ -1,23 +1,15 @@
 module Dominion
   module AI
-    class BigMoney < Engine::Player
-      
+    class BigMoney < Dominion::Engine::Player
+    
       def select_buy(cards)
-        province = cards.select{|c| c.is_a? Province}.first
-        return province if province
-        
-        gold = cards.select{|c| c.is_a? Gold}.first
-        return gold if gold
-        
-        silver = cards.select{|c| c.is_a? Silver}.first
-        return silver if silver
-        
-        copper = cards.select{|c| c.is_a? Copper}.first
-        return copper if copper
-        
+        [Province, Gold, Silver, Copper].each do |want|
+          card = cards.detect{|c| c.is_a? want}
+          return card if card
+        end
         return nil
       end
-      
+    
     end
   end
 end

@@ -1,7 +1,7 @@
 require 'dominion/engine'
+require 'dominion/ai'
 require 'dominion/input'
 require 'dominion/server'
-require 'dominion/ai'
 
 module Dominion
   include Dominion::Engine

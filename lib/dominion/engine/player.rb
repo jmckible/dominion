@@ -89,13 +89,13 @@ module Dominion
       #                                   B U Y                               #
       #########################################################################
       def select_buy(cards)
-        player.say '0. Done'
+        say '0. Done'
         cards.each_with_index do |card, i|
-          player.say "#{i+1}. #{card} ($#{card.cost}) - #{game.number_available card.class} left"
+          say "#{i+1}. #{card} ($#{card.cost}) - #{game.number_available card.class} left"
         end
         choice = get_integer 'Choose a card to buy', 0, cards.size
         return nil if choice == 0
-        choice
+        cards[choice - 1]
       end
       
       #########################################################################
@@ -110,7 +110,7 @@ module Dominion
       end
       
       def say(string)
-        return unless game.server
+        return unless game.server && socket
         socket.puts string
       end
       

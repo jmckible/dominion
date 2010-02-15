@@ -25,7 +25,7 @@ module Dominion
       #########################################################################
       #                                  T A K E                              #
       #########################################################################
-      def take
+      def play
         broadcast "\n#{player}'s Round #{game.players.round} turn:"
         say_hand
         say_actions
@@ -116,7 +116,7 @@ module Dominion
       end
       
       def spend_treasure(number)
-        @treasure -= number
+        @treasure = treasure - number
       end
       
       #########################################################################
@@ -125,7 +125,8 @@ module Dominion
       def spend_buys
         while number_buys > 0
           player.say "$#{treasure} and #{number_buys} buy"
-          card = player.select_buy game.buyable(treasure)
+          card = player.select_buy(game.buyable(treasure))
+          break if card.nil?
           buy card if card
         end
       end
@@ -169,9 +170,9 @@ module Dominion
         broadcast "#{number_actions} actions remaining"
       end
       
-      def select_card(cards)
+      def select_card(cards, message='Choose a card')
         say_card_list cards
-        choice = player.ask('Choose a card').chomp.to_i
+        choice = player.ask(message).chomp.to_i
         while choice < 0 || choice > cards.size
           say_card_list cards
           choice = player.ask('Choose a valid card').chomp.to_i

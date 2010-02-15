@@ -17,11 +17,17 @@ Now start a server
   
 You'll be prompted for a welcome message to players and how many players for the game
 
-Over in another console (or across the internet)
+Over in another console
 
   ~ $ rake play
   
-Type in the server info (perhaps 'localhost' if you're playing locally and port 8000 is the default) and you're off to the races
+If you are playing remotely, pass HOST and/or PORT environment variables. 
+
+== AI
+
+Interested in strategy simulations? We've got you covered. Just create a Player subclass and seat it at a game. Check out BigMoney as an example. You can play against BigMoney locally by starting a server like so:
+
+  ~ $ rake server:big_money
   
 == Help
 
