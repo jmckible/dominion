@@ -48,6 +48,13 @@ module Dominion
         return drawn
       end
       
+      # Take to hand
+      def take(card)
+        game.remove card
+        player.hand << card
+      end
+      
+      # Gain to discard
       def gain(card)
         game.remove card
         player.gain card

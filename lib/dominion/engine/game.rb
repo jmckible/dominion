@@ -73,7 +73,7 @@ module Dominion
       end
       
       def buyable(treasure)
-        cards = []
+        cards = Pile.new
         supplies.each do |pile|
           cards << pile.first if pile.first && pile.first.cost <= treasure
         end
