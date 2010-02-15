@@ -13,7 +13,7 @@ module Dominion
           card = turn.select_card turn.game.buyable(trash.cost + 3).treasures
           if card
             turn.broadcast "#{turn.player} selected a #{card}"
-            turn.player.hand << card
+            turn.take card
           end
         end
       end

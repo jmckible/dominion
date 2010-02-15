@@ -9,6 +9,13 @@ describe Turn do
     @turn.other_players.should == [@game.players[1], @game.players[2], @game.players[3]]
   end
   
+  it 'should take card to hand' do
+    copper = @game.coppers.first
+    @turn.take copper
+    @player.hand.should be_include(copper)
+    @game.coppers.should_not be_include(copper)
+  end
+  
   it 'should count treasure' do
     @player.hand = [Copper.new, Copper.new]   
     @turn.play_treasure
