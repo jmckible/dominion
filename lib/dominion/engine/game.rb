@@ -98,6 +98,7 @@ module Dominion
         end
         @scoreboard = Scoreboard.calculate self
         broadcast @scoreboard
+        @scoreboard
       end
       
       def over?

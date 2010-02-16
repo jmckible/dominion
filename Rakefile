@@ -33,3 +33,8 @@ namespace :server do
   end
 end
 
+desc "Run scripts/simulation"
+task :simulate do
+  sh "ruby -Ilib -rdominion ./scripts/simulation.rb"
+end
+

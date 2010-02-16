@@ -8,16 +8,8 @@ module Dominion
       
       attr_accessor :action, :wants
       
-      # For wants, pass in an array of buyable things
-      # i.e. - [Chancellor, Smithy, Market]
-      # It will buy the first available of these once
-      def initialize(wants=nil)
-        if wants
-          @wants = wants
-        else
-          # Just a default list. Hopefully one will be available
-          @wants = [Chancellor, Smithy, Festival, Laboratory, Market, CouncilRoom]
-        end
+      def set_wishlist(wants)
+        @wants = wants
       end
     
       def select_buy(cards)
@@ -29,7 +21,7 @@ module Dominion
               return card if card.is_a?(want)
             end
           end
-          big_money_buy # Nothing available, default to big money
+          big_money_buy cards # Nothing available, default to big money
         end
       end
       
@@ -39,6 +31,10 @@ module Dominion
           return card if card
         end
         return nil
+      end
+      
+      def choose_action
+        available_actions.first
       end
     
     end
