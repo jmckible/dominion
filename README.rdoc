@@ -2,9 +2,9 @@
 
 == What is this?
 
-Dominion is a card game published by Rio Grande Games. It is really awesome. I want to play it online.
+Dominion is a card game published by Rio Grande Games. It is really awesome.
 
-This is a new project so it's very much a work on progress.  Right now you can play on the console with a subset of the cards from the Base set.
+This is a new project so it's a much a work on progress.  Right now you can play on the console with a subset of the cards from the Base set.
 
 Want to play? Install ruby, rspec, rake and clone the repo. 
 
@@ -15,7 +15,7 @@ Now start a server
 
   ~ $ rake server
   
-You'll be prompted for a welcome message to players and how many players for the game
+You'll be prompted to enter the number of players in the game
 
 Over in another console
 
@@ -29,9 +29,13 @@ Interested in strategy simulations? We've got you covered. Just create a Player 
 
   ~ $ rake server:big_money
   
+If you want to run simulations, check out lib/simulation.rb You can invoke it with a rake task:
+
+  ~ $ rake simulate
+  
 == Help
 
-I'm chugging through the Base set Kingdom cards now. Once the game engine is complete, the sky is really the limit. UI? AI? Central server?
+I'm chugging through the Base set Kingdom cards now. Once the game engine is complete, the sky is really the limit. UI? Central server?
 
 Fork away!
 
