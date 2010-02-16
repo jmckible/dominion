@@ -7,7 +7,7 @@ module Dominion
         
       def play(turn)
         turn.add_treasure 2
-        turn.player.discard_deck if turn.player.get_boolean('Would you like discard your deck?')
+        turn.player.discard_deck if turn.player.use_chancellor?(self)
       end
       
     end
