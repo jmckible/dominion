@@ -8,6 +8,11 @@ module Dominion
       
       attr_accessor :action, :wants
       
+      def reset
+        @action = nil
+        super
+      end
+      
       def set_wishlist(wants)
         @wants = wants
       end
