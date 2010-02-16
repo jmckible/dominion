@@ -49,6 +49,10 @@ module Dominion
       def use_chancellor?(turn)
         true
       end
+      
+      def to_s
+        action.nil? ? super : "#{name} (#{action})"
+      end
     
     end
   end
