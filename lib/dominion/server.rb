@@ -25,6 +25,14 @@ module Dominion
       self
     end
     
+    # Seat Highlander at the table
+    def highlander
+      highlander = Highlander.new('Highlander')
+      highlander.set_wishlist [Chancellor, Smithy, Festival, CouncilRoom, Laboratory]
+      game.seat highlander
+      self
+    end
+    
     def run
       trap('EXIT'){ server.close }
       puts "Collecting players"

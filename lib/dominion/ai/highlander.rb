@@ -18,7 +18,10 @@ module Dominion
         else
           wants.each do |want|
             cards.each do |card|
-              return card if card.is_a?(want)
+              if card.is_a?(want)
+                @action = card
+                return card
+              end
             end
           end
           big_money_buy cards # Nothing available, default to big money

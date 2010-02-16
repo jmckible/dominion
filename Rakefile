@@ -31,6 +31,12 @@ namespace :server do
     port = ENV['PORT'] || 8000
     sh "ruby -Ilib -rdominion -e 'Server.new(#{port}).setup.big_money.run'"
   end
+  
+  desc "Start a server with an AI Highlander player sitting"
+  task :highlander do
+    port = ENV['PORT'] || 8000
+    sh "ruby -Ilib -rdominion -e 'Server.new(#{port}).setup.highlander.run'"
+  end
 end
 
 desc "Run scripts/simulation"
