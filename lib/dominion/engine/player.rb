@@ -7,11 +7,17 @@ module Dominion
       #                             I N I T I A L I Z E                       #
       #########################################################################
       def initialize(name, socket=nil)
+        @name = name        
+        @socket = socket
+        reset
+      end
+      
+      # Reset for another game
+      def reset
         @deck    = Deck.new
         @discard = Pile.new
         @name    = name
         @hand    = Pile.new
-        @socket  = socket
       end
       
       #########################################################################

@@ -17,7 +17,7 @@ module Dominion
         game.players.each do |player|
           @scores << Score.calculate(player)
         end
-        @winner = @scores.sort.first
+        @winner = @scores.sort.first.player
         self
       end
       
