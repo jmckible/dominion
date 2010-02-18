@@ -9,6 +9,7 @@ describe Pile do
   
   it 'should discard' do
     pile = Pile.new Estate, 10
+    pile.card_type.should == Estate
     pile.discard 2
     pile.size.should == 8
   end

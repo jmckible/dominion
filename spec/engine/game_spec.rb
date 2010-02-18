@@ -9,7 +9,7 @@ describe Game, 'setup' do
   it 'should start a game with specific kingdom' do
     game = Game.new :picks=>[Chapel]
     game.pick_kingdoms
-    game.kingdoms.first.first.should be_is_a(Chapel)
+    game.kingdoms.first.card_type.should == Chapel
   end
   
   it 'should seat the first player' do
