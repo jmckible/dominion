@@ -6,6 +6,12 @@ describe Game, 'setup' do
     Game.should have(17).available_kingdoms
   end
   
+  it 'should start a game with specific kingdom' do
+    game = Game.new :picks=>[Chapel]
+    game.pick_kingdoms
+    game.kingdoms.first.first.should be_is_a(Chapel)
+  end
+  
   it 'should seat the first player' do
     game = GameFactory.create 1
     game.should have(1).players
