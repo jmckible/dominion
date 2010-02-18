@@ -12,10 +12,6 @@ module Dominion
         @action = nil
         super
       end
-      
-      def set_wishlist(wants)
-        @wants = wants
-      end
     
       def select_buy(cards)
         if action # Single buy has been made

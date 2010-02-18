@@ -1,10 +1,15 @@
 big_money = BigMoney.new 'Big Money'
-highlander = Highlander.new 'Highlander'
-highlander.set_wishlist [Chancellor, Smithy, Festival, Laboratory, Market, CouncilRoom]
 
-match = Match.new
+chancellor = Highlander.new 'Chancellor'
+chancellor.wants = [Chancellor]
+
+smithy = Highlander.new 'Smithy'
+smithy.wants = [Smithy]
+
+match = Match.new :picks=>[Chancellor, Smithy]
 match.players << big_money
-match.players << highlander
+match.players << chancellor
+match.players << smithy
 
 1.upto(100) do |i|
   puts "Game #{i}"
@@ -13,14 +18,3 @@ match.players << highlander
 end
 
 puts "\n#{match}"
-
-
-#string = ''
-#scoreboards.each_with_index do |scoreboard, i|
-#  string << "Game #{i+1}\n"
-#  scoreboard.scores.each do |score|
-#    string << "  #{score.player} - #{score.points} points\n"
-#  end
-#  string << "  Winner: #{scoreboard.winner}\n"
-#end
-#string << "\n"
