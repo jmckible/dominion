@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Highlander do
   before(:each) do
     @highlander = Highlander.new 'Highlander'
-    @highlander.set_wishlist [Chancellor]
+    @highlander.wants = [Chancellor]
   end
   
   it 'should select a Chancellor' do
