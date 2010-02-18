@@ -12,7 +12,7 @@ module Dominion
     end
     
     def setup
-      @game = Game.new self
+      @game = Game.new :server=>self
       puts "How many players? (2-#{Game.max_players})"
       @number_players = gets.chomp.to_i
       puts "Ready to play a #{number_players} game."

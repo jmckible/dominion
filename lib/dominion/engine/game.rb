@@ -16,8 +16,8 @@ module Dominion
       attr_accessor :coppers, :silvers, :golds 
       attr_accessor :estates, :duchies, :provinces
     
-      def initialize(server=nil)
-        @server = server
+      def initialize(options={})
+        @server   = options[:server]
         @players  = Wheel.new
         @kingdoms = []
         @trash    = []
