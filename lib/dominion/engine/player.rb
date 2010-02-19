@@ -45,6 +45,17 @@ module Dominion
       end
       def draw_hand() draw 5 end
       def can_draw?() deck.size + discard.size > 0 end
+        
+      def reveal(number=1)
+        revealed = Pile.new
+        1.upto(number) do |i|
+          if can_draw?
+            reshuffle if deck.empty?
+            revealed << deck.shift
+          end
+        end
+        revealed
+      end
       
       #########################################################################
       #                                S H U F F L E                          #
@@ -146,9 +157,8 @@ module Dominion
       end
       
       def spy_on(player)
-        if player.can_draw?
-          player.reshuffle if player.deck.empty?
-          card = player.deck.shift
+        card = player.reveal.first
+        if card
           broadcast "#{player} reveals a #{card}"
           
           if socket

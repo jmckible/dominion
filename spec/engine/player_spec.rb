@@ -62,6 +62,14 @@ describe Player, 'draw' do
     player.hand.should be_empty
     player.deck.should be_empty
   end
+  
+  it 'should reveal a card' do
+    player = Player.new 'Reveal'
+    copper = Copper.new
+    player.deck.unshift copper
+    player.reveal.should == [copper]
+    player.deck.should be_empty
+  end
 end
 
 ###############################################################################
