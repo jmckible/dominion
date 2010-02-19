@@ -33,9 +33,9 @@ module Dominion
       play = true
       while play
         scoreboard = match.play
-        broadcast "Game Over:\n#{scoreboard}\n"
+        broadcast "\nGame Over\n#{scoreboard}\n"
         broadcast "Waiting for server to play again\n"
-        puts "Play again? (y/n)"
+        puts "Play again? (y/N)"
         play = gets.chomp.downcase == 'y'
       end
       broadcast match

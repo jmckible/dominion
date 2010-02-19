@@ -102,9 +102,7 @@ module Dominion
         while(!over?)
           Turn.new(self, players.next).play
         end
-        @scoreboard = Scoreboard.calculate self
-        broadcast @scoreboard
-        @scoreboard
+        Scoreboard.calculate self
       end
       
       def over?
