@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Player do
-  
   it 'should initialize' do
     player = Player.new 'Dave'
     player.name.should == 'Dave'
@@ -30,16 +29,12 @@ describe Player do
     player.hand << Estate.new
     player.should have(2).available_actions
   end
-  
-  it 'should discard deck' do
-    game, player, turn = GameFactory.build
-    player.deck.size.should == 5
-    player.discard.size.should == 0
-    player.discard_deck
-    player.deck.size.should == 0
-    player.discard.size.should == 5
-  end
-  
+end
+
+###############################################################################
+#                                 D R A W                                     #
+###############################################################################
+describe Player, 'draw' do
   it 'should draw a card with one in the deck' do
     player = Player.new 'Draw'
     copper = Copper.new
@@ -67,6 +62,19 @@ describe Player do
     player.hand.should be_empty
     player.deck.should be_empty
   end
+end
+
+###############################################################################
+#                               D I S C A R D                                 #
+###############################################################################
+describe Player, 'discard' do
+  it 'should discard' do
+    game, player, turn = GameFactory.build
+    card = player.hand.first
+    player.discard_card card
+    player.discard.should == [card]
+    player.hand.size.should == 4
+  end
   
   it 'should discard hand' do
     player = Player.new 'Discard'
@@ -78,9 +86,20 @@ describe Player do
     player.hand.should be_empty
     player.discard.should == [silver, copper]
   end
-
+  
+  it 'should discard deck' do
+    game, player, turn = GameFactory.build
+    player.deck.size.should == 5
+    player.discard.size.should == 0
+    player.discard_deck
+    player.deck.size.should == 0
+    player.discard.size.should == 5
+  end
 end
 
+###############################################################################
+#                                  I  /  O                                    #
+###############################################################################                 
 describe Player, 'IO' do
   it 'should select a card' do
     game, player, turn = GameFactory.build

@@ -24,11 +24,4 @@ describe Turn do
     @player.hand.should be_empty
   end
   
-  it 'should discard' do
-    card = @player.hand.first
-    @player.discard_card card
-    @player.discard.should == [card]
-    @player.hand.size.should == 4
-  end
-  
 end
