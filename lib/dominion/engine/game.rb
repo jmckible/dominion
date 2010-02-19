@@ -15,7 +15,7 @@ module Dominion
       #########################################################################
       #                                 S E T U P                             #
       #########################################################################
-      attr_accessor :server, :picks, :scoreboard
+      attr_accessor :server, :use, :scoreboard
       attr_accessor :kingdoms, :players, :trash
       attr_accessor :coppers, :silvers, :golds 
       attr_accessor :estates, :duchies, :provinces
@@ -23,7 +23,7 @@ module Dominion
       def initialize(options={})
         @server    = options[:server]
         @players   = Wheel.new
-        @picks     = options[:picks] || []
+        @use       = options[:use] || []
         @kingdoms  = []
         @trash     = []
         
@@ -57,11 +57,11 @@ module Dominion
       end
       
       def pick_kingdoms
-        picks.each do |pick|
-          kingdoms << Pile.new(pick, supply_size)
+        use.each do |kingdom|
+          kingdoms << Pile.new(kingdom, supply_size)
         end
         
-        Game.available_kingdoms(picks).sort_by{rand}.first(10 - kingdoms.size).each do |kingdom|
+        Game.available_kingdoms(use).sort_by{rand}.first(10 - kingdoms.size).each do |kingdom|
           kingdoms << Pile.new(kingdom, supply_size)
         end
       end

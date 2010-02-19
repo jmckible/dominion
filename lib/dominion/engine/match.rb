@@ -2,17 +2,17 @@ module Dominion
   module Engine
     class Match
       
-      attr_accessor :players, :picks, :scoreboards, :server
+      attr_accessor :players, :use, :scoreboards, :server
       
       def initialize(options={})
-        @picks       = options[:picks] || []
+        @use         = options[:use] || []
         @server      = options[:server]
         @players     = []
         @scoreboards = []
       end
       
       def play
-        game = Game.new :picks=>picks, :server=>server
+        game = Game.new :use=>use, :server=>server
         players.each do |player| 
           player.reset
           game.seat player

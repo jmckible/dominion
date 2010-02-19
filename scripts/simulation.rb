@@ -6,7 +6,7 @@ chancellor.wants = [Chancellor]
 smithy = Highlander.new 'Smithy'
 smithy.wants = [Smithy]
 
-match = Match.new :picks=>[Chancellor, Smithy]
+match = Match.new :use=>[Chancellor, Smithy]
 match.players << big_money
 match.players << chancellor
 match.players << smithy

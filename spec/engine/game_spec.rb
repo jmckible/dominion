@@ -8,7 +8,7 @@ describe Game, 'setup' do
   end
   
   it 'should start a game with specific kingdom' do
-    game = Game.new :picks=>[Chapel]
+    game = Game.new :use=>[Chapel]
     game.pick_kingdoms
     game.kingdoms.first.card_type.should == Chapel
   end
