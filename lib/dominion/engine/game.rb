@@ -5,7 +5,8 @@ module Dominion
         4 # For base set
       end
       
-      def self.available_kingdoms(except=[])
+      def self.available_kingdoms(options={})
+        except = options[:except] || []
         kingdoms = Dominion.available_sets.collect{|s| s.available_kingdoms}.flatten
         kingdoms.reject do |kingdom|
           except.include? kingdom
@@ -61,7 +62,7 @@ module Dominion
           kingdoms << Pile.new(kingdom, supply_size)
         end
         
-        Game.available_kingdoms(use).sort_by{rand}.first(10 - kingdoms.size).each do |kingdom|
+        Game.available_kingdoms(:except=>use).sort_by{rand}.first(10 - kingdoms.size).each do |kingdom|
           kingdoms << Pile.new(kingdom, supply_size)
         end
       end

@@ -113,7 +113,15 @@ module Dominion
       #########################################################################
       #                          C A R D     S P E C I F I C                  #
       #########################################################################
+      def bureaucrat_selection
+        return nil if hand.victories.empty?
+        return hand.victories.first unless socket # AI player
+        select_card hand.victories, :message=>'Select a card to put on top of your deck', 
+          :force=>true
+      end
+      
       def use_chancellor?(turn)
+        return true unless socket # AI player
         get_boolean 'Would you like discard your deck?'
       end
       
@@ -125,7 +133,7 @@ module Dominion
               :message=>"Choose a card to discard (from #{turn.player}'s Militia)",
               :force=>true)
           end
-        else
+        else # AI Player
           discards = hand[3..-1]
         end
         

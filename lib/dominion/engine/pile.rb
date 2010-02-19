@@ -21,6 +21,10 @@ module Dominion
         select{|card| card.is_a? Treasure }
       end
       
+      def victories
+        select{|card| card.is_a? Victory }
+      end
+      
       def to_s
         collect.join ', '
       end

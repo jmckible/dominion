@@ -41,11 +41,6 @@ module Dominion
         available_actions.first
       end
       
-      # Might want to change this if you're about to buy a Province
-      def use_chancellor?(turn)
-        true
-      end
-      
       def to_s
         action.nil? ? super : "#{name} (#{action})"
       end
