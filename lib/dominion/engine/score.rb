@@ -14,7 +14,11 @@ module Dominion
       end
       
       def <=>(other)
-        other.points <=> points
+        if other.points != points
+          other.points <=> points
+        else
+          player.turns <=> other.player.turns
+        end
       end
       
       # Destructive! combines all players cards into their deck

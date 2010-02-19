@@ -24,8 +24,9 @@ module Dominion
       def to_s
         string = ''
         scores.each do |score|
-          string << "#{score.player}'s Score: #{score.points}\n"
+          string << "#{score.player}'s Score: #{score.points} points, #{score.player.turns} turns\n"
         end
+        string << "Winner: #{winner}\n"
         string
       end
     
