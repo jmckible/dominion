@@ -145,6 +145,29 @@ module Dominion
         end
       end
       
+      def spy_on(player)
+        if player.can_draw?
+          player.reshuffle if player.deck.empty?
+          card = player.deck.shift
+          broadcast "#{player} reveals a #{card}"
+          
+          if socket
+            return_to_deck = get_boolean "Return #{card} to top #{player}'s deck?"
+          else # AI Player
+            return_to_deck = card.is_a? Victory
+          end
+          
+          if return_to_deck
+            player.deck.unshift card
+            broadcast "#{name} returned #{player}'s #{card} to the top of their deck"
+          else
+            player.discard.unshift card
+            broadcast "#{name} made #{player} discard #{card}"
+          end
+          
+        end
+      end
+      
       #########################################################################
       #                                   I / O                               #
       #########################################################################
