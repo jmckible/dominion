@@ -7,7 +7,7 @@ describe Mine do
     copper = Copper.new
     player.hand << copper
     silver = game.silvers.first
-    turn.stub!(:select_card).and_return(copper, silver)
+    player.stub!(:select_card).and_return(copper, silver)
     turn.execute Mine.new
     game.trash.should == [copper]
     player.hand.should be_include(silver)
