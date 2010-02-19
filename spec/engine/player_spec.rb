@@ -80,3 +80,23 @@ describe Player do
   end
 
 end
+
+describe Player, 'IO' do
+  it 'should select a card' do
+    game, player, turn = GameFactory.build
+    copper, silver, gold = Copper.new, Silver.new, Gold.new
+    cards = [copper, silver, gold]
+    
+    player.stub!(:ask).and_return("1\n")
+    player.select_card(cards).should == copper
+    
+    player.stub!(:ask).and_return("3\n")
+    player.select_card(cards).should == gold
+    
+    player.stub!(:ask).and_return("0\n")
+    player.select_card(cards).should be_nil
+    
+    player.stub!(:ask).and_return("4\n", "-1\n", "2\n")
+    player.select_card(cards).should == silver
+  end
+end

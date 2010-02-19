@@ -65,6 +65,11 @@ module Dominion
       #########################################################################
       #                               D I S C A R D                           #
       #########################################################################
+      def discard_card(card)
+        hand.delete card
+        discard.unshift card
+      end
+      
       def discard_deck
         while(!deck.empty?)
           @discard.unshift deck.shift
@@ -112,6 +117,26 @@ module Dominion
         get_boolean 'Would you like discard your deck?'
       end
       
+      def militia_discard
+        if socket
+          discards = []
+          while hand.size > 3
+            discards << select_card(player.hand, 
+              :message=>"Choose a card to discard (from #{turn.player}'s Militia)",
+              :force=>true)
+          end
+        else
+          discards = hand[3..-1]
+        end
+        
+        if discards.empty?
+          broadcast "#{name} didn't need to discard"
+        else
+          discards.each{|c| discard_card c}
+          broadcast "#{name} discarded #{discards.join ', '}"
+        end
+      end
+      
       #########################################################################
       #                                   I / O                               #
       #########################################################################
@@ -129,6 +154,7 @@ module Dominion
       end
       
       def ask(string)
+        return unless game.server && socket
         say string
         socket.gets
       end
@@ -137,12 +163,33 @@ module Dominion
         game.broadcast string
       end
       
+      def say_card_list(cards, force=false)
+        say '0. Done' unless force
+        cards.each_with_index do |card, i|
+          say "#{i+1}. #{card}"
+        end
+      end
+      
       def say_available_actions
         return unless game.server
         say '0. Done'
         available_actions.each_with_index do |card, i|
           say "#{i+1}. #{card}\n"
         end
+      end
+      
+      def select_card(cards, options={})
+        message = options[:message] || 'Choose a card'
+        force   = options[:force]   || false
+        
+        say_card_list cards, force
+        choice = ask(message).chomp.to_i
+        while (force ? (choice < 1) : (choice < 0)) || choice > cards.size
+          say_card_list cards, force
+          choice = ask('Choose a valid card').chomp.to_i
+        end
+        return nil if choice == 0 && !force
+        cards[choice - 1]
       end
       
       def to_s() name end

@@ -15,7 +15,7 @@ module Dominion
           if draw.is_a?(Treasure)
             treasure << draw
           else
-            turn.discard(draw)
+            player.discard_card draw
           end
         end
         treasure

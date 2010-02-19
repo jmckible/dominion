@@ -6,13 +6,14 @@ module Dominion
       def to_s() 'Cellar' end
         
       def play(turn)
+        player = turn.player
         draws = 0
-        while !turn.player.hand.empty?
-          turn.say_card_list turn.player.hand
-          choice = turn.player.get_integer 'Choose card to discard', 0, turn.player.hand.size
+        while !player.hand.empty?
+          player.say_card_list player.hand
+          choice = player.get_integer 'Choose card to discard', 0, player.hand.size
           break if choice == 0
-          card = turn.player.hand[choice - 1]
-          turn.discard card
+          card = player.hand[choice - 1]
+          player.discard_card card
           turn.broadcast "Discarded #{card}"
           draws = draws + 1
         end

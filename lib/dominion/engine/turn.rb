@@ -68,12 +68,6 @@ module Dominion
         game.trash.unshift(card) unless game.trash.include?(card)
       end
       
-      # Cellar
-      def discard(card)
-        player.hand.delete card
-        player.discard.unshift card
-      end
-      
       #########################################################################
       #                               A C T I O N S                           #
       #########################################################################
@@ -159,27 +153,8 @@ module Dominion
         player.say "Hand: #{player.hand.sort}"
       end
       
-      def say_card_list(list)
-        return unless game.server
-        player.say '0. Done'
-        list.each_with_index do |card, i|
-          player.say "#{i+1}. #{card}"
-        end
-      end
-      
       def say_actions
         broadcast "#{number_actions} actions remaining"
-      end
-      
-      def select_card(cards, message='Choose a card')
-        say_card_list cards
-        choice = player.ask(message).chomp.to_i
-        while choice < 0 || choice > cards.size
-          say_card_list cards
-          choice = player.ask('Choose a valid card').chomp.to_i
-        end
-        return nil if choice == 0
-        cards[choice - 1]
       end
       
     end

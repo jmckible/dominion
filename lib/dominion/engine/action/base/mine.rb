@@ -6,7 +6,7 @@ module Dominion
       def to_s() 'Mine' end
         
       def play(turn)
-        trash = turn.select_card turn.player.hand.treasures, 'Choose a card to trash'
+        trash = turn.select_card turn.player.hand.treasures, :message=>'Choose a card to trash'
         if trash
           turn.broadcast "#{turn.player} trashed a #{trash}"
           turn.trash trash

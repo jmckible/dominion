@@ -6,7 +6,7 @@ module Dominion
       def to_s() 'Workshop' end
       
       def play(turn)
-        card = turn.select_card turn.game.buyable(4)
+        card = turn.player.select_card turn.game.buyable(4)
         turn.gain(card) if card
       end
 

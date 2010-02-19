@@ -11,7 +11,7 @@ module Dominion
           draw = player.draw.first
           player.say "Drew a #{draw}"
           if draw.is_a?(Action)
-            turn.discard(draw) if player.get_boolean('Discard?')
+            player.discard_card(draw) if player.get_boolean('Discard?')
           end
         end
       end
