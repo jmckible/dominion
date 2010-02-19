@@ -7,9 +7,9 @@ describe CouncilRoom do
     turn.execute CouncilRoom.new
     turn.player.hand.size.should == 9
     turn.number_buys.should == 2
-    game.players[1].hand.size.should == 6
-    game.players[2].hand.size.should == 6
-    game.players[3].hand.size.should == 6
+    turn.other_players.each do |player|
+      player.hand.size.should == 6
+    end
   end
   
 end

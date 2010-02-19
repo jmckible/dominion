@@ -6,7 +6,7 @@ describe Turn do
   end
   
   it 'should know other players' do
-    @turn.other_players.should == [@game.players[1], @game.players[2], @game.players[3]]
+    @turn.other_players.should_not be_include(@player)
   end
   
   it 'should take card to hand' do

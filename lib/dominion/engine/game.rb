@@ -18,15 +18,15 @@ module Dominion
       attr_accessor :estates, :duchies, :provinces
     
       def initialize(options={})
-        @server   = options[:server]
-        @players  = Wheel.new
-        @picks    = options[:picks] || []
-        @kingdoms = []
-        @trash    = []
+        @server    = options[:server]
+        @players   = Wheel.new
+        @picks     = options[:picks] || []
+        @kingdoms  = []
+        @trash     = []
         
-        @coppers = Pile.new Copper, 60
-        @silvers = Pile.new Silver, 40
-        @golds   = Pile.new Gold,   30
+        @coppers   = Pile.new Copper, 60
+        @silvers   = Pile.new Silver, 40
+        @golds     = Pile.new Gold,   30
         
         @estates   = Pile.new Estate,   24
         @duchies   = Pile.new Duchy,    12
@@ -44,7 +44,7 @@ module Dominion
           1.upto(3){player.gain estates.shift}
           player.draw_hand
         end
-        players.start
+        players.choose_starting
       end
       
       def seat(player)
@@ -96,11 +96,8 @@ module Dominion
       def play
         deal
         say_kingdoms
-        players.round = 0
         while(!over?)
-          player = players.next
-          players.round = players.round + 1 if players.first == player 
-          Turn.new(self, player).play
+          Turn.new(self, players.next).play
         end
         @scoreboard = Scoreboard.calculate self
         broadcast @scoreboard

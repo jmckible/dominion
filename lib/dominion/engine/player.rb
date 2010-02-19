@@ -1,13 +1,13 @@
 module Dominion
   module Engine
     class Player
-      attr_accessor :name, :deck, :discard, :hand, :socket, :game
+      attr_accessor :name, :deck, :discard, :hand, :socket, :game, :turns
     
       #########################################################################
       #                             I N I T I A L I Z E                       #
       #########################################################################
       def initialize(name, socket=nil)
-        @name = name        
+        @name   = name        
         @socket = socket
         reset
       end
@@ -18,6 +18,7 @@ module Dominion
         @discard = Pile.new
         @name    = name
         @hand    = Pile.new
+        @turns   = 0
       end
       
       #########################################################################

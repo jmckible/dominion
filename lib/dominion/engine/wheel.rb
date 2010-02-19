@@ -2,18 +2,17 @@ module Dominion
   module Engine
     class Wheel < Array
       
-      attr_accessor :index, :round
+      attr_accessor :index
       
-      def start
-        @index = 0
+      def choose_starting
+        @index = rand size
       end
-      alias :restart :start
-      
+
       def next
-        element = at(index)
+        player = at index
         @index = index + 1
-        restart if @index > (size - 1)
-        return element
+        @index = 0 if @index > (size - 1)
+        return player
       end
       
     end

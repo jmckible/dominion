@@ -26,7 +26,7 @@ module Dominion
       #                                  T A K E                              #
       #########################################################################
       def play
-        broadcast "\n#{player}'s Round #{game.players.round} turn:"
+        broadcast "\n#{player}'s Round #{player.turns + 1} turn:"
         say_hand
         say_actions
         spend_actions
@@ -37,6 +37,7 @@ module Dominion
           player.discard << in_play.shift 
         end
         player.draw_hand
+        player.turns += 1
       end
       
       #########################################################################

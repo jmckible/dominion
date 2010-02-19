@@ -28,7 +28,7 @@ module Dominion
     # Seat Highlander at the table
     def highlander
       highlander = Highlander.new('Highlander')
-      highlander.set_wishlist [Chancellor, Smithy, Festival, CouncilRoom, Laboratory]
+      highlander.wants = [Chancellor, Smithy, Festival, CouncilRoom, Laboratory]
       game.seat highlander
       self
     end
