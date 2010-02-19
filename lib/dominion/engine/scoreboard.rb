@@ -6,7 +6,7 @@ module Dominion
         Scoreboard.new(game).calculate
       end
     
-      attr_accessor :game, :scores, :winner
+      attr_accessor :game, :scores, :winner, :tie
       
       def initialize(game)
         @game = game
@@ -17,7 +17,14 @@ module Dominion
         game.players.each do |player|
           @scores << Score.calculate(player)
         end
-        @winner = @scores.sort.first.player
+        @scores = scores.sort
+        if scores[0].points == scores[1].points &&
+           scores[0].player.turns == scores[1].player.turns
+          @tie = true
+        else
+          @tie = false
+          @winner = scores.first.player
+        end
         self
       end
       
@@ -26,7 +33,11 @@ module Dominion
         scores.each do |score|
           string << "#{score.player}'s Score: #{score.points} points, #{score.player.turns} turns\n"
         end
-        string << "Winner: #{winner}\n"
+        if tie
+          string << "Tie game\n"
+        else
+          string << "Winner: #{winner}\n"
+        end
         string
       end
     

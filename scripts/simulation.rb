@@ -12,9 +12,8 @@ match.players << chancellor
 match.players << smithy
 
 1.upto(100) do |i|
-  puts "Game #{i}"
   scoreboard = match.play
-  puts "#{scoreboard}\n"
+  puts "Game #{i}\n#{scoreboard}\n"
 end
 
 puts "\n#{match}"

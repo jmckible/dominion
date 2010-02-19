@@ -22,9 +22,12 @@ module Dominion
       end
       
       def to_s
-        string = ''
+        ties = scoreboards.count{|s| s.tie}
+        games = scoreboards.count.to_f
+        string = "#{ties} ties - #{ties/games*100}%\n"
         players.each do |player|
-          string << "#{player} won #{scoreboards.count{|s|s.winner == player}}\n"
+          wins = scoreboards.count{|s|s.winner == player}
+          string << "#{player} won #{wins} - #{wins/games*100}%\n"
         end
         string
       end
