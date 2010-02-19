@@ -29,8 +29,8 @@ module Dominion
       def self.available_kingdoms
         [ Adventurer, Bureaucrat, Cellar, Chancellor, Chapel, CouncilRoom, 
           Feast, Festival, Laboratory, Library, Market, Militia, Mine, 
-          Moneylender, Remodel, Smithy, Spy, ThroneRoom, Village, Woodcutter, 
-          Workshop ]
+          Moneylender, Remodel, Smithy, Spy, Thief, ThroneRoom, Village, 
+          Woodcutter, Workshop ]
       end
     end
   end

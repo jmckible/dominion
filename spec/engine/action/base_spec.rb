@@ -2,6 +2,6 @@ require 'spec_helper'
 
 describe Base do
   it 'should have kingdoms' do
-    Base.available_kingdoms.size.should == 21
+    Base.available_kingdoms.size.should == 22
   end
 end

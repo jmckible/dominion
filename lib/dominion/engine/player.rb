@@ -174,8 +174,26 @@ module Dominion
             player.discard.unshift card
             broadcast "#{name} made #{player} discard #{card}"
           end
-          
         end
+      end
+      
+      def thief(player)
+        revealed = player.reveal 2
+        broadcast "#{player} revealed #{revealed.join ', '}"
+        unless revealed.treasures.empty?
+          card = select_card revealed.treasures, :message=>"Choose a treasure to trash"
+          if card
+            if get_boolean("Would you like to steal #{card}?")
+              discard.unshift card
+              broadcast "#{name} stole #{player}'s #{card}"
+            else
+              game.trash.unshift card
+              broadcast "#{name} trashed #{player}'s #{card}"
+            end
+            revealed.delete card
+          end
+        end
+        revealed.each{|c| player.discard.unshift c}
       end
       
       #########################################################################

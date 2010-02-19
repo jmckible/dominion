@@ -15,7 +15,7 @@ module Dominion
     end
     
     def setup
-      @match = Match.new :server=>self
+      @match = Match.new :server=>self, :use=>[Thief]
       puts "How many players? (2-#{Game.max_players})"
       @number_players = gets.chomp.to_i
       puts "Ready to play a #{number_players} game."
