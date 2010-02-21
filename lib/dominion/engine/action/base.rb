@@ -30,7 +30,7 @@ module Dominion
         [ Adventurer, Bureaucrat, Cellar, Chancellor, Chapel, CouncilRoom, 
           Feast, Festival, Laboratory, Library, Market, Militia, Mine, 
           Moneylender, Remodel, Smithy, Spy, Thief, ThroneRoom, Village, 
-          Woodcutter, Workshop ]
+          Witch, Woodcutter, Workshop ]
       end
     end
   end
