@@ -19,7 +19,7 @@ module Dominion
       attr_accessor :server, :use, :scoreboard
       attr_accessor :kingdoms, :players, :trash
       attr_accessor :coppers, :silvers, :golds 
-      attr_accessor :estates, :duchies, :provinces
+      attr_accessor :estates, :duchies, :provinces, :curses
     
       def initialize(options={})
         @server    = options[:server]
@@ -35,6 +35,7 @@ module Dominion
         @estates   = Pile.new Estate,   24
         @duchies   = Pile.new Duchy,    12
         @provinces = Pile.new Province, 12
+        @curses    = Pile.new Curse, 30
       end
       
       def deal
@@ -42,6 +43,7 @@ module Dominion
         if players.size == 2
           duchies.discard 4
           provinces.discard 4
+          curses.discard 10
         end
         players.each do |player|
           1.upto(7){player.gain coppers.shift}
@@ -71,7 +73,7 @@ module Dominion
       #                              S U P P L I E S                          #
       #########################################################################
       def supplies
-        kingdoms + [coppers, silvers, golds, estates, duchies, provinces]
+        kingdoms + [coppers, silvers, golds, estates, duchies, provinces, curses]
       end
       
       def number_available(card_type)

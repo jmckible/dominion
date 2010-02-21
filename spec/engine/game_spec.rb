@@ -27,7 +27,7 @@ describe Game, 'setup' do
   
   it 'should have supply piles' do
     game = GameFactory.create 4
-    game.should have(16).supplies
+    game.should have(17).supplies
   end
   
   it 'should initialize starting cards with four players' do
@@ -38,6 +38,7 @@ describe Game, 'setup' do
     game.should have(40).silvers
     game.should have(30).golds
     game.should have(32).coppers
+    game.should have(30).curses
     game.kingdoms.size.should == 10
     game.kingdoms.each{|k| k.size.should == 12}
     game.players.each{|p| p.should have(5).hand }
@@ -82,8 +83,8 @@ describe Game, 'gameplay' do
   
   it 'should find buyable with budget' do
     game = GameFactory.create 4
-    game.buyable(8).size.should == 16
-    game.buyable(0).size.should == 1
+    game.buyable(8).size.should == 17
+    game.buyable(0).size.should == 2
   end
   
   it 'should remove a card' do

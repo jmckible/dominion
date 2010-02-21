@@ -5,5 +5,6 @@ module Dominion
   end
 end
 
+require 'dominion/engine/curse'
 require 'dominion/engine/treasure'
 
