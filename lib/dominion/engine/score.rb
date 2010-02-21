@@ -25,9 +25,7 @@ module Dominion
       def calculate
         player.combine_cards
         player.deck.each do |card|
-          if card.is_a? Victory
-            @points += card.points player
-          end
+          @points += card.points(player) if card.is_a?(Victory) || card.is_a?(Curse)
         end
         self
       end
