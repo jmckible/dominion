@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Game, 'setup' do
   
   it 'should have all kingdoms from all sets' do
-    Game.should have(23).available_kingdoms
-    Game.should have(22).available_kingdoms(:except=>[Village])
+    Game.should have(25).available_kingdoms
+    Game.should have(24).available_kingdoms(:except=>[Village])
   end
   
   it 'should start a game with specific kingdom' do
