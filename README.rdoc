@@ -35,7 +35,7 @@ If you want to run simulations, check out lib/simulation.rb You can invoke it wi
   
 == Help
 
-I'm chugging through the Base set Kingdom cards now. Once the game engine is complete, the sky is really the limit. UI? Central server?
+I've finished the Base set Kingdom cards. Next up, I'll be working on adding the Seaside expansion.
 
 Fork away!
 
