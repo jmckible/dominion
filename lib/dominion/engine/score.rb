@@ -23,8 +23,7 @@ module Dominion
       
       # Destructive! combines all players cards into their deck
       def calculate
-        player.combine_cards
-        player.deck.each do |card|
+        player.all_cards.each do |card|
           @points += card.points(player) if card.is_a?(Victory) || card.is_a?(Curse)
         end
         self

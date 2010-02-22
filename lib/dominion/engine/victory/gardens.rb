@@ -4,7 +4,7 @@ module Dominion
       
       def cost() 4 end
       def points(player=nil)
-        player.nil? ? 0 : player.deck.size % 10
+        player.nil? ? 0 : player.all_cards.size % 10
       end
       def to_s() 'Gardens' end
         
