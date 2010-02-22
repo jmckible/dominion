@@ -25,6 +25,10 @@ module Dominion
         select{|card| card.is_a? Victory }
       end
       
+      def moats
+        select{|card| card.is_a? Moat }
+      end
+      
       def to_s
         collect.join ', '
       end

@@ -1,6 +1,8 @@
 module Dominion
   module Engine
     class Player
+      include Base # Player reactions
+      
       attr_accessor :name, :deck, :discard, :hand, :socket, :game, :turns
     
       #########################################################################
@@ -122,81 +124,6 @@ module Dominion
       end
       
       #########################################################################
-      #                          C A R D     S P E C I F I C                  #
-      #########################################################################
-      def bureaucrat_selection
-        return nil if hand.victories.empty?
-        return hand.victories.first unless socket # AI player
-        select_card hand.victories, :message=>'Select a card to put on top of your deck', 
-          :force=>true
-      end
-      
-      def use_chancellor?(turn)
-        return true unless socket # AI player
-        get_boolean 'Would you like discard your deck?'
-      end
-      
-      def militia_discard
-        if socket
-          discards = []
-          while hand.size > 3
-            discards << select_card(player.hand, 
-              :message=>"Choose a card to discard (from #{turn.player}'s Militia)",
-              :force=>true)
-          end
-        else # AI Player
-          discards = hand[3..-1]
-        end
-        
-        if discards.empty?
-          broadcast "#{name} didn't need to discard"
-        else
-          discards.each{|c| discard_card c}
-          broadcast "#{name} discarded #{discards.join ', '}"
-        end
-      end
-      
-      def spy_on(player)
-        card = player.reveal.first
-        if card
-          broadcast "#{player} reveals a #{card}"
-          
-          if socket
-            return_to_deck = get_boolean "Return #{card} to top #{player}'s deck?"
-          else # AI Player
-            return_to_deck = card.is_a? Victory
-          end
-          
-          if return_to_deck
-            player.deck.unshift card
-            broadcast "#{name} returned #{player}'s #{card} to the top of their deck"
-          else
-            player.discard.unshift card
-            broadcast "#{name} made #{player} discard #{card}"
-          end
-        end
-      end
-      
-      def thief(player)
-        revealed = player.reveal 2
-        broadcast "#{player} revealed #{revealed.join ', '}"
-        unless revealed.treasures.empty?
-          card = select_card revealed.treasures, :message=>"Choose a treasure to trash"
-          if card
-            if get_boolean("Would you like to steal #{card}?")
-              discard.unshift card
-              broadcast "#{name} stole #{player}'s #{card}"
-            else
-              game.trash.unshift card
-              broadcast "#{name} trashed #{player}'s #{card}"
-            end
-            revealed.delete card
-          end
-        end
-        revealed.each{|c| player.discard.unshift c}
-      end
-      
-      #########################################################################
       #                                   I / O                               #
       #########################################################################
       def get_boolean(prompt)
@@ -252,6 +179,7 @@ module Dominion
       end
       
       def to_s() name end
+      
       
     end
   end

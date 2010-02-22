@@ -9,8 +9,18 @@ module Dominion
       def play(turn)
         turn.player.draw 2
         turn.other_players.each do |player|
-          player.gain turn.game.curses.shift
-          player.say "You gained a Curse from #{turn.player}'s Witch"
+          if player.moat?
+            turn.broadcast "#{player} revealed a Moat"
+          else
+            curse = turn.game.curses.shift
+            if curse
+              player.gain curse
+              player.say "You gained a Curse from #{turn.player}'s Witch"
+            else
+              turn.broadcast "No Moats left"
+            end
+          end
+          
         end
       end
         
