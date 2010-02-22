@@ -1,7 +1,8 @@
 module Dominion
   module Engine
     class Player
-      include Base # Player reactions
+      include Base
+      include Seaside
       
       attr_accessor :name, :deck, :discard, :hand, :socket, :game, :turns
     
