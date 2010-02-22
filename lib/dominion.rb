@@ -11,7 +11,7 @@ module Dominion
   end
   
   def self.available_sets
-    [Base]
+    [ Base, Seaside ]
   end
   
 end

@@ -15,3 +15,4 @@ module Dominion
 end
 
 require 'dominion/engine/action/base'
+require 'dominion/engine/action/seaside'
