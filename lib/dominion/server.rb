@@ -3,19 +3,20 @@ require 'socket'
 module Dominion
   class Server
     
-    attr_accessor :match, :number_players, :server, :sockets, :message
+    attr_accessor :match, :number_players, :server, :sockets, :message, :kingdoms
     
     ###########################################################################
     #                                 S E T U P                               #
     ###########################################################################
     def initialize(port=8000)
-      @server  = TCPServer.new '', port
-      @sockets = []
+      @server   = TCPServer.new '', port
+      @sockets  = []
+      @kingdoms = []
       puts "Server started on port #{port}"
     end
     
     def setup
-      @match = Match.new :server=>self, :use=>[Thief]
+      @match = Match.new :server=>self
       puts "How many players? (2-#{Game.max_players})"
       @number_players = gets.chomp.to_i
       puts "Ready to play a #{number_players} game."
@@ -29,14 +30,18 @@ module Dominion
       trap('EXIT'){ server.close }
       puts "Collecting players"
       collect_players
-      broadcast "Ready to play with #{match.players.join(', ')}"
+      broadcast("Ready to play with #{match.players.join(', ')}") unless match.players.empty?
       play = true
       while play
+        broadcast 'Choosing Kingdoms for this game'
+        choose_kingdoms
+        @match.use = kingdoms
         scoreboard = match.play
         broadcast "\nGame Over\n#{scoreboard}\n"
         broadcast "Waiting for server to play again\n"
         puts "Play again? (y/N)"
         play = gets.chomp.downcase == 'y'
+        @kingdoms = []
       end
       broadcast match
     end
@@ -59,6 +64,25 @@ module Dominion
       match.players << player
       broadcast "#{player} joined the game"
       puts "#{player} joined the game"
+    end
+    
+    def choose_kingdoms
+      puts 'Choose Kingdoms for this game'
+      while true
+        say_available_kingdoms
+        choice = gets.chomp.to_i
+        return if choice == 0
+        kingdom = Game.available_kingdoms(:except=>kingdoms)[choice - 1]
+        @kingdoms << kingdom
+        broadcast "Selected Kingdoms: #{kingdoms.collect{|k|k.new.to_s}.join ', '}"
+      end
+    end
+
+    def say_available_kingdoms
+      puts '0. Done'
+      Game.available_kingdoms(:except=>kingdoms).each_with_index do |k, i|
+        puts "#{i+1}. #{k.new.to_s}"
+      end
     end
     
     ###########################################################################

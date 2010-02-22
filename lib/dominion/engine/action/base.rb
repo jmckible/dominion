@@ -95,7 +95,7 @@ module Dominion
       # False to put it back on top of deck
       def discard_from_spy?(card, player)
         if socket
-          get_boolean "Would you like to make #{player} discard #{card}? (Otherwise it goes back on top of their deck)"
+          !get_boolean("Would you like to make #{player} discard #{card}? (Otherwise it goes back on top of their deck)")
         else # AI
           !(card.is_a?(Victory) || card.is_a?(Curse))
         end
