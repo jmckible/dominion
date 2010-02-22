@@ -6,13 +6,14 @@ module Dominion
       def to_s() 'Remodel' end
         
       def play(turn)
-        trash = turn.select_card turn.player.hand
+        player = turn.player
+        trash = player.select_card player.hand
         if trash
-          turn.broadcast "#{turn.player} trashed a #{trash}"
+          turn.broadcast "#{player} trashed a #{trash}"
           turn.trash trash
-          card = turn.select_card turn.game.buyable(trash.cost + 2)
+          card = player.select_card turn.game.buyable(trash.cost + 2)
           if card
-            turn.broadcast "#{turn.player} selected a #{card}"
+            turn.broadcast "#{player} selected a #{card}"
             turn.take card
           end
         end
