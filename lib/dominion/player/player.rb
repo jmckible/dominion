@@ -115,14 +115,8 @@ module Dominion
     #########################################################################
     #                                   I / O                               #
     #########################################################################
-    # These can be implemented in a subclass. See Human for an example
+    # Implement this in the subclass. Output to the I/O of your choice.
     def say(string)
-    end
-    
-    def ask(string)
-    end
-    
-    def broadcast(string)
     end
     
     #########################################################################
