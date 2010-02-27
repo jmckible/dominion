@@ -1,4 +1,7 @@
 module Dominion
+  ###########################################################################
+  #                                A C T I O N                              #
+  ###########################################################################
   class Bureaucrat < Action
     
     def cost() 4            end
@@ -27,6 +30,26 @@ module Dominion
         
       end
     end
-      
   end
+  
+  ###########################################################################
+  #                                 P L A Y E R                             #
+  ###########################################################################
+  class Player
+    def bureaucrat_selection
+      hand.victories.first 
+    end
+  end
+  
+  ###########################################################################
+  #                                 H U M A N                               #
+  ###########################################################################
+  class Human < Player
+    def bureaucrat_selection
+      return nil if hand.victories.empty?
+      select_card hand.victories, :message=>'Select a card to put on top of your deck', 
+        :force=>true
+    end
+  end
+  
 end

@@ -1,8 +1,5 @@
 module Dominion
   class Player
-    include Base
-    include Seaside
-    
     attr_accessor :name, :deck, :discard, :hand, :game, :turns
   
     #########################################################################

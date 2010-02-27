@@ -1,6 +1,8 @@
 module Dominion
+  ###########################################################################
+  #                                A C T I O N                              #
+  ###########################################################################
   class Spy < Action
-    
     def cost() 4     end
     def to_s() 'Spy' end
       
@@ -29,6 +31,33 @@ module Dominion
         turn.broadcast "You discarded #{card}"
       end
     end
-      
   end
+  
+  ###########################################################################
+  #                                 P L A Y E R                             #
+  ###########################################################################
+  class Player
+    # Return false to halt attack
+    # Else return spied card
+    def spy_on(player)
+      return false if moat?
+      player.reveal.first
+    end
+
+    # True to discard
+    # False to put it back on top of deck
+    def discard_from_spy?(card, player)
+      !(card.is_a?(Victory) || card.is_a?(Curse))
+    end
+  end
+  
+  ###########################################################################
+  #                                 H U M A N                               #
+  ###########################################################################
+  class Human < Player
+    def discard_from_spy?(card, player)
+      !get_boolean("Would you like to make #{player} discard #{card}? (Otherwise it goes back on top of their deck)")
+    end
+  end
+  
 end

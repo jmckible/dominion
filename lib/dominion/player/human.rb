@@ -1,12 +1,10 @@
-# A human player using the terminal to play
-
 module Dominion
-  class Human < Player
-    include Base::Human
-    include Seaside::Human
-    
+  class Human < Player    
     attr_accessor :socket
     
+    #########################################################################
+    #                             I N I T I A L I Z E                       #
+    #########################################################################
     def initialize(name, socket)
       @name   = name        
       @socket = socket
