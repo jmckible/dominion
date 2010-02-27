@@ -1,10 +1,10 @@
 require 'spec/rake/spectask'
 
 task :default=>:spec
-task :spec=>['spec:engine']
+task :spec=>['spec:units']
 
-Spec::Rake::SpecTask.new('spec:engine') do |t|
-  t.pattern   = ['spec/ai/**/*_spec.rb', 'spec/engine/**/*_spec.rb']
+Spec::Rake::SpecTask.new('spec:units') do |t|
+  t.pattern   = ['spec/units/**/*_spec.rb']
   t.spec_opts = ['--color']
 end
 
