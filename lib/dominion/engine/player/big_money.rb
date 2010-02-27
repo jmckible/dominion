@@ -1,6 +1,6 @@
 module Dominion
-  module AI
-    class BigMoney < Dominion::Engine::Player
+  module Engine
+    class BigMoney < Player
     
       def select_buy(cards)
         [Province, Gold, Silver, Copper].each do |want|

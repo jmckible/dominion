@@ -3,8 +3,8 @@
 # how Smithy or Chancellor can make this deck better than raw Big Money.
 
 module Dominion
-  module AI
-    class Highlander < Dominion::Engine::Player
+  module Engine
+    class Highlander < Player
       
       attr_accessor :action, :wants
       
