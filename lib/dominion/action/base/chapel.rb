@@ -1,19 +1,46 @@
 module Dominion
+  
+  ###########################################################################
+  #                                A C T I O N                              #
+  ###########################################################################
   class Chapel < Action
-    
     def cost() 2        end
     def to_s() 'Chapel' end
       
     def play(turn)
-      1.upto(4) do
-        turn.player.say_card_list turn.player.hand
-        choice = turn.player.get_integer 'Choose card to trash', 0, turn.player.hand.size
-        return if choice == 0
-        card = turn.player.hand[choice - 1]
+      cards = turn.player.chapel_cards
+      cards.each do |card|
         turn.trash card
-        turn.broadcast "Trashed #{card}"
       end
+      turn.broadcast "#{turn.player} trashed #{cards}"
     end
-      
   end
+  
+  ###########################################################################
+  #                                 P L A Y E R                             #
+  ###########################################################################
+  class Player
+    def chapel_cards
+      []
+    end
+  end
+  
+  ###########################################################################
+  #                                 H U M A N                               #
+  ###########################################################################
+  class Human < Player
+    def chapel_cards
+      cards = []
+      
+      1.upto(4) do
+        card = select_card hand, :message=>'Choose a card to trash'
+        break if card.nil?
+        cards << card
+        hand.delete card
+      end
+      
+      cards
+    end
+  end
+  
 end
