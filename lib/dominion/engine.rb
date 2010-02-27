@@ -11,5 +11,6 @@ require 'dominion/engine/victory'
 require 'dominion/engine/wheel'
 
 require 'dominion/engine/player/player'
+require 'dominion/engine/player/human'
 require 'dominion/engine/player/big_money'
 require 'dominion/engine/player/highlander'

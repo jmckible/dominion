@@ -1,5 +1,4 @@
 require 'dominion/engine'
-require 'dominion/input'
 require 'dominion/server'
 
 module Dominion

@@ -16,16 +16,18 @@ module Dominion
       #                    P L A Y E R     D E C I S I O N S                  #
       #########################################################################
       def warehouse_discard
-        discards = []
-        0.upto(2) do |i|
-          if socket
+        hand.first(3).compact
+      end
+      
+      module Human
+        def warehouse_discard
+          discards = []
+          0.upto(2) do |i|
             card = select_card hand, :message=>'Choose a card to discard', :force=>true
             discards << card
-          else
-            discards << hand[i]
           end
+          discards.compact
         end
-        discards.compact
       end
       
     end
