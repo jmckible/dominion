@@ -125,15 +125,6 @@ module Dominion
     def broadcast(string)
     end
     
-    def say_card_list(cards, force=false)
-    end
-    
-    def say_available_actions
-    end
-    
-    def select_card(cards, options={})
-    end
-    
     #########################################################################
     #                                  T O _ S                              #
     #########################################################################

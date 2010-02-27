@@ -102,7 +102,6 @@ module Dominion
       return nil if choice == 0 && !force
       cards[choice - 1]
     end
-    
   
   end
 end

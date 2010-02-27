@@ -1,24 +1,45 @@
 module Dominion
+  ###########################################################################
+  #                                A C T I O N                              #
+  ###########################################################################
   class Cellar < Action
-    
     def cost() 2        end
     def to_s() 'Cellar' end
       
     def play(turn)
-      player = turn.player
-      draws = 0
-      while !player.hand.empty?
-        player.say_card_list player.hand
-        choice = player.get_integer 'Choose card to discard', 0, player.hand.size
-        break if choice == 0
-        card = player.hand[choice - 1]
-        player.discard_card card
-        turn.broadcast "Discarded #{card}"
-        draws = draws + 1
-      end
-      turn.draw draws
+      cards = turn.player.cellar_cards
+      turn.broadcast "#{turn.player} discarded #{cards}"
+      turn.draw cards.size
       turn.add_action
     end
-    
   end
+  
+  ###########################################################################
+  #                                 P L A Y E R                             #
+  ###########################################################################
+  class Player
+    def cellar_cards
+      []
+    end 
+  end
+  
+  ###########################################################################
+  #                                 H U M A N                               #
+  ###########################################################################
+  class Human < Player
+    def cellar_cards
+      cards = []
+      
+      while !hand.empty?
+        card = select_card hand, :message=>'Choose a card to discard'
+        if card
+          discard_card card
+          cards << card
+        end
+      end
+      
+      cards
+    end
+  end
+  
 end

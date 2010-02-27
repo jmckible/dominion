@@ -4,10 +4,11 @@ describe Cellar do
   
   it 'should execute' do 
     game, player, turn = GameFactory.build
-    player.stub!(:get_integer).and_return(1)
+    player.stub!(:cellar_cards).and_return([Copper.new])
+    
     turn.execute Cellar.new
-    player.discard.size.should == 5
-    player.hand.size.should == 5
+    
+    player.hand.size.should == 6
     turn.number_actions.should == 2
   end
   
