@@ -1,7 +1,7 @@
 require 'socket'
 
 module Dominion
-  class Server
+  class TerminalServer
     
     attr_accessor :match, :number_players, :server, :sockets, :message, :kingdoms
     

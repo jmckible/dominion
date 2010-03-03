@@ -15,7 +15,7 @@ require 'dominion/player/human'
 require 'dominion/player/big_money'
 require 'dominion/player/highlander'
 
-require 'dominion/server'
+require 'dominion/terminal_server'
 
 module Dominion
   class GameFull < Exception 

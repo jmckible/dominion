@@ -11,23 +11,23 @@ Want to play? Install ruby, rspec, rake and clone the repo.
   ~ $ git clone git://github.com/jmckible/dominion.git
   ~ $ cd dominion
   
-Now start a server
+You can start a terminal server like so:
 
-  ~ $ rake server
+  ~ $ rake terminal:server
   
 You'll be prompted to enter the number of players in the game
 
 Over in another console
 
-  ~ $ rake play
+  ~ $ rake terminal:play
   
 If you are playing remotely, pass HOST and/or PORT environment variables. 
 
 == AI
 
-Interested in strategy simulations? We've got you covered. Just create a Player subclass and seat it at a game. Check out BigMoney as an example. You can play against BigMoney locally by starting a server like so:
+Interested in strategy simulations? We've got you covered. Just create a Player subclass and seat it at a game. Check out BigMoney as an example. You can play against BigMoney locally by starting a BigMoney terminal server like so:
 
-  ~ $ rake server:big_money
+  ~ $ rake terminal:big_money
   
 If you want to run simulations, check out lib/simulation.rb You can invoke it with a rake task:
 
