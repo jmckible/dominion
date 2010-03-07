@@ -1,6 +1,7 @@
 require 'dominion'
+include Dominion
 
-Spec::Runner.configure do |config|  
+Spec::Runner.configure do |config|
   def running(&block)
     lambda(&block)
   end
