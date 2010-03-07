@@ -22,5 +22,3 @@ module Dominion
     [ Base, Seaside ]
   end
 end
-
-include Dominion
