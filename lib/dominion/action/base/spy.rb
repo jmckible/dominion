@@ -54,7 +54,7 @@ module Dominion
   ###########################################################################
   #                                 H U M A N                               #
   ###########################################################################
-  class Human < Player
+  class TerminalPlayer < Player
     def discard_from_spy?(card, player)
       !get_boolean("Would you like to make #{player} discard #{card}? (Otherwise it goes back on top of their deck)")
     end

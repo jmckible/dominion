@@ -27,7 +27,7 @@ module Dominion
   ###########################################################################
   #                                 H U M A N                               #
   ###########################################################################
-  class Human < Player
+  class TerminalPlayer < Player
     def warehouse_discard
       discards = []
       0.upto(2) do |i|

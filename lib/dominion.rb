@@ -11,7 +11,6 @@ require 'dominion/victory'
 require 'dominion/wheel'
 
 require 'dominion/player/player'
-require 'dominion/player/human'
 require 'dominion/player/big_money'
 require 'dominion/player/highlander'
 

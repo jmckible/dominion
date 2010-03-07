@@ -28,7 +28,7 @@ module Dominion
   ###########################################################################
   #                                 H U M A N                               #
   ###########################################################################
-  class Human < Player
+  class TerminalPlayer < Player
     def chapel_cards
       cards = []
       

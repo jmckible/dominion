@@ -25,7 +25,7 @@ module Dominion
   ###########################################################################
   #                                 H U M A N                               #
   ###########################################################################
-  class Human < Player
+  class TerminalPlayer < Player
     def moat?
       return false if hand.moats.empty?
       get_boolean "Would you like to reveal a Moat?"

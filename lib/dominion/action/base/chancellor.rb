@@ -24,7 +24,7 @@ module Dominion
   ###########################################################################
   #                                 H U M A N                               #
   ###########################################################################
-  class Human < Player
+  class TerminalPlayer < Player
     def use_chancellor?(turn)
       get_boolean 'Would you like discard your deck?'
     end

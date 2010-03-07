@@ -44,7 +44,7 @@ module Dominion
   ###########################################################################
   #                                 H U M A N                               #
   ###########################################################################
-  class Human < Player
+  class TerminalPlayer < Player
     def bureaucrat_selection
       return nil if hand.victories.empty?
       select_card hand.victories, :message=>'Select a card to put on top of your deck', 

@@ -1,5 +1,5 @@
 module Dominion
-  class Human < Player    
+  class TerminalPlayer < Player    
     attr_accessor :socket
     
     #########################################################################

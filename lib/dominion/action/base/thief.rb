@@ -34,7 +34,7 @@ module Dominion
   ###########################################################################
   #                                 H U M A N                               #
   ###########################################################################
-  class Human < Player
+  class TerminalPlayer < Player
     def thief(player)
       return false if moat?
       revealed = player.reveal 2

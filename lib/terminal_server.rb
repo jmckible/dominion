@@ -60,7 +60,7 @@ module Dominion
       socket.puts "#{match.players.join(', ')} are already seated in this #{number_players} player game"
       socket.puts "What's your name?"
       name = socket.gets.chomp
-      player = Human.new name, socket
+      player = TerminalPlayer.new name, socket
       match.players << player
       broadcast "#{player} joined the game"
       puts "#{player} joined the game"

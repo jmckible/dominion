@@ -39,7 +39,7 @@ module Dominion
   ###########################################################################
   #                                 H U M A N                               #
   ###########################################################################
-  class Human < Player
+  class TerminalPlayer < Player
     def militia_discard
       return false if moat?
       discards = []
