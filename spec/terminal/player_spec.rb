@@ -3,9 +3,9 @@ require 'spec_helper'
 ###############################################################################
 #                                  I  /  O                                    #
 ###############################################################################                 
-describe TerminalPlayer, 'IO' do
+describe Player, 'IO' do
   it 'should select a card' do
-    player = TerminalPlayer.new 'player', nil
+    player = Dominion::Terminal::Player.new 'player', nil
     player.stub!(:say_card_list).and_return(true)
     
     copper, silver, gold = Copper.new, Silver.new, Gold.new

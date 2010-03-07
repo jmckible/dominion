@@ -7,7 +7,6 @@ Spec::Runner.configure do |config|
   end
 end
 
-
 class GameFactory
   
   def self.create(players)
