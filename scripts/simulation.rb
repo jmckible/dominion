@@ -1,3 +1,5 @@
+include Dominion
+
 big_money = BigMoney.new 'Big Money'
 
 chancellor = Highlander.new 'Chancellor'

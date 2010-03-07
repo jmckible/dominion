@@ -1,6 +1,6 @@
 require 'socket'
 
-require 'dominion/terminal/server'
-require 'dominion/terminal/player'
+require 'terminal/server'
+require 'terminal/player'
 
 include Dominion
