@@ -1,10 +1,3 @@
-# EventMachine::DelegatedHttpResponse.new
-# env["PATH_INFO"] == "/favicon.ico"
-#response = Rack::Response.new
-#env.each do |key, value|
-#  response.write "<p>#{key} [#{value.class.to_s}] #{value}</p>"
-#end
-#response.finish
 require 'dominion'
 
 class Server
@@ -16,31 +9,36 @@ class Server
   end
   
   def call(env)
-    request = Rack::Request.new(env)   
+    request = Rack::Request.new env
     case env['PATH_INFO']
     when '/new'
       add_game
-    when /\/game\/\d+/i
+    when /\/game\/\d+/
       id = env['PATH_INFO'].split('/').last.to_i
-      games[id].puts "writing to game #{id}"
+      socket = games[id]
+      if socket
+        socket.puts request.params
+      else
+        respond_404
+      end
     else
-      response = Rack::Response.new
-      response.write 'No action taken'
-      response.finish
+      respond_404
     end
+  end
+  
+  def respond_404
+    Rack::Response.new '404 not found', 404
   end
   
   def add_game
     @counter += 1
-    #here, there = Socket.pair Socket::AF_UNIX, Socket::SOCK_STREAM, 0
+
     read, write = IO::pipe
     games[counter] = write
+    process = fork { Dominion::Game.new(:socket=>read).start }
+    Process.detach process
     
-    fork { Dominion::Game.new(:server=>read).start }
-    
-    response = Rack::Response.new
-    response.write counter
-    response.finish
+    Rack::Response.new counter.to_s
   end
 
 end

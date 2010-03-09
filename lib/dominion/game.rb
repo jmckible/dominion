@@ -19,10 +19,10 @@ module Dominion
     attr_accessor :kingdoms, :players, :trash
     attr_accessor :coppers, :silvers, :golds 
     attr_accessor :estates, :duchies, :provinces, :curses
-    attr_accessor :server 
+    attr_accessor :socket
   
     def initialize(options={})
-      @server    = options[:server]
+      @socket    = options[:socket]
       @players   = Wheel.new
       @use       = options[:use] || []
       @kingdoms  = []
@@ -39,12 +39,14 @@ module Dominion
     end
     
     def start
-      response = select [server], nil, nil, nil
-      unless response.nil?
-        action = server.gets.chomp
-        puts "Received: #{action}"
+      while true
+        response = select [socket], nil, nil, nil
+        unless response.nil?
+          params = socket.gets.chomp
+          puts "Received: #{params}"
+          exit if params == 'exit'
+        end
       end
-      exit
     end
     
     def deal
@@ -125,18 +127,18 @@ module Dominion
     #                               O U T P U T                             #
     #########################################################################
     def say_kingdoms
-      return unless server
-      server.broadcast "\nAvailable Kingdoms this game:"
+      return unless socket
+      socket.broadcast "\nAvailable Kingdoms this game:"
       names = []
       kingdoms.each do |pile|
         names << pile.first.to_s if pile.first
       end
-      server.broadcast names.sort
+      socket.broadcast names.sort
     end
     
     def broadcast(message)
-      return unless server
-      server.broadcast message
+      return unless socket
+      socket.broadcast message
     end
     
   end
