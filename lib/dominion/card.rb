@@ -3,6 +3,3 @@ module Dominion
   end
 end
 
-require 'dominion/curse'
-require 'dominion/treasure'
-

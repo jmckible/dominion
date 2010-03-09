@@ -12,6 +12,3 @@ module Dominion
   end
 end
 
-require 'dominion/treasure/copper'
-require 'dominion/treasure/gold'
-require 'dominion/treasure/silver'

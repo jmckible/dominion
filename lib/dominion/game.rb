@@ -15,10 +15,11 @@ module Dominion
     #########################################################################
     #                                 S E T U P                             #
     #########################################################################
-    attr_accessor :server, :use, :scoreboard
+    attr_accessor :use, :scoreboard
     attr_accessor :kingdoms, :players, :trash
     attr_accessor :coppers, :silvers, :golds 
     attr_accessor :estates, :duchies, :provinces, :curses
+    attr_accessor :server 
   
     def initialize(options={})
       @server    = options[:server]
@@ -35,6 +36,15 @@ module Dominion
       @duchies   = Pile.new Duchy,    12
       @provinces = Pile.new Province, 12
       @curses    = Pile.new Curse, 30
+    end
+    
+    def start
+      response = select [server], nil, nil, nil
+      unless response.nil?
+        action = server.gets.chomp
+        puts "Received: #{action}"
+      end
+      exit
     end
     
     def deal

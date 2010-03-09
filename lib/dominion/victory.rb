@@ -9,8 +9,3 @@ module Dominion
     end
   end
 end
-
-require 'dominion/victory/duchy'
-require 'dominion/victory/estate'
-require 'dominion/victory/gardens'
-require 'dominion/victory/province'

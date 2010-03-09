@@ -9,6 +9,3 @@ module Dominion
     end
   end
 end
-
-require 'dominion/action/base'
-require 'dominion/action/seaside'

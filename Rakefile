@@ -13,6 +13,9 @@ Spec::Rake::SpecTask.new('spec:terminal') do |t|
   t.spec_opts = ['--color']
 end
 
+task :server do
+  sh "ruby -Ilib -rdominion lib/server.rb"
+end
 
 task :console do
   desc "Start an irb session with required path and libraries. Use 'include Dominion'"

@@ -10,6 +10,21 @@ require 'dominion/turn'
 require 'dominion/victory'
 require 'dominion/wheel'
 
+require 'dominion/action/base'
+require 'dominion/action/seaside'
+
+require 'dominion/curse'
+require 'dominion/treasure'
+
+require 'dominion/treasure/copper'
+require 'dominion/treasure/gold'
+require 'dominion/treasure/silver'
+
+require 'dominion/victory/duchy'
+require 'dominion/victory/estate'
+require 'dominion/victory/gardens'
+require 'dominion/victory/province'
+
 require 'dominion/player/player'
 require 'dominion/player/big_money'
 require 'dominion/player/highlander'
@@ -17,7 +32,7 @@ require 'dominion/player/highlander'
 module Dominion
   class GameFull < Exception 
   end
-  
+
   def self.available_sets
     [ Base, Seaside ]
   end
