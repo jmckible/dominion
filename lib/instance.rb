@@ -7,11 +7,20 @@ class Instance
   
   def start
     read, @socket = IO::pipe
-    fork { Dominion::Game.new(:socket=>read, :number_players=>number_players).start }
+    @game = Dominion::Game.new :instance=>self, :socket=>read, :number_players=>number_players
+    fork { game.start }
   end
   
-  def send(data)
-    socket.puts data
+  def send(params)
+    if game.seating?
+      socket.puts params['player_name']
+    else
+      puts "game not seating"
+    end
+  end
+  
+  def broadcast(message)
+    puts message
   end
   
 end

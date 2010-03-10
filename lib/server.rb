@@ -18,7 +18,7 @@ class Server
     when '/game'
       instance = games[request.params['game_id'].to_i]
       if instance
-        instance.send request.params['player_name']
+        instance.send request.params
         redirect_to env['HTTP_REFERER']
       else
         respond_404

@@ -19,9 +19,10 @@ module Dominion
     attr_accessor :kingdoms, :players, :trash
     attr_accessor :coppers, :silvers, :golds 
     attr_accessor :estates, :duchies, :provinces, :curses
-    attr_accessor :socket, :number_players
+    attr_accessor :instance, :socket, :number_players
   
     def initialize(options={})
+      @instance  = options[:instance]
       @socket    = options[:socket]
       @players   = Wheel.new
       @use       = options[:use] || []
@@ -108,21 +109,23 @@ module Dominion
       while(!over?)
         Turn.new(self, players.next).play
       end
-      Scoreboard.calculate self
+      puts Scoreboard.calculate(self)
     end
     
     def start
-      while players.size < number_players
+      while seating?
         response = select [socket], nil, nil, nil
         unless response.nil?
           name = socket.gets.chomp
-          puts "name: #{name}"
-          player = Player.new name
+          player = BigMoney.new name
           seat player
-          puts "Sat: #{player}"
         end
       end
-      #play
+      play
+    end
+    
+    def seating?
+      players.size < number_players
     end
     
     def over?
@@ -133,18 +136,18 @@ module Dominion
     #                               O U T P U T                             #
     #########################################################################
     def say_kingdoms
-      return unless socket
-      socket.broadcast "\nAvailable Kingdoms this game:"
+      return unless instance
+      instance.broadcast "\nAvailable Kingdoms this game:"
       names = []
       kingdoms.each do |pile|
         names << pile.first.to_s if pile.first
       end
-      socket.broadcast names.sort
+      instance.broadcast names.sort
     end
     
     def broadcast(message)
-      return unless socket
-      socket.broadcast message
+      return unless instance
+      instance.broadcast message
     end
     
   end
