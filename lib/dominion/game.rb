@@ -19,7 +19,7 @@ module Dominion
     attr_accessor :kingdoms, :players, :trash
     attr_accessor :coppers, :silvers, :golds 
     attr_accessor :estates, :duchies, :provinces, :curses
-    attr_accessor :socket
+    attr_accessor :socket, :number_players
   
     def initialize(options={})
       @socket    = options[:socket]
@@ -36,17 +36,8 @@ module Dominion
       @duchies   = Pile.new Duchy,    12
       @provinces = Pile.new Province, 12
       @curses    = Pile.new Curse, 30
-    end
-    
-    def start
-      while true
-        response = select [socket], nil, nil, nil
-        unless response.nil?
-          params = socket.gets.chomp
-          puts "Received: #{params}"
-          exit if params == 'exit'
-        end
-      end
+      
+      @number_players = options[:number_players] || 2
     end
     
     def deal
@@ -68,6 +59,7 @@ module Dominion
       raise GameFull if players.size >= Game.max_players
       players << player
       player.game = self
+      player
     end
     
     def pick_kingdoms
@@ -117,6 +109,20 @@ module Dominion
         Turn.new(self, players.next).play
       end
       Scoreboard.calculate self
+    end
+    
+    def start
+      while players.size < number_players
+        response = select [socket], nil, nil, nil
+        unless response.nil?
+          name = socket.gets.chomp
+          puts "name: #{name}"
+          player = Player.new name
+          seat player
+          puts "Sat: #{player}"
+        end
+      end
+      #play
     end
     
     def over?
