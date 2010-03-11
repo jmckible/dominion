@@ -12,9 +12,9 @@ class Server
     request = Rack::Request.new env
     case request.path
     when '/new'
-      add_game request.params
+      add_game
     when '/game'
-      socket = games[request.params['game_id'].to_i]
+      socket = sockets[request.params['game_id'].to_i]
       if socket
         socket.puts request.params['input']
         redirect_to env['HTTP_REFERER']
@@ -27,10 +27,10 @@ class Server
 
   end
   
-  def add_game(options={})
+  def add_game
     @counter += 1
     read, write = IO::pipe
-    games[counter] = write
+    sockets[counter] = write
     fork { Dominion::Game.new(:socket=>read).start }
     Rack::Response.new counter.to_s
   end

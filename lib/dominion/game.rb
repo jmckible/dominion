@@ -135,7 +135,7 @@ module Dominion
     #                               O U T P U T                             #
     #########################################################################
     def say_kingdoms
-      return unless instance
+      return unless socket
       instance.broadcast "\nAvailable Kingdoms this game:"
       names = []
       kingdoms.each do |pile|
