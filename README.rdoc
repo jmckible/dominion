@@ -6,6 +6,12 @@ Dominion is a card game published by Rio Grande Games. It is really awesome.
 
 This is a new project so it's a much a work on progress.  Right now you can play on the console with a subset of the cards from the Base set.
 
+== State of the Project
+
+My original proof of concept is a terminal based game. That's what's in the master and terminal branches. I've switched over to working in the rack branch. I hoped to leave this branch in a playable state, but I think some bugs have bled over.  The rack branch is where all the excitement is happening - turning the terminal server into a rack mountable game instance server.
+
+== How to Play
+
 Want to play? Install ruby, rspec, rake and clone the repo. 
 
   ~ $ git clone git://github.com/jmckible/dominion.git
