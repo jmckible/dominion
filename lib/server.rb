@@ -1,12 +1,10 @@
 require 'dominion'
 
-require 'instance'
-
 class Server
-  attr_accessor :games, :counter
+  attr_accessor :sockets, :counter
   
   def initialize
-    @games   = {}
+    @sockets = {}
     @counter = 0
   end
   
@@ -14,11 +12,11 @@ class Server
     request = Rack::Request.new env
     case request.path
     when '/new'
-      add_instance request.params
+      add_game request.params
     when '/game'
-      instance = games[request.params['game_id'].to_i]
-      if instance
-        instance.send request.params
+      socket = games[request.params['game_id'].to_i]
+      if socket
+        socket.puts request.params['input']
         redirect_to env['HTTP_REFERER']
       else
         respond_404
@@ -29,6 +27,14 @@ class Server
 
   end
   
+  def add_game(options={})
+    @counter += 1
+    read, write = IO::pipe
+    games[counter] = write
+    fork { Dominion::Game.new(:socket=>read).start }
+    Rack::Response.new counter.to_s
+  end
+
   def respond_404
     Rack::Response.new '404 not found', 404
   end
@@ -50,14 +56,6 @@ class Server
   
   def redirect_to(url)
     [ 302, {'Location'=>url}, [] ]
-  end
-  
-  def add_instance(options={})
-    @counter += 1
-    instance = Instance.new :number_players=>(options['players'] || 2)
-    games[counter] = instance
-    instance.start
-    Rack::Response.new counter.to_s
   end
 
 end

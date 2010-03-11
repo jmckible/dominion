@@ -19,10 +19,9 @@ module Dominion
     attr_accessor :kingdoms, :players, :trash
     attr_accessor :coppers, :silvers, :golds 
     attr_accessor :estates, :duchies, :provinces, :curses
-    attr_accessor :instance, :socket, :number_players
+    attr_accessor :socket, :number_players
   
     def initialize(options={})
-      @instance  = options[:instance]
       @socket    = options[:socket]
       @players   = Wheel.new
       @use       = options[:use] || []
