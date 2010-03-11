@@ -16,7 +16,9 @@ class Server
     when '/game'
       socket = sockets[request.params['game_id'].to_i]
       if socket
-        socket.puts request.params['input']
+        #socket.puts request.params['input']
+        YAML.dump request.params, socket
+        socket.write "\n...\n\n"
         redirect_to env['HTTP_REFERER']
       else
         respond_404

@@ -38,6 +38,19 @@ module Dominion
       @curses    = Pile.new Curse, 30
       
       @number_players = options[:number_players] || 2
+      
+      fix_socket
+    end
+    
+    def fix_socket
+      if socket
+        class << socket
+          alias _read read
+          def read(len)
+            readline
+          end
+        end
+      end
     end
     
     def deal
@@ -115,8 +128,8 @@ module Dominion
       while seating?
         response = select [socket], nil, nil, nil
         unless response.nil?
-          name = socket.gets.chomp
-          player = BigMoney.new name
+          data = YAML.load socket
+          player = Player.new data['player_name']
           seat player
         end
       end
@@ -136,17 +149,17 @@ module Dominion
     #########################################################################
     def say_kingdoms
       return unless socket
-      instance.broadcast "\nAvailable Kingdoms this game:"
+      puts "\nAvailable Kingdoms this game:"
       names = []
       kingdoms.each do |pile|
         names << pile.first.to_s if pile.first
       end
-      instance.broadcast names.sort
+      puts names.sort
     end
     
     def broadcast(message)
-      return unless instance
-      instance.broadcast message
+      return unless socket
+      puts message
     end
     
   end
