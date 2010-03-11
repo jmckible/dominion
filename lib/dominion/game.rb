@@ -129,7 +129,7 @@ module Dominion
         response = select [socket], nil, nil, nil
         unless response.nil?
           data = YAML.load socket
-          player = Player.new data['player_name']
+          player = Client.new data['player_name']
           seat player
         end
       end
