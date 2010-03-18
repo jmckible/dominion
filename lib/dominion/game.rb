@@ -1,5 +1,7 @@
 module Dominion
   class Game
+    trap('HUP') { exit }
+    
     def self.max_players
       4 # For base set
     end
@@ -122,6 +124,7 @@ module Dominion
         Turn.new(self, players.next).play
       end
       puts Scoreboard.calculate(self)
+      # Close socket, exit process?
     end
     
     def start

@@ -4,7 +4,8 @@ class StartController < ApplicationController
     @@counter += 1
     read, write = IO::pipe
     @@sockets[@@counter] = write
-    fork { Dominion::Game.new(:socket=>read).start }
+    pid = fork { Dominion::Game.new(:socket=>read).start }
+    @@pids << pid
     render @@counter
     finish
   end
