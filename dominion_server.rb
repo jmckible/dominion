@@ -1,3 +1,8 @@
+$:.unshift File.join(File.dirname(__FILE__),'lib')
+
+# Engine
+require 'dominion'
+
 # Gems
 require 'rubygems'
 require 'thin'
@@ -15,7 +20,8 @@ require 'config/routes'
 require 'app/helpers/application'
 require 'app/controllers/application_controller'
 require 'app/controllers/home_controller'
+require 'app/controllers/start_controller'
 
 Cramp::Controller::Websocket.backend = :thin
 Thin::Logging.trace = true
-Rack::Handler::Thin.run app_routes, :Port=>3000
+Rack::Handler::Thin.run routes, :Port=>3000
