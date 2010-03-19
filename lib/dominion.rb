@@ -28,6 +28,7 @@ require 'dominion/victory/province'
 require 'dominion/player/player'
 require 'dominion/player/big_money'
 require 'dominion/player/highlander'
+require 'dominion/player/user'
 
 module Dominion
   class GameFull < Exception 

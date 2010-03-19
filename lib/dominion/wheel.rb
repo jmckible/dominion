@@ -6,7 +6,7 @@ module Dominion
     attr_accessor :index
     
     def choose_starting
-      @index = rand size
+      @index = 0 # FIXME rand size
     end
 
     def next

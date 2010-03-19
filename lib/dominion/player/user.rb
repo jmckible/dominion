@@ -1,5 +1,5 @@
 module Dominion
-  class Client < Player
+  class User < Player
     #########################################################################
     #                                   B U Y                               #
     #########################################################################
@@ -91,6 +91,9 @@ module Dominion
       return nil if choice == 0 && !force
       cards[choice - 1]
     end
+    
+    
+    def to_s() name end
   
   end
 end

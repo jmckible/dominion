@@ -128,12 +128,18 @@ module Dominion
     end
     
     def start
+      big = BigMoney.new('Big Money')
+      seat big
+      puts "Sat #{big}"
+      puts "Players: #{players.size}"
       while seating?
         response = select [socket], nil, nil, nil
         unless response.nil?
           data = YAML.load socket
-          player = Client.new data['player_name']
+          player = User.new data['name']
           seat player
+          puts "Sat #{player}"
+          puts "Players: #{players.size}"
         end
       end
       play
