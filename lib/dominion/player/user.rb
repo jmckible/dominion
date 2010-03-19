@@ -1,5 +1,7 @@
 module Dominion
   class User < Player
+    attr_accessor :uuid
+    
     #########################################################################
     #                                   B U Y                               #
     #########################################################################
@@ -28,35 +30,39 @@ module Dominion
     #                                   I / O                               #
     #########################################################################
     def get_boolean(prompt)
-      socket.puts "#{prompt} (Y/n)"
-      answer = socket.gets.chomp
+      say "#{prompt} (Y/n)"
+      answer = game.gets
       while !['y', 'n', ''].include?(answer.downcase)
-        socket.puts "Didn't get that. Please enter 'Y' or 'N'"
-        socket.puts "#{prompt} (Y/n)"
-        answer = socket.gets.chomp.downcase
+        say "Didn't get that. Please enter 'Y' or 'N'"
+        say "#{prompt} (Y/n)"
+        answer = game.gets.downcase
       end
       answer == 'y' || answer == ''
     end
     
     def get_integer(prompt, lower, upper)
-      socket.puts "#{prompt} (#{lower}-#{upper})"
-      integer = socket.gets.chomp
+      say "#{prompt} (#{lower}-#{upper})"
+      integer = game.gets
       integer = integer.to_i
       while integer < lower || integer > upper
         socket.puts "Please enter a number between #{lower} and #{upper}"
-        integer = socket.gets.chomp
+        integer = game.get
         integer = integer.to_i
       end
       integer
     end
     
     def say(string)
-      socket.puts string
+      puts string
+      AMQP.start do
+        player = MQ.new.fanout "player-1"
+        player.publish message
+      end
     end
     
     def ask(string)
       say string
-      socket.gets
+      game.gets
     end
     
     def broadcast(string)
@@ -91,7 +97,6 @@ module Dominion
       return nil if choice == 0 && !force
       cards[choice - 1]
     end
-    
     
     def to_s() name end
   

@@ -9,6 +9,7 @@ require 'thin'
 require 'usher'
 require 'tilt'
 require 'haml'
+require 'mq'
 
 # Framework
 require 'cramp/controller'

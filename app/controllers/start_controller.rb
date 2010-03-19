@@ -1,17 +1,21 @@
 class StartController < ApplicationController
   before_start :start_game
   
-  
   def start_game
-    @@counter += 1
+    # Spawn game process
+    id = @@counter += 1
     read, write = IO::pipe
     @@sockets[@@counter] = write
-    @@pids << fork{ Dominion::Game.new(:socket=>read).start }
+    @@pids << fork{ Dominion::Game.new(:socket=>read, :id=>id).start }
 
-    YAML.dump params, write
+    # Exchange
+    uuid = UUID.new.generate
+
+    # Write to seat player
+    YAML.dump params.merge('uuid'=>uuid), write
     write.write "\n...\n\n"
     
-    halt 302, {'Location'=>"game/#{@@counter}"}
+    halt 302, {'Location'=>"player/#{uuid}"}
   end
 
 end

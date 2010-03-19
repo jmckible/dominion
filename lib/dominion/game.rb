@@ -21,10 +21,9 @@ module Dominion
     attr_accessor :kingdoms, :players, :trash
     attr_accessor :coppers, :silvers, :golds 
     attr_accessor :estates, :duchies, :provinces, :curses
-    attr_accessor :socket, :number_players
+    attr_accessor :socket, :number_players, :id
   
     def initialize(options={})
-      @socket    = options[:socket]
       @players   = Wheel.new
       @use       = options[:use] || []
       @kingdoms  = []
@@ -39,6 +38,8 @@ module Dominion
       @provinces = Pile.new Province, 12
       @curses    = Pile.new Curse, 30
       
+      @socket    = options[:socket]
+      @id        = options[:id]
       @number_players = options[:number_players] || 2
       
       fix_socket
@@ -128,18 +129,14 @@ module Dominion
     end
     
     def start
-      big = BigMoney.new('Big Money')
-      seat big
-      puts "Sat #{big}"
-      puts "Players: #{players.size}"
+      seat BigMoney.new('Big Money')
       while seating?
         response = select [socket], nil, nil, nil
         unless response.nil?
           data = YAML.load socket
-          player = User.new data['name']
-          seat player
-          puts "Sat #{player}"
-          puts "Players: #{players.size}"
+          user = User.new data['name']
+          user.uuid = data['uuid']
+          seat user
         end
       end
       play
@@ -164,11 +161,30 @@ module Dominion
         names << pile.first.to_s if pile.first
       end
       puts names.sort
+      broadcast names.sort
     end
     
     def broadcast(message)
       return unless socket
       puts message
+      
+      #if id
+      #  AMQP.start do
+      #    game = MQ.new.fanout "game-#{id}"
+      #    game.publish message
+      #  end
+      #end
+      
+      exchange = MQ.fanout "game-#{id}"
+      exchange.publish message
+    end
+    
+    def gets
+      response = select [socket], nil, nil, nil
+      unless response.nil?
+        data = YAML.load socket
+        data['text']
+      end
     end
     
   end
