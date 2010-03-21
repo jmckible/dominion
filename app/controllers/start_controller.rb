@@ -10,6 +10,10 @@ class StartController < ApplicationController
     hash = {'uuid'=>uuid, 'name'=>'You'} 
     @@games[id].push hash
     
+    # Initialize queues
+    @game_queue   = MQ.queue "game-#{game_id}"
+    @player_queue = MQ.queue "player-#{uuid}"
+    
     halt 302, {'Location'=>"games/#{id}/players/#{uuid}"}
   end
   
