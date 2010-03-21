@@ -1,3 +1,5 @@
+require 'mq'
+
 require 'dominion/card'
 require 'dominion/action'
 require 'dominion/deck'

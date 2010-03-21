@@ -45,19 +45,15 @@ module Dominion
       integer = game.gets
       integer = integer.to_i
       while integer < lower || integer > upper
-        socket.puts "Please enter a number between #{lower} and #{upper}"
-        integer = game.get
+        say "Please enter a number between #{lower} and #{upper}"
+        integer = game.gets
         integer = integer.to_i
       end
       integer
     end
     
     def say(string)
-      puts string
-      AMQP.start do
-        player = MQ.new.fanout "player-1"
-        player.publish message
-      end
+      MQ.fanout("game-1").publish string
     end
     
     def ask(string)
@@ -97,8 +93,6 @@ module Dominion
       return nil if choice == 0 && !force
       cards[choice - 1]
     end
-    
-    def to_s() name end
   
   end
 end

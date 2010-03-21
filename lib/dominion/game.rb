@@ -1,7 +1,13 @@
 module Dominion
+  
+  class Handler < EM::Connection
+    def receive_data(data)
+      detach
+      data
+    end
+  end
+  
   class Game
-    trap('HUP') { exit }
-    
     def self.max_players
       4 # For base set
     end
@@ -41,19 +47,6 @@ module Dominion
       @socket    = options[:socket]
       @id        = options[:id]
       @number_players = options[:number_players] || 2
-      
-      fix_socket
-    end
-    
-    def fix_socket
-      if socket
-        class << socket
-          alias _read read
-          def read(len)
-            readline
-          end
-        end
-      end
     end
     
     def deal
@@ -130,15 +123,9 @@ module Dominion
     
     def start
       seat BigMoney.new('Big Money')
-      while seating?
-        response = select [socket], nil, nil, nil
-        unless response.nil?
-          data = YAML.load socket
-          user = User.new data['name']
-          user.uuid = data['uuid']
-          seat user
-        end
-      end
+      EM.attach socket, Handler
+      data = Marshal.load socket
+      seat User.new(data['name'])
       play
     end
     
@@ -155,36 +142,22 @@ module Dominion
     #########################################################################
     def say_kingdoms
       return unless socket
-      puts "\nAvailable Kingdoms this game:"
+      broadcast "\nAvailable Kingdoms this game:"
       names = []
       kingdoms.each do |pile|
         names << pile.first.to_s if pile.first
       end
-      puts names.sort
       broadcast names.sort
     end
     
     def broadcast(message)
       return unless socket
       puts message
-      
-      #if id
-      #  AMQP.start do
-      #    game = MQ.new.fanout "game-#{id}"
-      #    game.publish message
-      #  end
-      #end
-      
-      exchange = MQ.fanout "game-#{id}"
-      exchange.publish message
     end
     
     def gets
-      response = select [socket], nil, nil, nil
-      unless response.nil?
-        data = YAML.load socket
-        data['text']
-      end
+      EM.attach socket, Handler
+      Marshal.load(socket).data['text']
     end
     
   end

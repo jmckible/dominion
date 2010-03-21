@@ -5,17 +5,17 @@ class StartController < ApplicationController
     # Spawn game process
     id = @@counter += 1
     read, write = IO::pipe
-    @@sockets[@@counter] = write
-    @@pids << fork{ Dominion::Game.new(:socket=>read, :id=>id).start }
-
-    # Exchange
-    uuid = UUID.new.generate
-
-    # Write to seat player
-    YAML.dump params.merge('uuid'=>uuid), write
-    write.write "\n...\n\n"
+    @@sockets[id] = write
     
-    halt 302, {'Location'=>"player/#{uuid}"}
-  end
+    pid = EM.fork_reactor { Dominion::Game.new(:socket=>read, :id=>id).start }
+    Process.detach pid
+    @@pids << pid
 
+    uuid = UUID.new.generate    
+    hash = {'uuid'=>uuid, 'name'=>'You'} # params.merge{:uuid=>uuid}
+    Marshal.dump hash, write  
+    
+    halt 302, {'Location'=>"games/#{id}/players/#{uuid}"}
+  end
+  
 end
