@@ -140,7 +140,7 @@ module Dominion
       kingdoms.each do |pile|
         names << pile.first.to_s if pile.first
       end
-      broadcast names.sort
+      names.sort.each{|name| broadcast name }
     end
     
     def broadcast(message)
