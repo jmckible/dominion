@@ -21,6 +21,7 @@ require 'app/helpers/application'
 require 'app/controllers/application_controller'
 require 'app/controllers/home_controller'
 require 'app/controllers/play_controller'
+require 'app/controllers/socket_controller'
 require 'app/controllers/start_controller'
 
 Cramp::Controller::Websocket.backend = :thin
@@ -42,6 +43,7 @@ routes = Usher::Interface.for(:rack) do
   get('/').to(HomeController)
   post('/start').to(StartController)
   get('/games/:game_id/players/:uuid').to(PlayController)
+  get('/games/:game_id/players/:uuid/socket').to(SocketController)
 end
 
 file_server = Rack::File.new(File.join(File.dirname(__FILE__), '/public/'))

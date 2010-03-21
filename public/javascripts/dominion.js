@@ -1,5 +1,10 @@
-if (!window.WebSocket)
-  alert("WebSocket not supported by this browser");
+if (!window.WebSocket) {
+  alert("WebSocket not supported by this browser. This ain't gonna work");
+}
+
+
+  
+
 
 function $() { return document.getElementById(arguments[0]); }
 function $F() { return document.getElementById(arguments[0]).value; }
@@ -9,7 +14,7 @@ function getKeyCode(ev) { if (window.event) return window.event.keyCode; return 
 var room = {
   join: function(name) {
     this._username=name;
-    var location = 'ws://<%= request.host_with_port %>/games/<%= game_id %>/players/<%= uuid %>'
+    var location = 'ws://<%= request.host_with_port %>/games/<%= game_id %>/players/<%= uuid %>/socket'
      // document.location.toString().replace('http:','ws:');
     this._ws=new WebSocket(location);
     this._ws.onopen=this._onopen;

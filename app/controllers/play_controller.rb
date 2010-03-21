@@ -1,37 +1,20 @@
-class PlayController < WebSocketApplicationController
+class PlayController < ApplicationController
   attr_accessor :game_id, :uuid, :queue
   
-  on_data   :write_to_socket
-  on_finish :user_left
+  def respond_with
+    [200, {'Content-Type'=>'text/html'}]
+  end
   
   def start
-    #render Erubis::Eruby.new(File.read('app/views/play.erb')).result(binding)
-    
-    
-    
     @game_id = params[:game_id]
     @uuid = params[:uuid]
     
+    # Initialize queues
+    @game_queue   = MQ.queue "game-#{game_id}"
+    @player_queue = MQ.queue "player-#{uuid}"
+    
     render Tilt::HamlTemplate.new('app/views/play.haml').render(self)
-    
-    @queue = MQ.queue "game-player-#{uuid}"
-    queue.bind(MQ.fanout("game-#{game_id}"))
-    queue.bind(MQ.fanout("player-#{uuid}"))
-    
-    queue.subscribe do |message|
-      puts "MQ: #{message}"
-      render message
-    end
-  end
-  
-  def write_to_socket
-    socket = @@sockets[params[:game_id]]
-    YAML.dump params, socket
-    socket.write "\n...\n\n"
-  end
-  
-  def user_left
-    # take care of business
+    finish
   end
   
 end
