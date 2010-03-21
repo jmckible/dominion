@@ -1,19 +1,14 @@
 class StartController < ApplicationController
   before_start :start_game
   
-  def start_game
-    # Spawn game process
+  def start_game    
     id = @@counter += 1
-    read, write = IO::pipe
-    @@sockets[id] = write
+    @@games[id] = Dominion::Game.new :id=>id
+    @@games[id].start
     
-    pid = EM.fork_reactor { Dominion::Game.new(:socket=>read, :id=>id).start }
-    Process.detach pid
-    @@pids << pid
-
-    uuid = UUID.new.generate    
-    hash = {'uuid'=>uuid, 'name'=>'You'} # params.merge{:uuid=>uuid}
-    Marshal.dump hash, write  
+    uuid = UUID.new.generate
+    hash = {'uuid'=>uuid, 'name'=>'You'} 
+    @@games[id].push hash
     
     halt 302, {'Location'=>"games/#{id}/players/#{uuid}"}
   end

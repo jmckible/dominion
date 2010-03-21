@@ -109,7 +109,7 @@ module Dominion
     #                                   B U Y                               #
     #########################################################################
     def select_buy(cards)
-      raise "select_buy needs to be implemented"
+      raise "select_buy needs to be as a deferrable in the subclass"
     end
     
     #########################################################################

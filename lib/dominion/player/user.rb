@@ -2,17 +2,33 @@ module Dominion
   class User < Player
     attr_accessor :uuid
     
+    def initialize(options)
+      @name = options['name']        
+      @uuid = options['uuid']
+      reset
+    end
+    
     #########################################################################
     #                                   B U Y                               #
     #########################################################################
-    def select_buy(cards)
+    def select_buy(cards) 
       say '0. Done'
       cards.each_with_index do |card, i|
         say "#{i+1}. #{card} ($#{card.cost}) - #{game.number_available card.class} left"
       end
-      choice = get_integer 'Choose a card to buy', 0, cards.size
-      return nil if choice == 0
-      cards[choice - 1]
+      say "Choose a card to buy (0-#{cards.size})"
+      
+      game.deferred_block = EM::DefaultDeferrable.new
+      game.deferred_block.callback do |data|
+        integer = data.to_i
+        
+        # This should redo if out of bounds
+        integer = 0 if integer < 0
+        integer = cards.size if integer > cards.size
+        card = integer == 0 ? nil : cards[integer-1]
+        
+        turn.deferred_block.suceeded card
+      end
     end
     
     #########################################################################
@@ -42,23 +58,21 @@ module Dominion
     
     def get_integer(prompt, lower, upper)
       say "#{prompt} (#{lower}-#{upper})"
-      integer = game.gets
-      integer = integer.to_i
-      while integer < lower || integer > upper
-        say "Please enter a number between #{lower} and #{upper}"
-        integer = game.gets
-        integer = integer.to_i
+      game.df = EM::DefaultDeferrable.new
+      game.df.callback do |data|
+        integer = data.to_i
+        #while integer < lower || integer > upper
+        #  say "Please enter a number between #{lower} and #{upper}"
+        #  integer = game.gets
+        #  integer = integer.to_i
+        #end
+        integer = lower if integer < lower || integer > upper
+        integer
       end
-      integer
     end
     
     def say(string)
-      MQ.fanout("game-1").publish string
-    end
-    
-    def ask(string)
-      say string
-      game.gets
+      MQ.fanout(game.queue).publish string
     end
     
     def broadcast(string)

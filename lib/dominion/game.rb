@@ -1,17 +1,6 @@
 module Dominion
   
-  class Handler < EM::Connection
-    def receive_data(data)
-      detach
-      data
-    end
-  end
-  
   class Game
-    def self.max_players
-      4 # For base set
-    end
-    
     def self.available_kingdoms(options={})
       except = options[:except] || []
       kingdoms = Dominion.available_sets.collect{|s| s.available_kingdoms}.flatten
@@ -27,7 +16,7 @@ module Dominion
     attr_accessor :kingdoms, :players, :trash
     attr_accessor :coppers, :silvers, :golds 
     attr_accessor :estates, :duchies, :provinces, :curses
-    attr_accessor :socket, :number_players, :id
+    attr_accessor :deferred_block, :number_players, :id
   
     def initialize(options={})
       @players   = Wheel.new
@@ -65,7 +54,6 @@ module Dominion
     end
     
     def seat(player)
-      raise GameFull if players.size >= Game.max_players
       players << player
       player.game = self
       player
@@ -112,21 +100,23 @@ module Dominion
     #                                P L A Y                                #
     #########################################################################
     def play
-      deal
-      say_kingdoms
-      while(!over?)
-        Turn.new(self, players.next).play
+      if over?
+        broadcast Scoreboard.calculate(self)
+      else
+        deferred_turn = Turn.new self, players.next
+        deferred_turn.callback{ play }
       end
-      puts Scoreboard.calculate(self)
-      # Close socket, exit process?
     end
     
     def start
       seat BigMoney.new('Big Money')
-      EM.attach socket, Handler
-      data = Marshal.load socket
-      seat User.new(data['name'])
-      play
+      @deferred_block = EM::DefaultDeferrable.new
+      deferred_block.callback do |data|
+        seat User.new(data)
+        deal
+        say_kingdoms
+        play
+      end
     end
     
     def seating?
@@ -140,8 +130,11 @@ module Dominion
     #########################################################################
     #                               O U T P U T                             #
     #########################################################################
+    def push(data)
+      deferred_block.succeed data
+    end
+    
     def say_kingdoms
-      return unless socket
       broadcast "\nAvailable Kingdoms this game:"
       names = []
       kingdoms.each do |pile|
@@ -151,14 +144,10 @@ module Dominion
     end
     
     def broadcast(message)
-      return unless socket
-      puts message
+      MQ.fanout(queue).publish message
     end
     
-    def gets
-      EM.attach socket, Handler
-      Marshal.load(socket).data['text']
-    end
+    def queue() "game-#{id}" end
     
   end
 end

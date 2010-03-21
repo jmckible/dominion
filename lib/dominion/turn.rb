@@ -1,8 +1,10 @@
 module Dominion
   class Turn
+    include EM::Deferrable
     
     attr_accessor :actions, :game, :in_play, :player
     attr_accessor :number_actions, :number_buys, :treasure
+    attr_accessor :deferred_block
     
     def other_players
       game.players.reject{|p| p == player}
@@ -30,13 +32,16 @@ module Dominion
       say_actions
       spend_actions
       play_treasure
-      spend_buys
-      player.discard_hand
-      while(!in_play.empty?)
-        player.discard << in_play.shift 
+      @deferred_block = spend_buys
+      deferred_block.callback do 
+        player.discard_hand
+        while(!in_play.empty?)
+          player.discard << in_play.shift 
+        end
+        player.draw_hand
+        player.turns += 1
+        succeed # Return deferred turn to game, take next turn
       end
-      player.draw_hand
-      player.turns += 1
     end
     
     #########################################################################
@@ -117,11 +122,18 @@ module Dominion
     #                                  B U Y                                #
     #########################################################################
     def spend_buys
-      while number_buys > 0
+      if number_buys > 0
         player.say "$#{treasure} and #{number_buys} buy"
-        card = player.select_buy(game.buyable(treasure))
-        break if card.nil?
-        buy card if card
+        
+        #player.select_buy game.buyable(treasure)
+        
+        @deferred_block = player.select_buy game.buyable(treasure)
+        deferred_block.callback do |card|
+          if card
+            buy card
+            spend_buys
+          end
+        end
       end
     end
     
