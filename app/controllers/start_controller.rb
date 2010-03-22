@@ -8,7 +8,7 @@ class StartController < ApplicationController
     
     uuid = UUID.new.generate
     hash = {'uuid'=>uuid, 'name'=>'You'} 
-    @@games[id].push hash
+    @@games[id].notify hash
     
     # Initialize queues
     @game_queue   = MQ.queue "game-#{id}"

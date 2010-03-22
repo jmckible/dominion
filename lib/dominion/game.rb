@@ -16,7 +16,7 @@ module Dominion
     attr_accessor :kingdoms, :players, :trash
     attr_accessor :coppers, :silvers, :golds 
     attr_accessor :estates, :duchies, :provinces, :curses
-    attr_accessor :deferred_block, :deferred_turn, :number_players, :id
+    attr_accessor :deferrable_stack, :number_players, :id
   
     def initialize(options={})
       @players   = Wheel.new
@@ -36,6 +36,8 @@ module Dominion
       @socket    = options[:socket]
       @id        = options[:id]
       @number_players = options[:number_players] || 2
+      
+      @deferrable_stack = []
     end
     
     def deal
@@ -102,24 +104,42 @@ module Dominion
     def play
       if over?
         broadcast Scoreboard.calculate(self)
-      else 
-        @deferred_turn = Turn.play(self, players.next) { play }
-        deferred_turn.callback { play }
+      else
+        say_stack "Game.play"
+        await Turn.take(self, players.next) do
+          move_on
+          play
+        end
       end
     end
     
     def start
-      #seat BigMoney.new('Big Money')
-      @deferred_block = EM::DefaultDeferrable.new
-      deferred_block.callback do |data|
-        seat User.new(data)
-        seat User.new(data)
-        EventMachine::Timer.new(2) do # Wait for redirect
+      await EM::DefaultDeferrable.new do |data|
+        seat User.new('name'=>'A')
+        seat User.new('name'=>'B')
+        EventMachine::Timer.new(1) do # Wait for redirect
           deal
           say_kingdoms
           play
         end
       end
+    end
+    
+    def await(deferrable, &block)
+      deferrable_stack << deferrable
+      deferrable.callback &block
+      deferrable
+    end
+
+    def notify(data)
+      deferrable = deferrable_stack.pop
+      deferrable.succeed data
+    end
+    
+    def move_on
+      puts 'moving on'
+      deferrable = deferrable_stack.pop
+      deferrable.succeed
     end
     
     def seating?
@@ -133,9 +153,7 @@ module Dominion
     #########################################################################
     #                               O U T P U T                             #
     #########################################################################
-    def push(data)
-      deferred_block.succeed data
-    end
+
     
     def say_kingdoms
       broadcast "\nAvailable Kingdoms this game:"
@@ -153,6 +171,12 @@ module Dominion
     def queue() "game-#{id}" end
       
     def to_s() "Game #{id}" end
+      
+    def say_stack(append='')
+      puts "[#{append}] Deferrable Stack: #{deferrable_stack.size}"
+      deferrable_stack.each{|d| puts d}
+      puts "\n"
+    end
     
   end
 end

@@ -15,7 +15,7 @@ class SocketController < WebSocketApplicationController
   end
   
   def write_to_game(data)
-    @@games[game_id].push data
+    @@games[game_id].notify data
   end
   
   def user_left

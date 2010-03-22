@@ -1,22 +1,39 @@
 module Dominion
   class Turn
     include EM::Deferrable
+        
+    #def self.take(game, player)
+    #  game.say_stack "Starting Turn.take"
+    #  turn = Turn.new game, player
+    #  game.broadcast "\n#{player}'s Round #{player.turns + 1} turn:"
+    #  game.await player.action_loop(turn) do
+    #    game.say_stack "In action_loop callback"
+    #    game.await player.buy_loop(turn) do
+    #      game.say_stack 'In buy_loop callback'
+    #      turn.cleanup
+    #      game.move_on
+    #    end
+    #    game.move_on
+    #  end
+    #end
     
-    def self.play(game, player)
+    def self.take(game, player)
+      game.say_stack "Starting Turn.take"
       turn = Turn.new game, player
       game.broadcast "\n#{player}'s Round #{player.turns + 1} turn:"
-      turn.await player.action_loop(turn) do
-        turn.await player.buy_loop(turn) do
+      player.action_loop(turn) do
+        game.say_stack "In action_loop callback"
+        game.await player.buy_loop(turn) do
+          game.say_stack 'In buy_loop callback'
           turn.cleanup
-          turn.succeed
+          game.move_on
         end
+        game.move_on
       end
-    end
-    
-    def await(deferrable, &block)
-      game.deferred_block = deferrable
-      deferrable.callback &block
-      deferrable
+      
+      game.await player.action_loop(turn) do
+        
+      end
     end
     
     def cleanup
@@ -196,6 +213,8 @@ module Dominion
     def say_actions
       broadcast "#{number_actions} actions remaining"
     end
+    
+    def to_s() "Player #{player}'s turn" end
     
   end
 end

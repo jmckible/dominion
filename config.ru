@@ -26,6 +26,7 @@ require 'app/controllers/start_controller'
 
 require 'app/models/action_loop'
 require 'app/models/buy_loop'
+require 'app/models/index_deferrable'
 
 Cramp::Controller::Websocket.backend = :thin
 #Thin::Logging.trace = true

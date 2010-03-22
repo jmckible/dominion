@@ -25,4 +25,6 @@ class BuyLoop
     @game = turn.game
   end
   
+  def to_s() "Player #{turn.player}'s Buy Loop" end
+  
 end

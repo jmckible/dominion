@@ -34,8 +34,8 @@ module Dominion
     #########################################################################
     #                               A C T I O N S                           #
     #########################################################################
-    def action_loop(turn)
-      action_loop = ActionLoop.spin(turn)
+    def action_loop(turn, &block)
+      action_loop = ActionLoop.spin(turn, &block)
       action_loop.callback do 
         if available_actions.empty?
           turn.succeed # Advance turn past action phase
