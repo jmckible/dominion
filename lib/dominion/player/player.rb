@@ -97,8 +97,8 @@ module Dominion
     #########################################################################
     #                               A C T I O N S                           #
     #########################################################################
-    def choose_action
-      raise "choose_action needs to be implemented"
+    def action_loop(turn)
+      nil
     end
     
     def available_actions
@@ -115,8 +115,8 @@ module Dominion
     #########################################################################
     #                                   I / O                               #
     #########################################################################
-    # Implement this in the subclass. Output to the I/O of your choice.
     def say(string)
+      game.broadcast string
     end
     
     #########################################################################

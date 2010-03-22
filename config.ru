@@ -24,6 +24,8 @@ require 'app/controllers/play_controller'
 require 'app/controllers/socket_controller'
 require 'app/controllers/start_controller'
 
+require 'app/models/action_loop'
+
 Cramp::Controller::Websocket.backend = :thin
 #Thin::Logging.trace = true
 

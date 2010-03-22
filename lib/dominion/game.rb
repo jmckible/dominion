@@ -16,7 +16,7 @@ module Dominion
     attr_accessor :kingdoms, :players, :trash
     attr_accessor :coppers, :silvers, :golds 
     attr_accessor :estates, :duchies, :provinces, :curses
-    attr_accessor :deferred_block, :number_players, :id
+    attr_accessor :deferred_block, :deferred_turn, :number_players, :id
   
     def initialize(options={})
       @players   = Wheel.new
@@ -103,8 +103,8 @@ module Dominion
       if over?
         broadcast Scoreboard.calculate(self)
       else
-        @deferred_block = Turn.play(self, players.next)
-        @deferred_block.callback{ play }
+        @deferred_turn = Turn.play(self, players.next)
+        deferred_turn.callback{ play }
       end
     end
     

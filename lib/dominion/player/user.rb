@@ -34,12 +34,15 @@ module Dominion
     #########################################################################
     #                               A C T I O N S                           #
     #########################################################################
-    def choose_action
-      return false if available_actions.empty?
-      say_available_actions
-      choice = get_integer 'Choose an Action', 0, available_actions.size
-      return false if choice == 0
-      available_actions[choice - 1]
+    def action_loop(turn)
+      action_loop = ActionLoop.spin(turn)
+      action_loop.callback do 
+        if available_actions.empty?
+          turn.deferrable_action.succeed # Advance turn past action phase
+        else
+          action_loop turn
+        end
+      end
     end
     
     #########################################################################

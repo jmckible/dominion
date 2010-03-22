@@ -1,10 +1,6 @@
 module Dominion
   class BigMoney < Player
   
-    def choose_action
-      nil
-    end
-  
     def select_buy(cards)
       card = nil
       [Province, Gold, Duchy, Silver].each do |want|

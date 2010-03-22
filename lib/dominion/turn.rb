@@ -4,6 +4,21 @@ module Dominion
     
     def self.play(game, player)
       turn = Turn.new game, player
+      turn.broadcast "\n#{player}'s Round #{player.turns + 1} turn:"
+      turn.say_hand
+      turn.say_actions
+      turn.await player.action_loop(turn) 
+    end
+    
+    def await(action_selector)
+      if action_selector
+        deferred_block = action_selector
+        game.deferred_block = action_selector
+      else
+        # Big money returns a nil action_loop
+        
+      end
+      self
     end
     
     attr_accessor :actions, :game, :in_play, :player
@@ -44,7 +59,7 @@ module Dominion
         end
         player.draw_hand
         player.turns += 1
-        game.deferred_block.succeed # Return deferred turn to game, take next turn
+        game.deferred_turn.succeed # Turn over, play next turn
       end
       deferrable_block
     end
@@ -78,6 +93,15 @@ module Dominion
       else
         
       end
+    end
+    
+    def cleanup
+      while(!in_play.empty?)
+        player.discard << in_play.shift 
+      end
+      player.draw_hand
+      player.turns += 1
+      game.deferred_turn.succeed # Return deferred turn to game, take next turn
     end
     
     #########################################################################
