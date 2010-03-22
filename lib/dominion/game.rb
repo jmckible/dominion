@@ -102,16 +102,17 @@ module Dominion
     def play
       if over?
         broadcast Scoreboard.calculate(self)
-      else
-        @deferred_turn = Turn.play(self, players.next)
-        deferred_turn.callback{ play }
+      else 
+        @deferred_turn = Turn.play(self, players.next) { play }
+        deferred_turn.callback { play }
       end
     end
     
     def start
-      seat BigMoney.new('Big Money')
+      #seat BigMoney.new('Big Money')
       @deferred_block = EM::DefaultDeferrable.new
       deferred_block.callback do |data|
+        seat User.new(data)
         seat User.new(data)
         EventMachine::Timer.new(2) do # Wait for redirect
           deal
@@ -150,6 +151,8 @@ module Dominion
     end
     
     def queue() "game-#{id}" end
+      
+    def to_s() "Game #{id}" end
     
   end
 end

@@ -98,7 +98,7 @@ module Dominion
     #                               A C T I O N S                           #
     #########################################################################
     def action_loop(turn)
-      nil
+      ActionLoop.new(turn)
     end
     
     def available_actions
@@ -108,6 +108,10 @@ module Dominion
     #########################################################################
     #                                   B U Y                               #
     #########################################################################
+    def buy_loop(turn)
+      BuyLoop.new(turn)
+    end
+    
     def select_buy(cards)
       raise "select_buy needs to be as a deferrable in the subclass"
     end

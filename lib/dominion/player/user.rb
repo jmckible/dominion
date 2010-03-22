@@ -38,11 +38,12 @@ module Dominion
       action_loop = ActionLoop.spin(turn)
       action_loop.callback do 
         if available_actions.empty?
-          turn.deferrable_action.succeed # Advance turn past action phase
+          turn.succeed # Advance turn past action phase
         else
           action_loop turn
         end
       end
+      action_loop
     end
     
     #########################################################################
@@ -92,7 +93,6 @@ module Dominion
     end
     
     def say_available_actions
-      return unless game.server
       say '0. Done'
       available_actions.each_with_index do |card, i|
         say "#{i+1}. #{card}\n"
