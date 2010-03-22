@@ -9,7 +9,7 @@ class PlayController < ApplicationController
     @game_id = params[:game_id]
     @uuid = params[:uuid]
     
-    render Tilt::HamlTemplate.new('app/views/play.haml').render(self)
+    render Tilt::ERBTemplate.new('app/views/play.erb').render(self)
     finish
   end
   

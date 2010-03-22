@@ -10,13 +10,12 @@ class SocketController < WebSocketApplicationController
         
     queue = MQ.new
     queue.queue("game-player-#{uuid}").bind(queue.fanout("game-#{game_id}")).subscribe do |message|
-      puts "MQ: #{message}"
       render message
     end
   end
   
-  def write_to_game
-    @@games[game_id].push params
+  def write_to_game(data)
+    @@games[game_id].push data
   end
   
   def user_left

@@ -72,7 +72,9 @@ module Dominion
     end
     
     def say(string)
-      MQ.fanout(game.queue).publish string
+      #Should only fanout to player only queue
+      #MQ.fanout(game.queue).publish string
+      game.broadcast string
     end
     
     def broadcast(string)

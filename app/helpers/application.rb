@@ -1,4 +1,8 @@
 module ApplicationHelper
+  @@counter = 0
+  @@games   = {}
+  
+  
   def respond_with
     [200, {'Content-Type' => 'application/json'}]
   end

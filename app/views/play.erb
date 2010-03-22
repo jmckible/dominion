@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <link href="/stylesheets/dominion.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="/javascripts/jquery.js" />
+    <title>Play Dominion</title>
+  </head>
+  
+  <body>
+    <script type="text/javascript">
+      $(document).ready(function(){
+
+
+        if (!window.WebSocket) {
+          alert("WebSocket not supported by this browser. This ain't gonna work");
+          return;
+        }
+
+        ws = new WebSocket("ws://<%= request.host_with_port %>/games/<%= game_id %>/players/<%= uuid %>/socket");
+
+        ws.onmessage = function(event){
+          $('#Screen').append('<div>'+event.data+'</div>');
+        }
+
+        $('#Submit').click(function(){
+          ws.send($('#Text').val());
+        });
+
+
+      });
+    </script>
+    
+    <div id="Screen">
+      Starting game...
+    </div>
+    Choice:
+    <input type="text" id="Text" />
+    <input type="submit" id="Submit" />
+    
+  </body>
+</html>

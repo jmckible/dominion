@@ -2,6 +2,10 @@ module Dominion
   class Turn
     include EM::Deferrable
     
+    def self.play(game, player)
+      turn = Turn.new game, player
+    end
+    
     attr_accessor :actions, :game, :in_play, :player
     attr_accessor :number_actions, :number_buys, :treasure
     attr_accessor :deferred_block
@@ -32,15 +36,47 @@ module Dominion
       say_actions
       spend_actions
       play_treasure
-      @deferred_block = spend_buys
-      deferred_block.callback do 
+      @deferrable_block = spend_buys
+      deferrable_block.callback do
         player.discard_hand
         while(!in_play.empty?)
           player.discard << in_play.shift 
         end
         player.draw_hand
         player.turns += 1
-        succeed # Return deferred turn to game, take next turn
+        game.deferred_block.succeed # Return deferred turn to game, take next turn
+      end
+      deferrable_block
+    end
+    
+    def spend_actions
+      return nil
+      action = player.choose_action
+      while(action)
+        broadcast "#{player} played a #{action}"
+        @number_actions = number_actions - 1
+        execute action
+        return if @number_actions < 1
+        action = player.choose_action
+      end
+    end
+    
+    def spend_buys
+      return EM::DefaultDeferrable.new
+      if number_buys > 0
+        player.say "$#{treasure} and #{number_buys} buy"
+        
+        #player.select_buy game.buyable(treasure)
+        
+        @deferred_block = player.select_buy game.buyable(treasure)
+        deferred_block.callback do |card|
+          if card
+            buy card
+            spend_buys
+          end
+        end
+      else
+        
       end
     end
     
@@ -75,17 +111,6 @@ module Dominion
     #########################################################################
     #                               A C T I O N S                           #
     #########################################################################
-    def spend_actions
-      action = player.choose_action
-      while(action)
-        broadcast "#{player} played a #{action}"
-        @number_actions = number_actions - 1
-        execute action
-        return if @number_actions < 1
-        action = player.choose_action
-      end
-    end
-    
     def execute(action)
       @in_play << action unless in_play.include?(action)
       player.hand.delete action
@@ -121,22 +146,6 @@ module Dominion
     #########################################################################
     #                                  B U Y                                #
     #########################################################################
-    def spend_buys
-      if number_buys > 0
-        player.say "$#{treasure} and #{number_buys} buy"
-        
-        #player.select_buy game.buyable(treasure)
-        
-        @deferred_block = player.select_buy game.buyable(treasure)
-        deferred_block.callback do |card|
-          if card
-            buy card
-            spend_buys
-          end
-        end
-      end
-    end
-    
     def buy(card)
       spend_buy
       spend_treasure card.cost

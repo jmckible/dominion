@@ -6,10 +6,11 @@ module Dominion
     end
   
     def select_buy(cards)
+      card = nil
       [Province, Gold, Duchy, Silver].each do |want|
         card ||= cards.detect{|c| c.is_a? want}
       end      
-      turn.deferred_block.suceeded card
+      game.deferred_block.succeed card
     end
   
   end

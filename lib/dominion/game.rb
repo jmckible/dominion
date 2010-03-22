@@ -103,8 +103,8 @@ module Dominion
       if over?
         broadcast Scoreboard.calculate(self)
       else
-        deferred_turn = Turn.new self, players.next
-        deferred_turn.callback{ play }
+        @deferred_block = Turn.play(self, players.next)
+        @deferred_block.callback{ play }
       end
     end
     
@@ -113,9 +113,11 @@ module Dominion
       @deferred_block = EM::DefaultDeferrable.new
       deferred_block.callback do |data|
         seat User.new(data)
-        deal
-        say_kingdoms
-        play
+        EventMachine::Timer.new(2) do # Wait for redirect
+          deal
+          say_kingdoms
+          play
+        end
       end
     end
     
