@@ -31,19 +31,36 @@ module Dominion
       end
     end
     
+    def buy_phase(turn)
+      BuyPhase.new turn
+    end
+    
     #########################################################################
     #                               A C T I O N S                           #
     #########################################################################
-    def action_loop(turn, &block)
-      action_loop = ActionLoop.spin(turn, &block)
-      action_loop.callback do 
+    def action_phase(turn)
+      action_phase = ActionPhase.new turn
+      action_phase.callback do
+        
         if available_actions.empty?
-          turn.succeed # Advance turn past action phase
+          
         else
-          action_loop turn
+          
         end
       end
-      action_loop
+      
+      action_phase
+      
+      
+      #action_loop = ActionLoop.spin turn
+      #action_loop.callback do 
+      #  if available_actions.empty?
+      #    game.move_on # Advance turn past action phase
+      #  else
+      #    action_loop turn
+      #  end
+      #end
+      #action_loop
     end
     
     #########################################################################

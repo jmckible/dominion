@@ -1,38 +1,69 @@
 module Dominion
   class Turn
     include EM::Deferrable
-        
-    #def self.take(game, player)
-    #  game.say_stack "Starting Turn.take"
-    #  turn = Turn.new game, player
-    #  game.broadcast "\n#{player}'s Round #{player.turns + 1} turn:"
-    #  game.await player.action_loop(turn) do
-    #    game.say_stack "In action_loop callback"
-    #    game.await player.buy_loop(turn) do
-    #      game.say_stack 'In buy_loop callback'
-    #      turn.cleanup
-    #      game.move_on
-    #    end
-    #    game.move_on
-    #  end
-    #end
     
-    def self.take(game, player)
-      game.say_stack "Starting Turn.take"
+    def self.setup(game, player, &block)
       turn = Turn.new game, player
-      game.broadcast "\n#{player}'s Round #{player.turns + 1} turn:"
-      player.action_loop(turn) do
-        game.say_stack "In action_loop callback"
-        game.await player.buy_loop(turn) do
-          game.say_stack 'In buy_loop callback'
+      
+      game.await ActionPhase.new(turn) do
+        game.await BuyPhase.new(turn) do
           turn.cleanup
-          game.move_on
         end
-        game.move_on
       end
       
-      game.await player.action_loop(turn) do
+      turn
+    end
+    
+    def action_loop
+      if number_actions == 0 || player.available_actions.empty?
+        play_treasure
+        game.move_on
+      else
+        player.say "#{number_actions} actions remaining"
+        play_action
+      end
+    end
+    
+    def buy_loop
+      player.say "$#{treasure} and #{number_buys} buy"
+      make_buy
+    end
+    
+    def play_action
+      game.await CardSelect.new do |index|
+        game.say_stack "Card Select callback: #{index}"
+        integer = index.to_i
+        card = player.available_actions[integer]
+        if card
+          number_actions = number_actions - 1
+          execute action
+          action_loop
+        else
+          game.move_on
+        end
+      end
+    end
+    
+    def make_buy
+      player.say '0. Done'
+      game.buyable(treasure).each_with_index do |card, i|
+        player.say "#{i+1}. #{card} ($#{card.cost}) - #{game.number_available card.class} left"
+      end
+      player.say "Choose a card to buy"
+      
+      game.await CardSelect.new do |index|
+        integer = index.to_i
+        card = game.buyable(treasure)[integer]
+        if card
+          buy card
+          spend_buys
+        end
         
+        if number_buys == 0 || card.nil?
+          game.move_on # End buy phase
+        else
+          make_buy
+        end
       end
     end
     
@@ -62,6 +93,8 @@ module Dominion
       @actions        = Pile.new
       @treasure       = 0
       @in_play        = []
+      
+      game.broadcast "\n#{player}'s Round #{player.turns + 1} turn:"
     end
     
     #########################################################################

@@ -24,9 +24,9 @@ require 'app/controllers/play_controller'
 require 'app/controllers/socket_controller'
 require 'app/controllers/start_controller'
 
-require 'app/models/action_loop'
-require 'app/models/buy_loop'
-require 'app/models/index_deferrable'
+require 'app/models/action_phase'
+require 'app/models/buy_phase'
+require 'app/models/card_select'
 
 Cramp::Controller::Websocket.backend = :thin
 #Thin::Logging.trace = true

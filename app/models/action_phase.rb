@@ -1,9 +1,9 @@
-class ActionLoop
+class ActionPhase
   include EM::Deferrable
   
   attr_accessor :turn, :game
   
-  def self.spin(turn, &block)
+  def self.spin(turn)
     turn.game.say_stack "Starting ActionLoop.spin"
     turn.say_hand
     turn.say_actions

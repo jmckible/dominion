@@ -105,11 +105,24 @@ module Dominion
       if over?
         broadcast Scoreboard.calculate(self)
       else
-        say_stack "Game.play"
-        await Turn.take(self, players.next) do
-          move_on
-          play
+        turn = Turn.new self, players.next
+        deferrable_stack << turn
+        turn.callback { play }
+
+        action_phase = ActionPhase.new(turn)
+        deferrable_stack << action_phase
+        action_phase.callback do
+          buy_phase = BuyPhase.new(turn)
+          deferrable_stack << buy_phase
+          buy_phase.callback do
+            turn.cleanup
+            move_on
+          end
+          turn.buy_loop
         end
+        
+        turn.action_loop
+        say_stack 'Done play'
       end
     end
     
@@ -137,7 +150,6 @@ module Dominion
     end
     
     def move_on
-      puts 'moving on'
       deferrable = deferrable_stack.pop
       deferrable.succeed
     end

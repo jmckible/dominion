@@ -1,4 +1,4 @@
-class BuyLoop
+class BuyPhase
   include EM::Deferrable
   
   attr_accessor :turn, :game
