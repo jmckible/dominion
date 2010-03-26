@@ -122,7 +122,6 @@ module Dominion
         end
         
         turn.action_loop
-        say_stack 'Done play'
       end
     end
     

@@ -31,7 +31,6 @@ module Dominion
     
     def play_action
       game.await CardSelect.new do |index|
-        game.say_stack "Card Select callback: #{index}"
         integer = index.to_i
         card = player.available_actions[integer]
         if card
@@ -45,18 +44,23 @@ module Dominion
     end
     
     def make_buy
+      buyable = game.buyable(treasure)
+      
       player.say '0. Done'
-      game.buyable(treasure).each_with_index do |card, i|
-        player.say "#{i+1}. #{card} ($#{card.cost}) - #{game.number_available card.class} left"
+      buyable.each_with_index do |option, i|
+        player.say "#{i+1}. #{option} ($#{option.cost}) - #{game.number_available option.class} left"
       end
       player.say "Choose a card to buy"
       
       game.await CardSelect.new do |index|
         integer = index.to_i
-        card = game.buyable(treasure)[integer]
-        if card
-          buy card
-          spend_buys
+        
+        if integer != 0
+          card = buyable[integer - 1]
+          if card
+            buy card
+            spend_buys
+          end
         end
         
         if number_buys == 0 || card.nil?
@@ -94,7 +98,7 @@ module Dominion
       @treasure       = 0
       @in_play        = []
       
-      game.broadcast "\n#{player}'s Round #{player.turns + 1} turn:"
+      game.broadcast "<br/>#{player}'s Round #{player.turns + 1} turn:"
     end
     
     #########################################################################
