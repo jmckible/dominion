@@ -1,6 +1,7 @@
 #Screen { 
   width: 40em; 
-  height: 50ex; overflow: auto; 
+  height: 50ex; 
+  overflow: auto; 
   padding: 4px; 
   border: 1px solid black; 
 }

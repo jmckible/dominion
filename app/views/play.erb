@@ -19,6 +19,8 @@
 
         ws.onmessage = function(event){
           $('#Screen').append('<div>'+event.data+'</div>');
+          var messages = document.getElementById("Screen");
+  				messages.scrollTop = messages.scrollHeight;
         }
 
         $('#Submit').click(function(){
