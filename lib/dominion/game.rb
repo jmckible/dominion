@@ -126,9 +126,9 @@ module Dominion
     end
     
     def start
-      await EM::DefaultDeferrable.new do |data|
-        seat User.new('name'=>'A')
-        seat User.new('name'=>'B')
+      seat BigMoney.new 'Big Money'
+      await EM::DefaultDeferrable.new do |hash|
+        seat User.new(hash)
         EventMachine::Timer.new(1) do # Wait for redirect
           deal
           say_kingdoms

@@ -3,8 +3,8 @@ module Dominion
     attr_accessor :uuid
     
     def initialize(options)
-      @name = options['name']        
-      @uuid = options['uuid']
+      @name = options[:name]        
+      @uuid = options[:uuid]
       reset
     end
     

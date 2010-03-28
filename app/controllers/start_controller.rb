@@ -7,8 +7,8 @@ class StartController < ApplicationController
     @@games[id].start
     
     uuid = UUID.new.generate
-    hash = {'uuid'=>uuid, 'name'=>'You'} 
-    @@games[id].notify hash
+    user_options = {:uuid=>uuid, :name=>request.params['name']}
+    @@games[id].notify user_options
     
     # Initialize queues
     @game_queue   = MQ.queue "game-#{id}"
