@@ -97,10 +97,6 @@ module Dominion
     #########################################################################
     #                               A C T I O N S                           #
     #########################################################################
-    def action_loop(turn)
-      ActionLoop.new(turn)
-    end
-    
     def available_actions
       hand.select{|card|card.is_a?(Action) }
     end
@@ -108,10 +104,6 @@ module Dominion
     #########################################################################
     #                                   B U Y                               #
     #########################################################################
-    def buy_loop(turn)
-      BuyLoop.new(turn)
-    end
-    
     def select_buy(cards)
       raise "select_buy needs to be as a deferrable in the subclass"
     end
@@ -120,6 +112,7 @@ module Dominion
     #                                   I / O                               #
     #########################################################################
     def say(string)
+      #MQ.fanout(queue).publish string
       game.broadcast string
     end
     

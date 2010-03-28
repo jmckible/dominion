@@ -11,58 +11,11 @@ module Dominion
     #########################################################################
     #                                   B U Y                               #
     #########################################################################
-    def select_buy(cards) 
-      say '0. Done'
-      cards.each_with_index do |card, i|
-        say "#{i+1}. #{card} ($#{card.cost}) - #{game.number_available card.class} left"
-      end
-      say "Choose a card to buy (0-#{cards.size})"
-      
-      game.deferred_block = EM::DefaultDeferrable.new
-      game.deferred_block.callback do |data|
-        integer = data.to_i
-        
-        # This should redo if out of bounds
-        integer = 0 if integer < 0
-        integer = cards.size if integer > cards.size
-        card = integer == 0 ? nil : cards[integer-1]
-        
-        turn.deferred_block.suceeded card
-      end
-    end
-    
-    def buy_phase(turn)
-      BuyPhase.new turn
-    end
-    
+
     #########################################################################
     #                               A C T I O N S                           #
     #########################################################################
-    def action_phase(turn)
-      action_phase = ActionPhase.new turn
-      action_phase.callback do
-        
-        if available_actions.empty?
-          
-        else
-          
-        end
-      end
-      
-      action_phase
-      
-      
-      #action_loop = ActionLoop.spin turn
-      #action_loop.callback do 
-      #  if available_actions.empty?
-      #    game.move_on # Advance turn past action phase
-      #  else
-      #    action_loop turn
-      #  end
-      #end
-      #action_loop
-    end
-    
+
     #########################################################################
     #                                   I / O                               #
     #########################################################################
@@ -90,16 +43,6 @@ module Dominion
         integer = lower if integer < lower || integer > upper
         integer
       end
-    end
-    
-    def say(string)
-      #Should only fanout to player only queue
-      #MQ.fanout(game.queue).publish string
-      game.broadcast string
-    end
-    
-    def broadcast(string)
-      game.broadcast string
     end
     
     def say_card_list(cards, force=false)

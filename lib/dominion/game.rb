@@ -1,6 +1,6 @@
 module Dominion
-  
   class Game
+    
     def self.available_kingdoms(options={})
       except = options[:except] || []
       kingdoms = Dominion.available_sets.collect{|s| s.available_kingdoms}.flatten
@@ -31,7 +31,7 @@ module Dominion
       @estates   = Pile.new Estate,   24
       @duchies   = Pile.new Duchy,    12
       @provinces = Pile.new Province, 12
-      @curses    = Pile.new Curse, 30
+      @curses    = Pile.new Curse,    30
       
       @socket    = options[:socket]
       @id        = options[:id]
@@ -45,8 +45,9 @@ module Dominion
       if players.size == 2
         duchies.discard 4
         provinces.discard 4
-        curses.discard 10
+        curses.discard 20
       end
+      curses.discard(10) if players.size == 3
       players.each do |player|
         1.upto(7){player.gain coppers.shift}
         1.upto(3){player.gain estates.shift}
@@ -108,11 +109,13 @@ module Dominion
         turn = Turn.new self, players.next
         deferrable_stack << turn
         turn.callback { play }
+        broadcast "<br/> #{turn}:"
+        turn.say_hand
 
-        action_phase = ActionPhase.new(turn)
+        action_phase = ActionPhase.new
         deferrable_stack << action_phase
         action_phase.callback do
-          buy_phase = BuyPhase.new(turn)
+          buy_phase = BuyPhase.new
           deferrable_stack << buy_phase
           buy_phase.callback do
             turn.cleanup
@@ -164,8 +167,6 @@ module Dominion
     #########################################################################
     #                               O U T P U T                             #
     #########################################################################
-
-    
     def say_kingdoms
       broadcast "\nAvailable Kingdoms this game:"
       names = []
@@ -182,12 +183,6 @@ module Dominion
     def queue() "game-#{id}" end
       
     def to_s() "Game #{id}" end
-      
-    def say_stack(append='')
-      puts "[#{append}] Deferrable Stack: #{deferrable_stack.size}"
-      deferrable_stack.each{|d| puts d}
-      puts "\n"
-    end
     
   end
 end

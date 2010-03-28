@@ -1,5 +1,3 @@
-class CardSelect < EM::DefaultDeferrable
-  
-  def to_s() "Card Select" end
-  
+class CardSelect
+  include EM::Deferrable
 end
