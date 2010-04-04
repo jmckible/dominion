@@ -9,12 +9,51 @@ module Dominion
     end
     
     #########################################################################
-    #                                   B U Y                               #
-    #########################################################################
-
-    #########################################################################
     #                               A C T I O N S                           #
     #########################################################################
+    def play_action(turn)
+      game.await CardSelect.new do |index|
+        integer = index.to_i
+        card = available_actions[integer]
+        if card
+          turn.number_actions = turn.number_actions - 1
+          turn.execute action
+          turn.action_loop
+        else
+          game.move_on
+        end
+      end
+    end
+    
+    #########################################################################
+    #                                   B U Y                               #
+    #########################################################################
+    def make_buy(turn)
+      buyable = game.buyable(turn.treasure)
+      
+      say '0. Done'
+      buyable.each_with_index do |option, i|
+        say "#{i+1}. #{option} ($#{option.cost}) - #{game.number_available option.class} left"
+      end
+      say "Choose a card to buy"
+      
+      game.await CardSelect.new do |index|
+        integer = index.to_i
+        
+        if integer != 0
+          card = buyable[integer - 1]
+          turn.buy card if card
+        end
+        
+        if turn.number_buys == 0 || card.nil?
+          game.move_on # End buy phase
+        else
+          turn.make_buy
+        end
+        
+      end
+    end
+
 
     #########################################################################
     #                                   I / O                               #

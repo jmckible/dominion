@@ -4,6 +4,7 @@ module Dominion
     
     attr_accessor :actions, :game, :in_play, :player
     attr_accessor :number_actions, :number_buys, :treasure
+    attr_accessor :action_phase, :buy_phase
     
     #########################################################################
     #                           I N I T I A L I Z E                         #
@@ -16,6 +17,8 @@ module Dominion
       @actions        = Pile.new
       @treasure       = 0
       @in_play        = []
+      @action_phase   = ActionPhase.new self
+      @buy_phase      = BuyPhase.new self
     end
     
     #########################################################################
@@ -49,30 +52,6 @@ module Dominion
     #########################################################################
     #                               A C T I O N S                           #
     #########################################################################
-    def action_loop
-      if number_actions == 0 || player.available_actions.empty?
-        play_treasure
-        game.move_on
-      else
-        player.say "#{number_actions} actions remaining"
-        play_action
-      end
-    end
-    
-    def play_action
-      game.await CardSelect.new do |index|
-        integer = index.to_i
-        card = player.available_actions[integer]
-        if card
-          number_actions = number_actions - 1
-          execute action
-          action_loop
-        else
-          game.move_on
-        end
-      end
-    end
-    
     def execute(action)
       @in_play << action unless in_play.include?(action)
       player.hand.delete action
@@ -112,38 +91,7 @@ module Dominion
     #########################################################################
     #                                  B U Y                                #
     #########################################################################
-    def buy_loop
-      player.say "$#{treasure} and #{number_buys} buy"
-      make_buy
-    end
-    
-    def make_buy
-      buyable = game.buyable(treasure)
-      
-      player.say '0. Done'
-      buyable.each_with_index do |option, i|
-        player.say "#{i+1}. #{option} ($#{option.cost}) - #{game.number_available option.class} left"
-      end
-      player.say "Choose a card to buy"
-      
-      game.await CardSelect.new do |index|
-        integer = index.to_i
-        
-        if integer != 0
-          card = buyable[integer - 1]
-          if card
-            buy card
-            spend_buys
-          end
-        end
-        
-        if number_buys == 0 || card.nil?
-          game.move_on # End buy phase
-        else
-          make_buy
-        end
-      end
-    end
+
     
     def buy(card)
       spend_buy

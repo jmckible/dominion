@@ -112,19 +112,21 @@ module Dominion
         broadcast "<br/> #{turn}:"
         turn.say_hand
 
-        action_phase = ActionPhase.new
-        deferrable_stack << action_phase
-        action_phase.callback do
-          buy_phase = BuyPhase.new
-          deferrable_stack << buy_phase
-          buy_phase.callback do
-            turn.cleanup
-            move_on
-          end
-          turn.buy_loop
-        end
+        #action_phase = turn.action_phase
+        #deferrable_stack << action_phase
+        #action_phase.callback do
+        #  buy_phase = BuyPhase.new
+        #  deferrable_stack << buy_phase
+        #  buy_phase.callback do
+        #    turn.cleanup
+        #    move_on
+        #  end
+        #  turn.buy_loop
+        #end
         
-        turn.action_loop
+        await turn.action_phase
+        
+        turn.action_phase.play
       end
     end
     
@@ -142,7 +144,7 @@ module Dominion
     
     def await(deferrable, &block)
       deferrable_stack << deferrable
-      deferrable.callback &block
+      deferrable.callback &block if block_given?
       deferrable
     end
 

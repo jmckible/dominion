@@ -101,11 +101,16 @@ module Dominion
       hand.select{|card|card.is_a?(Action) }
     end
     
+    # AI player should implement this method to choose and play an action
+    def play_action(turn)
+      game.move_on
+    end
+    
     #########################################################################
     #                                   B U Y                               #
     #########################################################################
-    def select_buy(cards)
-      raise "select_buy needs to be as a deferrable in the subclass"
+    def make_buy(turn)
+      raise "make_buy needs to be implemented"
     end
     
     #########################################################################
