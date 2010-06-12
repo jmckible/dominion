@@ -114,6 +114,7 @@ module Dominion
     #                           C L E A N    U P                            #
     #########################################################################
     def cleanup
+      player.discard_hand
       while(!in_play.empty?)
         player.discard << in_play.shift 
       end
