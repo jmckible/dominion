@@ -12,13 +12,19 @@ module Dominion
     #                               A C T I O N S                           #
     #########################################################################
     def play_action(turn)
+      say '0. Done'
+      available_actions.each_with_index do |option, i|
+        say "#{i+1}. #{option}"
+      end
+      say "Choose an action to play"
+      
       game.await CardSelect.new do |index|
         integer = index.to_i
-        card = available_actions[integer]
-        if card
+        action = available_actions[integer]
+        if action
           turn.number_actions = turn.number_actions - 1
           turn.execute action
-          turn.action_loop
+          turn.action_phase.play
         else
           game.move_on
         end
