@@ -22,7 +22,7 @@ class ActionPhase
       turn.play_treasure
       game.move_on
     else
-      player.say "#{number_actions} actions remaining"
+      player.say "#{turn.number_actions} actions remaining"
       player.play_action turn
     end
   end
