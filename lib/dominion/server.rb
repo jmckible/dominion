@@ -1,3 +1,14 @@
+#####################################################
+# Added this to allow colors on the terminal. 
+# Probably needs to go elsewhere, temporary for Matt
+require 'rubygems'
+require 'term/ansicolor'
+
+class String
+  include Term::ANSIColor
+end
+#####################################################
+
 require 'socket'
 
 module Dominion
